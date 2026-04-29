@@ -11,3 +11,15 @@
 	--font-display: "Poppins", system-ui, sans-serif;
 	--font-body: "Inter", system-ui, sans-serif;
 }
+
+@layer base {
+	html {
+		font-family: var(--font-body);
+		color: var(--color-ink);
+		background-color: var(--color-surface);
+	}
+	h1, h2, h3, h4, h5, h6 {
+		font-family: var(--font-display);
+		color: var(--color-ink);
+	}
+}
