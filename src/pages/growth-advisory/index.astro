@@ -1,0 +1,620 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// TODO: confirm [PRICE_RANGE_TBD] with Marcus before launch
+const compareRows = [
+	{
+		criteria: 'Upfront investment',
+		franchise: '$400K – $1.5M+',
+		diy: '$250K – $500K',
+		advisor: '[PRICE_RANGE_TBD] (program) + your own buildout',
+	},
+	{
+		criteria: 'Ongoing royalties',
+		franchise: '6–10% of revenue forever',
+		diy: 'None',
+		advisor: 'None',
+	},
+	{
+		criteria: 'Brand ownership',
+		franchise: 'You lease it',
+		diy: 'You own it',
+		advisor: 'You own it',
+	},
+	{
+		criteria: 'Operating system',
+		franchise: 'Provided by franchisor',
+		diy: 'Build from scratch',
+		advisor: 'Installed by 7- and 8-figure operators',
+	},
+	{
+		criteria: 'Territory restrictions',
+		franchise: 'Yes — bound by FDD',
+		diy: 'None',
+		advisor: 'None',
+	},
+	{
+		criteria: 'Multi-location growth',
+		franchise: 'Approval and fees per unit',
+		diy: 'All on you',
+		advisor: 'Built into the program from day one',
+	},
+	{
+		criteria: 'Exit valuation',
+		franchise: '1.5–3× EBITDA (brand-encumbered)',
+		diy: 'Highly variable',
+		advisor: '3–6× EBITDA (your asset, your terms)',
+	},
+	{
+		criteria: 'Time to open',
+		franchise: '12–18 months',
+		diy: '18–36 months',
+		advisor: '90 days',
+	},
+];
+
+// TODO: confirm exact numbers with Marcus
+const trustStats = [
+	{ value: '8-Figure', label: 'Combined Founder Exits' },
+	{ value: '$100M+', label: 'Wellness Businesses Built' },
+	{ value: '500+', label: 'Locations Launched & Scaled' },
+	{ value: '40+ Years', label: 'Combined Operator Experience' },
+];
+
+const audienceCards = [
+	{
+		tag: 'The Career-Changer',
+		body: "You're 40+ with capital and expertise from another field — medicine, finance, real estate, corporate. You don't want a job. You want an asset that builds equity, gives you control of your time, and sells well in 5–10 years.",
+	},
+	{
+		tag: 'The First-Time Founder',
+		body: "You've researched franchises and walked away from the royalty model. You've got the capital and the conviction. You want to build something you actually own — without making the seven-figure mistakes most first-time owners make.",
+	},
+	{
+		tag: 'The Multi-Location Operator',
+		body: "You've proven the model with one location. Now you need a system to replicate it three, five, ten times — without losing margin, brand consistency, or your sanity. You don't need a coach. You need operators who've done it.",
+	},
+	{
+		tag: 'The Investor or Acquirer',
+		body: "You're deploying capital into the aesthetic and wellness space — buying an existing clinic, building from scratch, or backing a founder. You need operators in the room, not analysts. We work directly with capital partners on diligence and post-close operating plans.",
+	},
+];
+
+const buildStackItems = [
+	{
+		title: 'Site Selection & Real Estate',
+		body: 'Demographics modeling, foot-traffic and competitive analysis, lease negotiation, buildout cost projections. We help you avoid the $200K location mistake first-time owners make.',
+	},
+	{
+		title: 'Brand & Positioning',
+		body: 'Naming, identity, voice, visual system. Built to compete with — and beat — the dominant brand in your local market. Not blend in.',
+	},
+	{
+		title: 'Website & Conversion Funnel',
+		body: 'Conversion-optimized site, deposit-required booking, lead capture, follow-up automation. Built and handed to you live before doors open.',
+	},
+	{
+		title: 'Service Menu & Pricing',
+		body: 'Pricing strategy from operators who’ve actually tested it across hundreds of locations. Memberships, packages, ascension paths. Designed for lifetime value, not single transactions.',
+	},
+	{
+		title: 'Compliance & Medical Director Setup',
+		body: 'Medical director recruitment, Good Faith Exam protocols, state-specific scope-of-practice setup, MSO/PC structuring where required. The legal and medical layer most owners learn the hard way.',
+	},
+	{
+		title: 'Paid Acquisition Setup',
+		body: 'Google, Meta, and YouTube campaigns built, creative produced, conversion tracking installed. Running profitably before you open the doors — not three months after.',
+	},
+	{
+		title: 'Hiring & Team Build',
+		body: "Provider recruiting, front-desk hiring playbooks, comp structures, onboarding SOPs. Build a team that doesn't burn out, walk, or drift from your standards.",
+	},
+	{
+		title: 'Operating SOPs',
+		body: 'Daily, weekly, monthly checklists. Front-desk scripts, provider standards, inventory systems, opening and closing procedures. The operating manual we use in our own clinics.',
+	},
+	{
+		title: 'Sales Team Training',
+		body: 'Phone consults, in-person consultations, objection handling, closing scripts. We train your team on the same systems we use at $1M+/month locations.',
+	},
+	{
+		title: 'Reactivation & Retention Systems',
+		body: "Win-back campaigns, dormant client recovery, member retention plays. The systems most operators don't install until year three — installed before you open.",
+	},
+	{
+		title: 'Multi-Location Scaling',
+		body: "Once you're profitable, we map your expansion: market selection, capital strategy, operations handoff, leadership hires. Built for owners who want three, five, ten locations — not one and done.",
+	},
+	{
+		title: 'Ongoing Operator Access',
+		body: "Quarterly business reviews with the founders. Strategic decisions on scaling, capital, hiring senior leadership, and exit prep when you're ready. The relationship doesn't end at launch — it evolves with your business.",
+	},
+];
+
+const pathSteps = [
+	{
+		title: 'Apply (5 minutes)',
+		body: "Submit a short application. We review fit within 48 hours. We accept a limited number of advisor clients per quarter — not everyone gets in, and we'll tell you straight either way.",
+	},
+	{
+		title: 'Strategy Diagnostic (60-minute call)',
+		body: "We map your market, capital, timeline, and goals. You leave with a clear recommendation — even if we conclude we're not the right fit. No pressure, no pitch.",
+	},
+	{
+		title: 'Build Sprint (30 days)',
+		body: 'The advisory team goes to work. Brand, site, marketing, SOPs, hiring, compliance, team training — all installed in parallel. Weekly working calls with the founders.',
+	},
+	{
+		title: 'Launch + Ongoing Advisory',
+		body: "Doors open. We coach you 1-on-1 weekly through your first 90 days, then transition to monthly advisory until you're ready to scale, replicate, or sell.",
+	},
+];
+
+// TODO: replace all three case studies with real client outcomes before launch
+// TODO: replace placeholders with real client clinic photos before launch
+const caseStudies = [
+	{
+		name: 'Lumen Aesthetics',
+		location: 'Austin, TX',
+		transformation: 'Pre-launch, no clients → $180K month four → 90 days to open and profitable',
+		quote:
+			'We looked at three franchise options. Spending $400K to lease a brand felt insane once we saw what Growth Now actually delivers. We own everything.',
+		attribution: 'Founder, Lumen Aesthetics',
+	},
+	{
+		name: 'Restora Wellness Group',
+		location: 'Phoenix, AZ',
+		transformation: 'One location $90K/mo → Three locations $620K/mo combined → 14 months from first call',
+		quote:
+			"I'd already proven I could run one. Growth Now showed me how to run three without burning out — and how to build them so they actually sell when I'm ready.",
+		attribution: 'Founder, Restora Wellness Group',
+	},
+	{
+		name: 'Vela Med Spa',
+		location: 'Tampa, FL',
+		transformation: 'Career change from medicine, no ops background → $1.2M run-rate year one → 11 months to first patient',
+		quote:
+			"I'm a doctor, not an operator. The program installed everything I didn't know I needed — including the medical director side, which I assumed I'd handle myself. I would have failed without it.",
+		attribution: 'Founder, Vela Med Spa',
+	},
+];
+
+const faqItems = [
+	{
+		q: 'What does the program cost?',
+		a: "The program investment falls in the [PRICE_RANGE_TBD] range, depending on scope, market, and stage. That's separate from your own buildout, lease, and equipment costs. We discuss specific pricing on the strategy diagnostic call once we understand your project. For comparison: most aesthetic and wellness franchises require $35K–$75K in franchise fees plus $400K–$1.5M+ in total investment, plus 6–10% royalties on revenue for the life of the agreement.",
+	},
+	{
+		q: 'How is this different from buying a franchise?',
+		a: 'You own everything. The brand, the systems, the equity, the upside, and the eventual sale. Franchises lease you a brand and take royalties forever. We install the operating system once and you keep it. There are no territory restrictions, no FDD compliance overhead, and no royalty drag on your exit valuation.',
+	},
+	{
+		q: 'Do I really own the brand and the business?',
+		a: "Yes. The brand we build is yours. The website, the systems, the trademarks, the customer database, the SOPs — all yours. We don't license anything to you. We don't take equity by default. You own the asset you're building.",
+	},
+	{
+		q: 'What about medical director, compliance, and licensing?',
+		a: 'Built into the program. We handle medical director recruitment, Good Faith Exam protocols, state-specific scope-of-practice setup, and MSO/PC structuring where applicable. This is one of the most common areas where first-time owners get stuck — we install it correctly from the start.',
+	},
+	{
+		q: 'Do you guarantee results?',
+		a: "No serious operator does. What we can show you is 500+ aesthetic and wellness locations where the system has worked. We're selective about who we accept because hands-on advisory doesn't scale infinitely — and because we win when our clients win.",
+	},
+	{
+		q: 'How fast can we move?',
+		a: 'First call within 48 hours of application. Build sprint kicks off within two weeks of the strategy diagnostic. Most clients open doors within 90 days of starting the build sprint. The 90-day path is real — it requires a committed owner, deployed capital, and willingness to move.',
+	},
+	{
+		q: 'What if my market is competitive?',
+		a: "Most of our clients are in saturated markets. The program is specifically built to outposition incumbent clinics and franchise locations — that's why operators with seven- and eight-figure exits are running it. Saturation is usually a feature, not a bug. It means demand is proven.",
+	},
+	{
+		q: 'What happens after launch — do I keep paying you?',
+		a: 'Optional. After the 90-day post-launch advisory period ends, you can transition to a monthly advisory retainer (most clients do for the first year), or step off entirely and run the business on the systems we installed. No long-term lock-in. No royalties.',
+	},
+	{
+		q: 'Do you take equity?',
+		a: "Not by default. The standard program is fee-for-service — you pay, you own. For a small number of opportunities each year we may co-invest or partner on equity terms, but that's only when it's right for both sides and never required.",
+	},
+];
+---
+
+<Layout>
+
+	{/* 1. HERO */}
+	<section class="bg-surface py-24 md:py-32">
+		<div class="mx-auto max-w-4xl px-6">
+			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+				Growth Now Advisor Program™
+			</p>
+			<h1 class="mt-6 font-display text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl lg:text-6xl">
+				Open your aesthetic clinic without the franchise fee, the royalties, or the territory cage.
+			</h1>
+			<p class="mt-6 max-w-3xl text-lg leading-relaxed text-ink-muted md:text-xl">
+				Direct access to operators who've built, scaled, and exited multiple aesthetic and wellness businesses to seven and eight figures. We install the same operating system franchises charge $400K+ to lease — in your business. You own the brand. You keep the equity. You sell it when you're ready.
+			</p>
+			<div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+				<a
+					href="/contact"
+					class="inline-flex items-center justify-center rounded-full bg-brand-primary px-8 py-4 font-medium text-white transition-colors hover:bg-brand-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2"
+				>
+					Apply for the Advisor Program
+				</a>
+				<a
+					href="#franchise-compare"
+					class="inline-flex items-center justify-center rounded-full border border-ink px-8 py-4 font-medium text-ink transition-colors hover:bg-ink/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2"
+				>
+					Compare to a franchise ↓
+				</a>
+			</div>
+			<p class="mt-6 text-sm text-ink-muted">
+				Limited seats per quarter · Reviewed within 48 hours · No retainers, no royalties
+			</p>
+		</div>
+	</section>
+
+	{/* 2. COMPARISON TABLE */}
+	<section id="franchise-compare" class="bg-surface-alt py-20 [print-color-adjust:exact] md:py-28">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					Why Operators Are Skipping Franchises
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					Three ways to open a wellness business. Only one lets you keep what you build.
+				</h2>
+				<p class="mt-4 text-lg text-ink-muted">
+					Most owners researching franchises stop here. Once you see the math side by side, the decision changes.
+				</p>
+			</div>
+
+			{/* Desktop table */}
+			<div class="mt-12 hidden overflow-x-auto rounded-2xl border border-ink/10 bg-surface md:block print:block">
+				<table class="w-full text-left text-sm">
+					<thead>
+						<tr class="border-b border-ink/10">
+							<th scope="col" class="w-1/4 px-6 py-5 font-display text-xs font-semibold uppercase tracking-wider text-ink-muted">
+								Criteria
+							</th>
+							<th scope="col" class="w-1/4 px-6 py-5 font-display text-base font-semibold text-ink">
+								Buy a Franchise
+							</th>
+							<th scope="col" class="w-1/4 px-6 py-5 font-display text-base font-semibold text-ink">
+								Go It Alone
+							</th>
+							<th scope="col" class="w-1/4 border-l-2 border-brand-primary bg-brand-primary/5 px-6 py-5">
+								<span class="inline-flex items-center rounded-full bg-brand-primary px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
+									Recommended
+								</span>
+								<div class="mt-2 font-display text-base font-semibold text-ink">
+									Growth Now Advisor Program™
+								</div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{compareRows.map((row, i) => (
+							<tr class={i < compareRows.length - 1 ? 'border-b border-ink/10' : ''}>
+								<th scope="row" class="px-6 py-5 align-top font-display text-sm font-semibold text-ink">
+									{row.criteria}
+								</th>
+								<td class="px-6 py-5 align-top text-ink-muted">{row.franchise}</td>
+								<td class="px-6 py-5 align-top text-ink-muted">{row.diy}</td>
+								<td class="border-l-2 border-brand-primary bg-brand-primary/5 px-6 py-5 align-top text-ink">
+									{row.advisor}
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+
+			{/* Mobile cards */}
+			<div class="mt-12 space-y-6 md:hidden print:hidden">
+				<div class="rounded-2xl border border-ink/10 bg-surface p-6">
+					<h3 class="font-display text-lg font-semibold text-ink">Buy a Franchise</h3>
+					<dl class="mt-4 space-y-3 text-sm">
+						{compareRows.map((row) => (
+							<div>
+								<dt class="font-display text-xs font-semibold uppercase tracking-wider text-ink-muted">{row.criteria}</dt>
+								<dd class="mt-1 text-ink">{row.franchise}</dd>
+							</div>
+						))}
+					</dl>
+				</div>
+				<div class="rounded-2xl border border-ink/10 bg-surface p-6">
+					<h3 class="font-display text-lg font-semibold text-ink">Go It Alone</h3>
+					<dl class="mt-4 space-y-3 text-sm">
+						{compareRows.map((row) => (
+							<div>
+								<dt class="font-display text-xs font-semibold uppercase tracking-wider text-ink-muted">{row.criteria}</dt>
+								<dd class="mt-1 text-ink">{row.diy}</dd>
+							</div>
+						))}
+					</dl>
+				</div>
+				<div class="rounded-2xl border-2 border-brand-primary bg-brand-primary/5 p-6">
+					<span class="inline-flex items-center rounded-full bg-brand-primary px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
+						Recommended
+					</span>
+					<h3 class="mt-3 font-display text-lg font-semibold text-ink">Growth Now Advisor Program™</h3>
+					<dl class="mt-4 space-y-3 text-sm">
+						{compareRows.map((row) => (
+							<div>
+								<dt class="font-display text-xs font-semibold uppercase tracking-wider text-ink-muted">{row.criteria}</dt>
+								<dd class="mt-1 text-ink">{row.advisor}</dd>
+							</div>
+						))}
+					</dl>
+				</div>
+			</div>
+
+			<p class="mt-8 max-w-3xl text-xs leading-relaxed text-ink-muted">
+				Investment ranges based on industry FDD filings and typical owner buildout costs as of 2025. Exit multiples based on broker comps for the aesthetic and wellness category. Your numbers will vary by market.
+			</p>
+
+			<div class="mt-10">
+				<a
+					href="/contact"
+					class="inline-flex items-center justify-center rounded-full bg-brand-primary px-8 py-4 font-medium text-white transition-colors hover:bg-brand-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2"
+				>
+					Apply for the Advisor Program
+				</a>
+			</div>
+		</div>
+	</section>
+
+	{/* 3. TRUST STRIP */}
+	<section class="bg-ink py-16 md:py-20">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-white/60">
+					Built by operators who've owned, scaled, and exited
+				</p>
+				<h3 class="mt-4 font-display text-2xl font-semibold leading-tight text-white md:text-3xl">
+					The only people who can tell you what works are the people who've done it.
+				</h3>
+			</div>
+
+			<div class="mt-12 grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
+				{trustStats.map((stat) => (
+					<div>
+						<div class="whitespace-nowrap font-display text-4xl font-bold text-brand-primary md:text-5xl lg:text-6xl">
+							{stat.value}
+						</div>
+						<div class="mt-2 text-sm font-medium leading-snug text-white/80 md:text-base">
+							{stat.label}
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* 4. WHO THIS IS FOR */}
+	<section class="bg-surface py-20 md:py-28">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					Who This Is For
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					You've already done the math on franchising. This is the better path.
+				</h2>
+				<p class="mt-4 text-lg text-ink-muted">
+					The Advisor Program is built for committed owners with capital ready to deploy. Most clients fall into one of these four profiles.
+				</p>
+			</div>
+
+			<div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
+				{audienceCards.map((card) => (
+					<article class="rounded-2xl border border-ink/10 bg-surface-alt p-8">
+						<p class="text-xs font-semibold uppercase tracking-wider text-brand-primary">
+							{card.tag}
+						</p>
+						<p class="mt-4 text-base leading-relaxed text-ink">{card.body}</p>
+					</article>
+				))}
+			</div>
+
+			<p class="mx-auto mt-12 max-w-2xl text-center text-base italic leading-relaxed text-ink-muted">
+				This is a working program for committed buyers. We accept a limited number of clients per quarter so each one gets real attention from the founders. If you're early in your research and not yet ready to deploy capital, our resources page is a better starting point.
+			</p>
+		</div>
+	</section>
+
+	{/* 5. FULL BUILD STACK */}
+	<section class="bg-surface-alt py-20 md:py-28">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					What's Included
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					Twelve domains. One operating team. Done with you, week by week.
+				</h2>
+				<p class="mt-4 text-lg text-ink-muted">
+					Most consultants give you a deck. Franchises give you a manual you can't deviate from. We install the entire operating layer of your business — across every domain a working aesthetic or wellness clinic actually requires.
+				</p>
+			</div>
+
+			<div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+				{buildStackItems.map((item, i) => (
+					<article class="flex h-full flex-col rounded-2xl border border-ink/10 bg-surface p-8 transition-all duration-300 hover:border-brand-primary hover:shadow-lg">
+						<div class="font-display text-5xl font-bold text-brand-primary/40">
+							{String(i + 1).padStart(2, '0')}
+						</div>
+						<div class="mt-4 h-px w-12 bg-ink/10"></div>
+						<h3 class="mt-4 font-display text-xl font-semibold leading-snug text-ink">
+							{item.title}
+						</h3>
+						<p class="mt-3 text-base leading-relaxed text-ink-muted">
+							{item.body}
+						</p>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* 6. TRUST BAND — Meet The Operators placeholder */}
+	{/* TODO: replace with real Meet The Operators grid once Marcus provides bios + photos */}
+	<section class="bg-surface py-20 md:py-28">
+		<div class="mx-auto max-w-3xl px-6 text-center">
+			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+				Your Advisory Team
+			</p>
+			<h3 class="mt-4 font-display text-2xl font-semibold leading-tight text-ink md:text-3xl">
+				You'll be working directly with the founders.
+			</h3>
+			<p class="mt-4 text-lg leading-relaxed text-ink-muted">
+				Your advisory team includes founders and specialists who have personally built, scaled, and exited aesthetic and wellness businesses for a combined eight figures. Not account managers. Not junior strategists. Full team bios and direct introductions are part of the strategy diagnostic call.
+			</p>
+			<a
+				href="/contact"
+				class="mt-6 inline-block text-base font-medium text-brand-primary hover:underline"
+			>
+				Apply to meet the team →
+			</a>
+		</div>
+	</section>
+
+	{/* 7. THE PATH */}
+	<section class="bg-surface-alt py-20 md:py-28">
+		<div class="mx-auto max-w-4xl px-6">
+			<div>
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					How It Works
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					From application to open doors in 90 days.
+				</h2>
+				<p class="mt-4 text-lg text-ink-muted">
+					Four steps. No fluff. No filler weeks.
+				</p>
+			</div>
+
+			<ol class="mt-16 space-y-12">
+				{pathSteps.map((step, i) => (
+					<li class="grid grid-cols-[auto_1fr] gap-6">
+						<div class="font-display text-4xl font-bold text-brand-primary/40 md:text-5xl">
+							{String(i + 1).padStart(2, '0')}
+						</div>
+						<div>
+							<h3 class="font-display text-xl font-semibold text-ink md:text-2xl">
+								{step.title}
+							</h3>
+							<p class="mt-3 text-base leading-relaxed text-ink-muted">
+								{step.body}
+							</p>
+						</div>
+					</li>
+				))}
+			</ol>
+		</div>
+	</section>
+
+	{/* 8. RESULTS / CASE STUDIES */}
+	{/* TODO: replace all three case studies with real client outcomes before launch */}
+	<section class="bg-surface py-20 md:py-28">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					Proof
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					Real owners. Real numbers. Real first years.
+				</h2>
+				<p class="mt-4 text-lg text-ink-muted">
+					Not testimonials about the program. Outcomes from real clients who deployed capital, opened doors, and ran the system.
+				</p>
+			</div>
+
+			<div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
+				{caseStudies.map((cs) => (
+					<article class="overflow-hidden rounded-2xl border border-ink/10 bg-surface-alt">
+						<div class="flex aspect-[4/3] flex-col items-center justify-center gap-2 rounded-t-2xl bg-gradient-to-br from-brand-primary/10 via-brand-accent/5 to-surface-alt">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="h-12 w-12 text-brand-primary/40" aria-hidden="true">
+								<path d="M2 7h20" />
+								<path d="M5 7v14h14V7" />
+								<path d="M5 7l3-4h8l3 4" />
+								<path d="M10 21v-7h4v7" />
+							</svg>
+							<p class="text-xs uppercase tracking-wider text-ink-muted/60">Photo coming soon</p>
+						</div>
+						<div class="p-6">
+							<h3 class="font-display text-lg font-semibold text-ink">{cs.name}</h3>
+							<p class="text-sm text-ink-muted">{cs.location}</p>
+							<p class="mt-4 text-sm font-medium leading-relaxed text-brand-primary">
+								{cs.transformation}
+							</p>
+							<blockquote class="mt-6 border-t border-ink/10 pt-4 text-sm leading-relaxed text-ink">
+								"{cs.quote}"
+							</blockquote>
+							<p class="mt-3 text-xs text-ink-muted">— {cs.attribution}</p>
+						</div>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* 9. FAQ */}
+	<section class="bg-surface-alt py-20 md:py-28">
+		<div class="mx-auto max-w-3xl px-6">
+			<div>
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					Questions We Get Asked
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					Common questions from owners researching the program.
+				</h2>
+			</div>
+
+			<div class="mt-12 border-t border-ink/10">
+				{faqItems.map((item) => (
+					<details class="group border-b border-ink/10">
+						<summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-6 [&::-webkit-details-marker]:hidden">
+							<span class="font-display text-base font-semibold text-ink md:text-lg">
+								{item.q}
+							</span>
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 shrink-0 text-ink-muted transition-transform duration-200 group-open:rotate-180" aria-hidden="true">
+								<polyline points="6 9 12 15 18 9" />
+							</svg>
+						</summary>
+						<p class="pb-6 pr-9 text-base leading-relaxed text-ink-muted">
+							{item.a}
+						</p>
+					</details>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* 10. FINAL CTA */}
+	<section class="bg-ink py-24 md:py-32">
+		<div class="mx-auto max-w-4xl px-6 text-center">
+			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+				Apply Now
+			</p>
+			<h2 class="mt-6 font-display text-4xl font-bold leading-tight text-white md:text-6xl">
+				The next limited seat is yours if you're ready.
+			</h2>
+			<p class="mx-auto mt-6 max-w-2xl text-lg text-white/70 md:text-xl">
+				Apply for the Growth Now Advisor Program™. We'll review within 48 hours. If you're a fit, we'll book your strategy diagnostic. If not, we'll tell you straight — and point you to what we'd recommend instead.
+			</p>
+			<div class="mt-10 flex justify-center">
+				<a
+					href="/contact"
+					class="inline-flex items-center justify-center rounded-full bg-brand-primary px-8 py-4 font-medium text-white transition-colors hover:bg-brand-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+				>
+					Apply for the Advisor Program
+				</a>
+			</div>
+			<p class="mt-6 text-sm text-white/60">
+				Limited seats per quarter. No retainers. No royalties. You own everything we build.
+			</p>
+		</div>
+	</section>
+
+</Layout>
