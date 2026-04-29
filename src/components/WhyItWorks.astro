@@ -50,9 +50,10 @@ const cards = [
 		<div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 			{cards.map((card, i) => (
 				<article class="rounded-2xl border border-ink/10 bg-surface p-8 transition-all duration-300 hover:border-brand-primary hover:shadow-lg">
-					<div class="font-display text-5xl font-bold text-brand-primary/30">
+					<div class="font-display text-5xl font-bold text-brand-primary/40">
 						{String(i + 1).padStart(2, '0')}
 					</div>
+					<div class="mt-4 h-px w-12 bg-ink/10"></div>
 					<h3 class="mt-4 font-display text-xl font-semibold leading-snug text-ink">
 						{card.title}
 					</h3>
