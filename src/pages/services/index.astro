@@ -1,0 +1,514 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const problemCards = [
+	{
+		eyebrow: 'The In-House Problem',
+		title: 'Your marketing person can only do so much',
+		body: "One person running ads, social, email, and the booking funnel doesn't scale past about $80K/month. There's a ceiling and your business hits it whether they're talented or not.",
+	},
+	{
+		eyebrow: 'The Agency Problem',
+		title: "Generalist agencies don't understand wellness",
+		body: "Most agencies treat med spas like they treat law firms or restaurants. They don't know about deposits, no-shows, membership LTV, or why a $200 lead and a $200 booking are completely different things.",
+	},
+	{
+		eyebrow: 'The Freelancer Problem',
+		title: "DIY pieces don't compound",
+		body: 'Hiring a freelance ad manager, an SEO contractor, and a CRM consultant separately means YOU are the integration layer. Most operators don’t have time to be a part-time CMO on top of running their clinic.',
+	},
+];
+
+const pillars = [
+	{
+		title: 'Paid Acquisition System',
+		tagline: 'Bookings, not impressions.',
+		description:
+			"We don't run brand awareness campaigns. We run direct-response paid acquisition built specifically for aesthetic and wellness conversion — Google Search, Meta, YouTube, and high-intent display. Every campaign is engineered around a deposit-required booking funnel, not a lead form. The deliverable is shown appointments, not 'qualified leads' you have to chase.",
+		bullets: [
+			'Creative production: ad copy, video, static — done in-house, tested weekly',
+			'Conversion API setup with proper attribution across Google, Meta, and your CRM',
+			'Geo-fenced and high-intent audience targeting tuned to your local market',
+			'Weekly optimization calls with the operator running your account',
+		],
+	},
+	{
+		title: 'Lead Conversion System',
+		tagline: 'Speed-to-lead. Deposits. Show-rate.',
+		description:
+			"Lead capture is the easy part. Most clinics lose 50%+ of their leads in the first 24 hours because nobody's responding fast enough — or the booking process makes it too easy to ghost. Our conversion system is built around a 5-minute response SLA, scripted SMS sequences, and deposit-required booking that filters out tire-kickers before they hit your calendar.",
+		bullets: [
+			'5-minute response time on all inbound leads (SMS + voice)',
+			'Scripted multi-touch SMS sequences customized to your services',
+			'Deposit-required calendar links to ensure booked = shown',
+			'CRM integration that tracks every touchpoint from lead to booked appointment',
+		],
+	},
+	{
+		title: 'Show-Up & Retention System',
+		tagline: 'Booked is not the same as shown.',
+		description:
+			'Average med spa no-show rate is 20–30%. Ours runs under 11%. The difference is a 3-touch reminder cadence, a no-show recovery flow that brings back 40%+ of the misses, and a post-visit nurture system that turns single-treatment clients into members.',
+		bullets: [
+			'3-touch reminder cadence: 24hr, 4hr, 30min before appointment',
+			'Automated no-show recovery sequence with rebooking incentive',
+			'Post-visit review request automation (Google + Yelp)',
+			'Member upsell sequences triggered after first visit',
+		],
+	},
+	{
+		title: 'Reactivation System',
+		tagline: 'Your dead list is your hidden revenue.',
+		description:
+			"Most clinics have 1,000+ dormant contacts they've never properly worked. Old leads, churned members, post-treatment clients who haven't returned. Our reactivation system audits your entire database, segments it by recency and treatment history, and runs win-back campaigns that typically produce $10K–$40K of additional monthly revenue from contacts you already paid to acquire.",
+		bullets: [
+			'Full database audit and segmentation by treatment history and recency',
+			'Custom win-back sequences for dormant leads, churned members, and post-treatment clients',
+			'Ascending offer ladders that move clients from one-off to membership',
+			'Quarterly list-health reviews so reactivation stays compounding',
+		],
+	},
+	{
+		title: 'Reporting & Accountability System',
+		tagline: 'Real attribution. No vanity metrics.',
+		description:
+			"Every other agency reports impressions, clicks, and 'leads.' We report bookings, show-up rates, revenue, and cost per booked appointment. You'll know exactly what's working, what's not, and where your next dollar should go — every week, in plain English, from the operator running your account.",
+		bullets: [
+			'Weekly KPI report covering bookings, show rate, revenue, and CAC',
+			'Monthly strategy call with the operator running your account',
+			'Full attribution dashboard you can access anytime',
+			'Quarterly business review with founders to align on next phase',
+		],
+	},
+];
+
+// TODO: confirm exact numbers with Marcus
+const statsItems = [
+	{ value: '4X+', label: 'Average Client ROI' },
+	{ value: '89%', label: 'Average Show-Up Rate (industry avg: 70%)' },
+	{ value: '<11%', label: 'Average No-Show Rate (industry avg: 25%)' },
+	{ value: '5 min', label: 'Lead Response Time SLA' },
+];
+
+const whoCards = [
+	{
+		title: '$30K–$80K/month operators',
+		body: "You've proven the model. You're profitable. You're ready to install the system that breaks the ceiling and gets you to $150K+/month without doubling your hours.",
+	},
+	{
+		title: '$80K–$250K/month operators',
+		body: 'You have a working business but the marketing is patchwork. You need one system that integrates acquisition, conversion, retention, and reactivation under one team.',
+	},
+	{
+		title: 'Multi-location operators',
+		body: "You've got 2–10 locations and you need consistent performance, brand standards, and reporting across all of them. Our system is built to roll out cleanly across multiple units.",
+	},
+];
+
+const processSteps = [
+	{
+		title: 'Discovery Demo (45 min)',
+		body: 'We map your current marketing stack, KPIs, and growth ceiling. You leave with a clear assessment — even if we conclude we’re not a fit.',
+	},
+	{
+		title: 'System Audit (Week 1)',
+		body: 'We audit your CRM, ad accounts, calendar, and database. Identify what’s broken, what’s leaking, and what’s compounding.',
+	},
+	{
+		title: 'Install Sprint (Weeks 2–4)',
+		body: 'Full system installed across all five pillars. Campaigns built, sequences scripted, dashboards live, team trained on the new flow.',
+	},
+	{
+		title: 'Run + Optimize (Month 2 onward)',
+		body: 'Weekly optimization calls, monthly strategy reviews, quarterly business reviews. The system runs. We tune it. You scale.',
+	},
+];
+
+// TODO: confirm tier pricing with Marcus before launch
+const pricingTiers = [
+	{
+		name: 'Foundation',
+		subtitle: 'For $30K–$80K/mo operators',
+		price: 'Starts at $X/mo',
+		popular: false,
+		bullets: [
+			'Paid Acquisition System (Google + Meta)',
+			'Lead Conversion System with deposit booking',
+			'Show-Up & Retention System',
+			'Weekly optimization calls',
+			'Monthly KPI reporting',
+		],
+	},
+	{
+		name: 'Growth',
+		subtitle: 'For $80K–$250K/mo operators',
+		price: 'Starts at $X/mo',
+		popular: true,
+		bullets: [
+			'Everything in Foundation',
+			'Add YouTube + high-intent display',
+			'Reactivation System with database audit',
+			'Full Reporting & Attribution Dashboard',
+			'Bi-weekly strategy calls',
+			'Quarterly business review with founders',
+			'Direct operator access (Slack/SMS)',
+		],
+	},
+	{
+		name: 'Scale',
+		subtitle: 'For $250K+/mo or multi-location',
+		price: 'Custom',
+		popular: false,
+		bullets: [
+			'Everything in Growth',
+			'Multi-location rollout and consistency framework',
+			'Dedicated account team',
+			'Custom reporting per location',
+			'Co-marketing with brand and influencer integrations',
+			'Acquisition strategy + M&A advisory',
+			'Direct founder access',
+		],
+	},
+];
+
+const faqItems = [
+	{
+		q: 'How is this different from working with my current agency?',
+		a: "Most agencies treat your clinic like a generic local business and run cookie-cutter ad campaigns. We've operated aesthetic and wellness businesses ourselves — we know the difference between a $200 lead and a $200 booking, why deposits matter, and how to install a system that compounds. We don't run campaigns; we install operating systems.",
+	},
+	{
+		q: 'What if I already have an in-house marketing person?',
+		a: "Most of our clients have one. We don't replace them — we install the systems they don't have time to build, and they run the day-to-day inside it. Many in-house leads end up reporting into our weekly calls and using our playbooks.",
+	},
+	{
+		q: 'Do I need to switch CRMs or platforms?',
+		a: "Almost never. We work with whatever you're using — GoHighLevel, HubSpot, Mindbody, Boulevard, ClinicSense, Zenoti, etc. If we recommend a switch it's because there's a clear ROI, never because we want to install something we sell.",
+	},
+	{
+		q: 'How long is the contract?',
+		a: '30-day rolling after the first 90 days. The first 90 days are required because the system takes that long to install and tune. After that, you can leave anytime — we earn your renewal every month.',
+	},
+	{
+		q: 'How fast will I see results?',
+		a: 'Most clients see meaningful booking lift within 30 days of the install sprint completing. Full system compounding (acquisition + conversion + retention + reactivation working together) typically shows up in months 2–4.',
+	},
+	{
+		q: 'Do you guarantee results?',
+		a: "We guarantee the install. We can't guarantee outcomes — anyone who does is lying. What we can show you is 500+ aesthetic and wellness locations where this system has produced consistent month-over-month growth.",
+	},
+	{
+		q: "What happens if it's not working?",
+		a: "We'll tell you — and tell you why — before you have to ask. We have a quarterly review where if the system isn't producing, we restructure or refund the most recent month. We'd rather lose a client than keep one we're not delivering for.",
+	},
+];
+---
+
+<Layout>
+
+	{/* 1. HERO */}
+	<section class="bg-surface py-24 md:py-32">
+		<div class="mx-auto max-w-3xl px-6">
+			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+				For Existing Operators
+			</p>
+			<h1 class="mt-6 font-display text-4xl font-semibold leading-[1.05] tracking-tight md:text-6xl xl:text-7xl">
+				More bookings. Higher show rates. Recurring revenue.
+			</h1>
+			<p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
+				The full Growth Now System™ — installed and managed for established aesthetic and wellness businesses ready to scale. Not theory. Not training videos. The actual operating system that's running across 500+ wellness locations.
+			</p>
+			<div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+				<a
+					href="/contact"
+					class="inline-flex items-center justify-center rounded-full bg-brand-primary px-8 py-4 font-medium text-white transition-colors hover:bg-brand-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2"
+				>
+					Book a Demo
+				</a>
+				<a
+					href="#the-system"
+					class="inline-flex items-center justify-center rounded-full border border-ink/30 px-8 py-4 font-medium text-ink transition-colors hover:bg-ink/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2"
+				>
+					See the system below ↓
+				</a>
+			</div>
+			<p class="mt-6 text-sm text-ink-muted">
+				Currently working with 500+ aesthetic and wellness locations across America
+			</p>
+		</div>
+	</section>
+
+	{/* 2. THE PROBLEM */}
+	<section class="bg-surface-alt py-20 md:py-28">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					Why Growth Stalls
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					You don't have a marketing problem. You have a system problem.
+				</h2>
+				<p class="mt-4 text-lg text-ink-muted">
+					Most clinics doing $30K–$300K a month aren't stuck because the demand isn't there. They're stuck because their marketing, sales, and ops are running as separate disconnected pieces.
+				</p>
+			</div>
+
+			<div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+				{problemCards.map((card) => (
+					<article class="flex h-full flex-col rounded-2xl border border-ink/10 bg-surface p-8">
+						<p class="text-xs font-semibold uppercase tracking-wider text-ink-muted">
+							{card.eyebrow}
+						</p>
+						<h3 class="mt-4 font-display text-xl font-semibold leading-snug text-ink">
+							{card.title}
+						</h3>
+						<p class="mt-3 text-base leading-relaxed text-ink-muted">
+							{card.body}
+						</p>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* 3. THE SYSTEM */}
+	<section id="the-system" class="bg-surface py-20 md:py-28">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					The Growth Now System™
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					Five compounding systems. One operating layer. Done for you.
+				</h2>
+				<p class="mt-4 text-lg text-ink-muted">
+					We don't run campaigns. We install the operating system that turns your clinic into a booking machine — across acquisition, conversion, retention, and reactivation.
+				</p>
+			</div>
+
+			<div class="mt-16 space-y-16 md:space-y-20">
+				{pillars.map((pillar, i) => (
+					<div class="grid grid-cols-1 items-start gap-y-8 md:grid-cols-2 md:gap-x-16">
+						<div>
+							<div class="font-display text-6xl font-bold text-brand-primary/40">
+								{String(i + 1).padStart(2, '0')}
+							</div>
+							<h3 class="mt-2 font-display text-2xl font-semibold leading-tight text-ink">
+								{pillar.title}
+							</h3>
+							<p class="mt-2 text-base text-ink-muted">{pillar.tagline}</p>
+						</div>
+						<div>
+							<p class="text-base leading-relaxed text-ink">{pillar.description}</p>
+							<ul class="mt-6 space-y-2">
+								{pillar.bullets.map((b) => (
+									<li class="flex items-start gap-3">
+										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 h-5 w-5 shrink-0 text-brand-primary" aria-hidden="true">
+											<polyline points="20 6 9 17 4 12" />
+										</svg>
+										<span class="text-sm md:text-base text-ink-muted leading-relaxed">{b}</span>
+									</li>
+								))}
+							</ul>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* 4. STATS BAR */}
+	<section class="bg-ink py-16 md:py-20">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-white/60">
+					What this looks like in practice
+				</p>
+				<h3 class="mt-4 font-display text-2xl font-semibold leading-tight text-white md:text-3xl">
+					The system, by the numbers.
+				</h3>
+			</div>
+
+			<div class="mt-12 grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
+				{statsItems.map((stat) => (
+					<div>
+						<div class="whitespace-nowrap font-display text-5xl font-bold text-brand-primary md:text-6xl">
+							{stat.value}
+						</div>
+						<div class="mt-2 text-sm font-medium leading-snug text-white/80 md:text-base">
+							{stat.label}
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* 5. WHO THIS IS FOR */}
+	<section class="bg-surface py-20 md:py-28">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					Who This Is For
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					Built for established operators ready to scale.
+				</h2>
+			</div>
+
+			<div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+				{whoCards.map((card) => (
+					<article class="flex h-full flex-col rounded-2xl bg-surface-alt p-8">
+						<h3 class="font-display text-xl font-semibold leading-snug text-ink">
+							{card.title}
+						</h3>
+						<p class="mt-3 text-base leading-relaxed text-ink-muted">{card.body}</p>
+					</article>
+				))}
+			</div>
+
+			<p class="mx-auto mt-12 max-w-2xl text-center text-base italic leading-relaxed text-ink-muted">
+				If you're pre-launch or under $30K/month, the Advisor Program is the better starting point — that's our launch system, not our scale system.
+			</p>
+		</div>
+	</section>
+
+	{/* 6. PROCESS */}
+	<section class="bg-surface-alt py-20 md:py-28">
+		<div class="mx-auto max-w-4xl px-6">
+			<div>
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					How We Start
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					From demo to running system in 30 days.
+				</h2>
+			</div>
+
+			<ol class="mt-16 space-y-12">
+				{processSteps.map((step, i) => (
+					<li class="grid grid-cols-[auto_1fr] gap-6">
+						<div class="font-display text-4xl font-bold text-brand-primary/40 md:text-5xl">
+							{String(i + 1).padStart(2, '0')}
+						</div>
+						<div>
+							<h3 class="font-display text-xl font-semibold text-ink md:text-2xl">
+								{step.title}
+							</h3>
+							<p class="mt-3 text-base leading-relaxed text-ink-muted">{step.body}</p>
+						</div>
+					</li>
+				))}
+			</ol>
+		</div>
+	</section>
+
+	{/* 7. PRICING */}
+	<section class="bg-surface py-20 md:py-28">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					Investment
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					Built for operators serious about scale.
+				</h2>
+				<p class="mt-4 text-lg text-ink-muted">
+					Pricing is based on scope, current revenue, and ad spend managed. Most engagements fall into one of three tiers.
+				</p>
+			</div>
+
+			<div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+				{pricingTiers.map((tier) => (
+					<article
+						class={[
+							'flex h-full flex-col rounded-2xl bg-surface-alt p-8',
+							tier.popular ? 'border-2 border-brand-primary' : 'border border-ink/10',
+						].join(' ')}
+					>
+						{tier.popular && (
+							<span class="mb-4 inline-flex w-fit items-center rounded-full bg-brand-primary px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
+								Most Popular
+							</span>
+						)}
+						<h3 class="font-display text-2xl font-semibold text-ink">{tier.name}</h3>
+						<p class="mt-2 text-sm text-ink-muted">{tier.subtitle}</p>
+						<p class="mt-6 font-display text-2xl font-semibold text-brand-primary">
+							{tier.price}
+						</p>
+						<ul class="mt-6 space-y-3">
+							{tier.bullets.map((b) => (
+								<li class="flex items-start gap-3">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 h-5 w-5 shrink-0 text-brand-primary" aria-hidden="true">
+										<polyline points="20 6 9 17 4 12" />
+									</svg>
+									<span class="text-sm md:text-base text-ink-muted leading-relaxed">{b}</span>
+								</li>
+							))}
+						</ul>
+					</article>
+				))}
+			</div>
+
+			<p class="mx-auto mt-12 max-w-2xl text-center text-base leading-relaxed text-ink-muted">
+				Pricing is custom-quoted on the demo call after we understand your stack and goals. Every engagement is structured to pay for itself within 60–90 days.
+			</p>
+		</div>
+	</section>
+
+	{/* 8. FAQ */}
+	<section class="bg-surface-alt py-20 md:py-28">
+		<div class="mx-auto max-w-3xl px-6">
+			<div>
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					Common Questions
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					Questions operators ask before signing on.
+				</h2>
+			</div>
+
+			<div class="mt-12 border-t border-ink/10">
+				{faqItems.map((item) => (
+					<details class="group border-b border-ink/10">
+						<summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-6 [&::-webkit-details-marker]:hidden">
+							<span class="font-display text-base font-semibold text-ink md:text-lg">
+								{item.q}
+							</span>
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 shrink-0 text-ink-muted transition-transform duration-200 group-open:rotate-180" aria-hidden="true">
+								<polyline points="6 9 12 15 18 9" />
+							</svg>
+						</summary>
+						<p class="pb-6 pr-9 text-base leading-relaxed text-ink-muted">{item.a}</p>
+					</details>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* 9. FINAL CTA */}
+	<section class="bg-ink py-24 md:py-32">
+		<div class="mx-auto max-w-4xl px-6 text-center">
+			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+				Ready to Install the System?
+			</p>
+			<h2 class="mt-6 font-display text-4xl font-bold leading-tight text-white md:text-6xl">
+				Stop running campaigns. Start running a system.
+			</h2>
+			<p class="mx-auto mt-6 max-w-2xl text-lg text-white/70 md:text-xl">
+				Book a 45-minute discovery demo. We'll map your current setup, identify the leaks, and show you exactly what we'd install. No pitch — just a working session with the operators who've done it 500+ times.
+			</p>
+			<div class="mt-10 flex justify-center">
+				<a
+					href="/contact"
+					class="inline-flex items-center justify-center rounded-full bg-brand-primary px-8 py-4 text-base font-medium text-white transition-colors hover:bg-brand-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+				>
+					Book a Demo
+				</a>
+			</div>
+			<p class="mt-6 text-sm text-white/60">
+				30-day rolling after the install. We earn renewal every month.
+			</p>
+		</div>
+	</section>
+
+</Layout>
