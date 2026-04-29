@@ -1,0 +1,62 @@
+---
+// TODO: replace with real client testimonials
+const testimonials = [
+	{
+		quote:
+			"We went from 40 booked appointments a month to over 220 in our first quarter. Their system isn't theory — it actually moves the needle.",
+		author: 'Dr. Sarah Chen',
+		title: 'Founder, Aesthetic Wellness Co.',
+	},
+	{
+		quote:
+			"I've worked with three agencies. Growth Now is the only one that understood our business before they touched our ads. Bookings doubled in 60 days.",
+		author: 'Mark Reynolds',
+		title: 'Owner, Pinnacle Med Spa Group',
+	},
+	{
+		quote:
+			'The deposits-with-bookings system alone changed our business. Show-up rates went from 60% to 89% in the first month.',
+		author: 'Lisa Tanaka',
+		title: 'CEO, Radiance Wellness Centers',
+	},
+];
+---
+
+<section class="bg-surface py-20 md:py-28">
+	<div class="mx-auto max-w-6xl px-6">
+		<div class="max-w-2xl">
+			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+				What Clients Say
+			</p>
+			<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+				Operators who've actually scaled.
+			</h2>
+			<p class="mt-4 text-lg text-ink-muted">
+				Wellness owners using the Growth Now System™ to build, scale, and dominate their markets.
+			</p>
+		</div>
+
+		<div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
+			{testimonials.map((t) => (
+				<article class="rounded-2xl border border-ink/10 bg-surface-alt p-8">
+					<div class="flex gap-1 text-brand-primary">
+						{Array.from({ length: 5 }).map(() => (
+							<svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+								<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+							</svg>
+						))}
+					</div>
+
+					<blockquote class="mt-6 text-base leading-relaxed text-ink">
+						"{t.quote}"
+					</blockquote>
+
+					<div class="mt-8 border-t border-ink/10 pt-6">
+						<p class="font-display font-semibold text-ink">{t.author}</p>
+						<p class="text-sm text-ink-muted">{t.title}</p>
+					</div>
+				</article>
+			))}
+		</div>
+	</div>
+</section>
