@@ -1,0 +1,75 @@
+---
+const cards = [
+	{
+		title: 'Built by Operators, Not Marketers',
+		description:
+			"Our system was built by owners who've scaled, exited, and operated real wellness businesses — not agencies guessing behind keyboards. Every strategy is designed to drive real bookings, real revenue, and real retention.",
+	},
+	{
+		title: 'Proven Across 500+ Wellness Businesses',
+		description:
+			'The Growth Now System™ has been implemented across 500+ wellness locations and used by the top wellness brands in the industry.',
+	},
+	{
+		title: 'We Turn Leads Into Paid Bookings',
+		description:
+			"Leads don't grow businesses — shown appointments do. Our system targets the right customers, drives speed-to-lead in follow-ups, and places deposits with all bookings to ensure leads actually show.",
+	},
+	{
+		title: 'Done-For-You Growth Now System™',
+		description:
+			"We don't just run ads. We install the full system — high-converting creative, lead follow-up, appointment booking with deposits, and long-term reactivation campaigns to maximize lifetime value.",
+	},
+	{
+		title: 'Designed for Scaling, Not Short-Term Wins',
+		description:
+			"The system works whether you're generating 20 bookings a month or 200+. It's built for memberships, LTV expansion, upsells, and multi-location growth.",
+	},
+	{
+		title: 'Real Accountability, Real Results',
+		description:
+			"We don't hide behind vanity metrics. We track what actually matters: bookings, show-up rates, revenue, and ROI.",
+	},
+];
+---
+
+<section class="bg-surface-alt py-20 md:py-28">
+	<div class="mx-auto max-w-6xl px-6">
+		<div class="max-w-3xl">
+			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+				The Growth Now System™
+			</p>
+			<h2 class="mt-4 text-3xl font-semibold leading-tight text-ink md:text-5xl">
+				Why wellness clients are successful with our system
+			</h2>
+			<p class="mt-4 text-lg text-ink-muted">
+				Six reasons the Growth Now System™ has been deployed across 500+ aesthetic and wellness locations — and keeps producing bookings, not just leads.
+			</p>
+		</div>
+
+		<div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+			{cards.map((card, i) => (
+				<article class="rounded-2xl border border-ink/10 bg-surface p-8 transition-all duration-300 hover:border-brand-primary hover:shadow-lg">
+					<div class="font-display text-5xl font-bold text-brand-primary/30">
+						{String(i + 1).padStart(2, '0')}
+					</div>
+					<h3 class="mt-4 font-display text-xl font-semibold leading-snug text-ink">
+						{card.title}
+					</h3>
+					<p class="mt-3 text-base leading-relaxed text-ink-muted">
+						{card.description}
+					</p>
+				</article>
+			))}
+		</div>
+
+		<div class="mt-16 flex justify-center">
+			<a
+				href="/contact"
+				class="inline-flex items-center justify-center rounded-full bg-brand-primary px-8 py-4 text-base font-medium text-white transition-colors hover:bg-brand-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2"
+			>
+				Book a Demo
+			</a>
+		</div>
+	</div>
+</section>
