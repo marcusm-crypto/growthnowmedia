@@ -124,12 +124,11 @@ const processSteps = [
 	},
 ];
 
-// TODO: confirm tier pricing with Marcus before launch
 const pricingTiers = [
 	{
 		name: 'Foundation',
 		subtitle: 'For $30K–$80K/mo operators',
-		price: 'Starts at $X/mo',
+		price: 'Starts at $1,750/mo',
 		popular: false,
 		bullets: [
 			'Paid Acquisition System (Google + Meta)',
@@ -140,9 +139,9 @@ const pricingTiers = [
 		],
 	},
 	{
-		name: 'Growth',
+		name: 'Growth Now Package',
 		subtitle: 'For $80K–$250K/mo operators',
-		price: 'Starts at $X/mo',
+		price: 'Starts at $2,950/mo',
 		popular: true,
 		bullets: [
 			'Everything in Foundation',
@@ -240,7 +239,7 @@ const faqItems = [
 	{/* 2. THE PROBLEM */}
 	<section class="bg-surface-alt py-20 md:py-28">
 		<div class="mx-auto max-w-6xl px-6">
-			<div class="max-w-3xl">
+			<div class="reveal max-w-3xl">
 				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
 					Why Growth Stalls
 				</p>
@@ -252,9 +251,9 @@ const faqItems = [
 				</p>
 			</div>
 
-			<div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+			<div class="reveal-stagger mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
 				{problemCards.map((card) => (
-					<article class="flex h-full flex-col rounded-2xl border border-ink/10 bg-surface p-8">
+					<article class="card flex h-full flex-col break-inside-avoid rounded-2xl p-8">
 						<p class="text-xs font-semibold uppercase tracking-wider text-ink-muted">
 							{card.eyebrow}
 						</p>
@@ -273,7 +272,7 @@ const faqItems = [
 	{/* 3. THE SYSTEM */}
 	<section id="the-system" class="bg-surface py-20 md:py-28">
 		<div class="mx-auto max-w-6xl px-6">
-			<div class="max-w-3xl">
+			<div class="reveal max-w-3xl">
 				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
 					The Growth Now System™
 				</p>
@@ -285,27 +284,27 @@ const faqItems = [
 				</p>
 			</div>
 
-			<div class="mt-16 space-y-16 md:space-y-20">
-				{pillars.map((pillar, i) => (
-					<div class="grid grid-cols-1 items-start gap-y-8 md:grid-cols-2 md:gap-x-16">
+			<div class="reveal-stagger mt-16 space-y-24">
+				{pillars.map((pillar, index) => (
+					<div class="grid grid-cols-1 items-start gap-12 break-inside-avoid md:grid-cols-2 print:!grid-cols-1 print:gap-4">
 						<div>
-							<div class="font-display text-6xl font-bold text-brand-primary/40">
-								{String(i + 1).padStart(2, '0')}
-							</div>
-							<h3 class="mt-2 font-display text-2xl font-semibold leading-tight text-ink">
+							<p class="mb-4 text-sm font-semibold uppercase tracking-wider text-brand-primary">
+								{String(index + 1).padStart(2, '0')}
+							</p>
+							<h3 class="mb-3 font-display text-3xl font-bold leading-tight text-ink md:text-4xl">
 								{pillar.title}
 							</h3>
-							<p class="mt-2 text-base text-ink-muted">{pillar.tagline}</p>
+							<p class="text-lg text-ink-muted">{pillar.tagline}</p>
 						</div>
 						<div>
-							<p class="text-base leading-relaxed text-ink">{pillar.description}</p>
-							<ul class="mt-6 space-y-2">
-								{pillar.bullets.map((b) => (
+							<p class="mb-8 text-base leading-relaxed text-ink">{pillar.description}</p>
+							<ul class="space-y-4">
+								{pillar.bullets.map((bullet) => (
 									<li class="flex items-start gap-3">
-										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 h-5 w-5 shrink-0 text-brand-primary" aria-hidden="true">
+										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mt-1 h-5 w-5 shrink-0 text-brand-primary" aria-hidden="true">
 											<polyline points="20 6 9 17 4 12" />
 										</svg>
-										<span class="text-sm md:text-base text-ink-muted leading-relaxed">{b}</span>
+										<span class="text-base text-ink">{bullet}</span>
 									</li>
 								))}
 							</ul>
@@ -317,9 +316,9 @@ const faqItems = [
 	</section>
 
 	{/* 4. STATS BAR */}
-	<section class="bg-ink py-16 md:py-20">
+	<section class="bg-[#16122d] py-16 md:py-20">
 		<div class="mx-auto max-w-6xl px-6">
-			<div class="max-w-3xl">
+			<div class="reveal max-w-3xl">
 				<p class="text-sm font-semibold uppercase tracking-wider text-white/60">
 					What this looks like in practice
 				</p>
@@ -328,7 +327,7 @@ const faqItems = [
 				</h3>
 			</div>
 
-			<div class="mt-12 grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
+			<div class="reveal-stagger mt-12 grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
 				{statsItems.map((stat) => (
 					<div>
 						<div class="whitespace-nowrap font-display text-5xl font-bold text-brand-primary md:text-6xl">
@@ -346,7 +345,7 @@ const faqItems = [
 	{/* 5. WHO THIS IS FOR */}
 	<section class="bg-surface py-20 md:py-28">
 		<div class="mx-auto max-w-6xl px-6">
-			<div class="max-w-3xl">
+			<div class="reveal max-w-3xl">
 				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
 					Who This Is For
 				</p>
@@ -355,9 +354,9 @@ const faqItems = [
 				</h2>
 			</div>
 
-			<div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+			<div class="reveal-stagger mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
 				{whoCards.map((card) => (
-					<article class="flex h-full flex-col rounded-2xl bg-surface-alt p-8">
+					<article class="card flex h-full flex-col rounded-2xl p-8">
 						<h3 class="font-display text-xl font-semibold leading-snug text-ink">
 							{card.title}
 						</h3>
@@ -384,7 +383,7 @@ const faqItems = [
 				</h2>
 			</div>
 
-			<ol class="mt-16 space-y-12">
+			<ol class="reveal-stagger mt-16 space-y-12">
 				{processSteps.map((step, i) => (
 					<li class="grid grid-cols-[auto_1fr] gap-6">
 						<div class="font-display text-4xl font-bold text-brand-primary/40 md:text-5xl">
@@ -405,7 +404,7 @@ const faqItems = [
 	{/* 7. PRICING */}
 	<section class="bg-surface py-20 md:py-28">
 		<div class="mx-auto max-w-6xl px-6">
-			<div class="max-w-3xl">
+			<div class="reveal max-w-3xl">
 				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
 					Investment
 				</p>
@@ -417,11 +416,11 @@ const faqItems = [
 				</p>
 			</div>
 
-			<div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+			<div class="reveal-stagger mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
 				{pricingTiers.map((tier) => (
 					<article
 						class={[
-							'flex h-full flex-col rounded-2xl bg-surface-alt p-8',
+							'flex h-full flex-col break-inside-avoid rounded-2xl bg-surface-alt p-8',
 							tier.popular ? 'border-2 border-brand-primary' : 'border border-ink/10',
 						].join(' ')}
 					>
@@ -486,7 +485,7 @@ const faqItems = [
 	</section>
 
 	{/* 9. FINAL CTA */}
-	<section class="bg-ink py-24 md:py-32">
+	<section class="bg-[#16122d] py-24 md:py-32">
 		<div class="mx-auto max-w-4xl px-6 text-center">
 			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
 				Ready to Install the System?

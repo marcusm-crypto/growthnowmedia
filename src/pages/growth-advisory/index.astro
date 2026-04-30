@@ -1,13 +1,12 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-// TODO: confirm [PRICE_RANGE_TBD] with Marcus before launch
 const compareRows = [
 	{
 		criteria: 'Upfront investment',
 		franchise: '$400K – $1.5M+',
 		diy: '$250K – $500K',
-		advisor: '[PRICE_RANGE_TBD] (program) + your own buildout',
+		advisor: '$15K–$115K (program) + your own buildout',
 	},
 	{
 		criteria: 'Ongoing royalties',
@@ -182,7 +181,7 @@ const caseStudies = [
 const faqItems = [
 	{
 		q: 'What does the program cost?',
-		a: "The program investment falls in the [PRICE_RANGE_TBD] range, depending on scope, market, and stage. That's separate from your own buildout, lease, and equipment costs. We discuss specific pricing on the strategy diagnostic call once we understand your project. For comparison: most aesthetic and wellness franchises require $35K–$75K in franchise fees plus $400K–$1.5M+ in total investment, plus 6–10% royalties on revenue for the life of the agreement.",
+		a: "The program investment falls in the $15K–$115K range, depending on scope, market, and stage. That's separate from your own buildout, lease, and equipment costs. We discuss specific pricing on the strategy diagnostic call once we understand your project. For comparison: most aesthetic and wellness franchises require $35K–$75K in franchise fees plus $400K–$1.5M+ in total investment, plus 6–10% royalties on revenue for the life of the agreement.",
 	},
 	{
 		q: 'How is this different from buying a franchise?',
@@ -256,7 +255,7 @@ const faqItems = [
 	{/* 2. COMPARISON TABLE */}
 	<section id="franchise-compare" class="bg-surface-alt py-20 [print-color-adjust:exact] md:py-28">
 		<div class="mx-auto max-w-6xl px-6">
-			<div class="max-w-3xl">
+			<div class="reveal max-w-3xl">
 				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
 					Why Operators Are Skipping Franchises
 				</p>
@@ -365,9 +364,9 @@ const faqItems = [
 	</section>
 
 	{/* 3. TRUST STRIP */}
-	<section class="bg-ink py-16 md:py-20">
+	<section class="bg-[#16122d] py-16 md:py-20">
 		<div class="mx-auto max-w-6xl px-6">
-			<div class="max-w-3xl">
+			<div class="reveal max-w-3xl">
 				<p class="text-sm font-semibold uppercase tracking-wider text-white/60">
 					Built by operators who've owned, scaled, and exited
 				</p>
@@ -376,7 +375,7 @@ const faqItems = [
 				</h3>
 			</div>
 
-			<div class="mt-12 grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
+			<div class="reveal-stagger mt-12 grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
 				{trustStats.map((stat) => (
 					<div>
 						<div class="whitespace-nowrap font-display text-4xl font-bold text-brand-primary md:text-5xl lg:text-6xl">
@@ -394,7 +393,7 @@ const faqItems = [
 	{/* 4. WHO THIS IS FOR */}
 	<section class="bg-surface py-20 md:py-28">
 		<div class="mx-auto max-w-6xl px-6">
-			<div class="max-w-3xl">
+			<div class="reveal max-w-3xl">
 				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
 					Who This Is For
 				</p>
@@ -406,9 +405,9 @@ const faqItems = [
 				</p>
 			</div>
 
-			<div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
+			<div class="reveal-stagger mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
 				{audienceCards.map((card) => (
-					<article class="rounded-2xl border border-ink/10 bg-surface-alt p-8">
+					<article class="card rounded-2xl p-8">
 						<p class="text-xs font-semibold uppercase tracking-wider text-brand-primary">
 							{card.tag}
 						</p>
@@ -426,7 +425,7 @@ const faqItems = [
 	{/* 5. FULL BUILD STACK */}
 	<section class="bg-surface-alt py-20 md:py-28">
 		<div class="mx-auto max-w-6xl px-6">
-			<div class="max-w-3xl">
+			<div class="reveal max-w-3xl">
 				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
 					What's Included
 				</p>
@@ -438,9 +437,9 @@ const faqItems = [
 				</p>
 			</div>
 
-			<div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+			<div class="reveal-stagger mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 				{buildStackItems.map((item, i) => (
-					<article class="flex h-full flex-col rounded-2xl border border-ink/10 bg-surface p-8 transition-all duration-300 hover:border-brand-primary hover:shadow-lg">
+					<article class="card flex h-full flex-col rounded-2xl p-8">
 						<div class="font-display text-5xl font-bold text-brand-primary/40">
 							{String(i + 1).padStart(2, '0')}
 						</div>
@@ -494,7 +493,7 @@ const faqItems = [
 				</p>
 			</div>
 
-			<ol class="mt-16 space-y-12">
+			<ol class="reveal-stagger mt-16 space-y-12">
 				{pathSteps.map((step, i) => (
 					<li class="grid grid-cols-[auto_1fr] gap-6">
 						<div class="font-display text-4xl font-bold text-brand-primary/40 md:text-5xl">
@@ -518,7 +517,7 @@ const faqItems = [
 	{/* TODO: replace all three case studies with real client outcomes before launch */}
 	<section class="bg-surface py-20 md:py-28">
 		<div class="mx-auto max-w-6xl px-6">
-			<div class="max-w-3xl">
+			<div class="reveal max-w-3xl">
 				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
 					Proof
 				</p>
@@ -530,9 +529,9 @@ const faqItems = [
 				</p>
 			</div>
 
-			<div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
+			<div class="reveal-stagger mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
 				{caseStudies.map((cs) => (
-					<article class="overflow-hidden rounded-2xl border border-ink/10 bg-surface-alt">
+					<article class="card overflow-hidden rounded-2xl">
 						<div class="flex aspect-[4/3] flex-col items-center justify-center gap-2 rounded-t-2xl bg-gradient-to-br from-brand-primary/10 via-brand-accent/5 to-surface-alt">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="h-12 w-12 text-brand-primary/40" aria-hidden="true">
 								<path d="M2 7h20" />
@@ -592,7 +591,7 @@ const faqItems = [
 	</section>
 
 	{/* 10. FINAL CTA */}
-	<section class="bg-ink py-24 md:py-32">
+	<section class="bg-[#16122d] py-24 md:py-32">
 		<div class="mx-auto max-w-4xl px-6 text-center">
 			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
 				Apply Now

@@ -1,44 +1,52 @@
-<section class="bg-surface py-16 md:py-24">
-	<div class="mx-auto flex max-w-3xl flex-col px-6 text-left">
-		<p class="mb-6 text-sm font-medium uppercase tracking-wider text-brand-primary">
-			Growth System for Wellness Businesses
-		</p>
+<section class="relative flex min-h-[100vh] flex-col items-center justify-center overflow-hidden px-6 pb-20 pt-36 text-center md:px-12 md:pt-40">
+	<div class="orb orb-1" aria-hidden="true"></div>
+	<div class="orb orb-2" aria-hidden="true"></div>
+	<div class="orb orb-3" aria-hidden="true"></div>
+	<div class="grid-overlay" aria-hidden="true"></div>
 
-		<h1 class="mb-6 text-3xl font-semibold leading-[1.05] tracking-tight md:text-4xl lg:text-5xl xl:text-6xl">
-			More Appointments. Higher Revenue. For Aesthetic and Wellness Businesses.
-		</h1>
+	<div class="animate-fade-up relative z-10 inline-flex items-center gap-2 rounded-full border border-brand-primary/30 bg-brand-primary/[0.12] py-1.5 pl-2.5 pr-4 text-[13px] font-medium text-brand-accent" style="animation-delay: 0.2s;">
+		<span class="animate-pulse-dot h-1.5 w-1.5 rounded-full bg-brand-accent"></span>
+		Trusted by 500+ aesthetic &amp; wellness locations
+	</div>
 
-		<p class="mb-10 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
-			Trusted by 500+ aesthetic and wellness locations across America. Whether you're scaling an existing business or launching a new one — we know what works.
-		</p>
+	<h1 class="hero-title relative z-10 mt-8 font-display font-extrabold leading-[1.05] tracking-[-0.04em] text-[clamp(48px,7vw,88px)]">
+		<span class="block text-white">More Bookings.</span>
+		<span class="block text-white">More Revenue.</span>
+		<span class="block bg-gradient-to-br from-brand-accent via-brand-primary to-fuchsia-400 bg-clip-text text-transparent">
+			Real Results.
+		</span>
+	</h1>
 
-		<div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-			<a
-				href="/contact"
-				class="inline-flex items-center justify-center rounded-full bg-brand-primary px-6 py-3 font-medium text-white transition-colors hover:bg-brand-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2"
-			>
-				Book a Demo
-			</a>
+	<p class="animate-fade-up relative z-10 mt-7 max-w-xl text-lg font-normal leading-relaxed text-white/60" style="animation-delay: 0.4s;">
+		The Growth Now System™ helps aesthetic and wellness businesses fill their calendars, grow their revenue, and remove the guesswork — without the hype.
+	</p>
 
-			<a
-				href="/growth-advisory"
-				class="inline-flex items-center justify-center rounded-full border border-ink px-6 py-3 font-medium text-ink transition-colors hover:bg-ink/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2"
-			>
-				Explore Advisor Program
-			</a>
-		</div>
-
-		<div class="mt-12">
-			<p class="mb-4 text-xs font-medium uppercase tracking-wider text-ink-muted">
-				Trusted by leading wellness brands
-			</p>
-			<div class="flex flex-wrap items-center gap-8">
-				<div class="h-8 w-24 rounded bg-ink/10"></div>
-				<div class="h-8 w-24 rounded bg-ink/10"></div>
-				<div class="h-8 w-24 rounded bg-ink/10"></div>
-				<div class="h-8 w-24 rounded bg-ink/10"></div>
-				<div class="h-8 w-24 rounded bg-ink/10"></div>
-			</div>
-		</div>
+	<div class="animate-fade-up relative z-10 mt-12 flex items-center gap-4" style="animation-delay: 0.5s;">
+		<a
+			href="/contact"
+			class="rounded-full bg-brand-primary px-8 py-3.5 font-display text-[15px] font-semibold text-white shadow-[0_0_32px_rgba(110,69,233,0.35)] transition-all hover:-translate-y-0.5 hover:bg-brand-secondary hover:shadow-[0_8px_40px_rgba(110,69,233,0.5)]"
+		>
+			Book a Demo
+		</a>
+		<a
+			href="#services"
+			class="group flex items-center gap-2 font-display text-[15px] font-medium text-white/70 transition hover:text-white"
+		>
+			See how it works
+			<span class="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-sm transition group-hover:border-white/40">→</span>
+		</a>
 	</div>
 </section>
+
+<script is:inline>
+	window.addEventListener('DOMContentLoaded', () => {
+		if (!window.gsap) return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		gsap.from('.hero-title', {
+			y: 60,
+			opacity: 0,
+			duration: 1,
+			ease: 'power3.out',
+		});
+	});
+</script>

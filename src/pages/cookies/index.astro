@@ -1,0 +1,70 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// TODO: replace all placeholder paragraphs with reviewed legal copy from counsel before launch.
+// This page is scaffolded structure only — body paragraphs are NOT real legal terms.
+
+const sections = [
+	{
+		heading: 'What Are Cookies',
+		body: 'Placeholder: a brief, plain-English explanation of cookies and similar technologies (local storage, pixels, SDKs) and how they are stored on the visitor’s device. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Categories of Cookies We Use',
+		body: 'Placeholder: list of categories with examples — strictly necessary (site operation), functional (preferences), analytics (e.g., Google Analytics, Meta Pixel), marketing/advertising (retargeting). For each, the purpose, vendor, and approximate retention. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Third-Party Cookies',
+		body: 'Placeholder: identification of third-party cookies set by analytics, advertising, calendar embed, and CRM vendors, with links to their respective privacy notices. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Your Choices',
+		body: 'Placeholder: how visitors can manage cookies — browser settings, our cookie banner controls (if implemented), the Network Advertising Initiative or Digital Advertising Alliance opt-outs, and the Global Privacy Control signal. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Do Not Track',
+		body: 'Placeholder: standard statement on how the site responds to DNT signals. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Changes to This Policy',
+		body: 'Placeholder: standard reservation of the right to update this policy, with notice of how material changes are communicated. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Contact Us',
+		body: 'Placeholder: questions about cookies should be sent to info@growthnowmedia.com. Replace with reviewed legal copy.',
+	},
+];
+---
+
+<Layout>
+
+	{/* HERO */}
+	<section class="bg-surface py-16 md:py-20">
+		<div class="mx-auto max-w-3xl px-6">
+			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+				Legal
+			</p>
+			<h1 class="mt-6 font-display text-4xl font-semibold leading-tight tracking-tight text-ink md:text-5xl">
+				Cookies Policy
+			</h1>
+			<p class="mt-4 text-sm text-ink-muted">
+				Last updated: April 29, 2026
+			</p>
+		</div>
+	</section>
+
+	{/* BODY */}
+	<section class="bg-surface pb-20 md:pb-28">
+		<div class="mx-auto max-w-3xl px-6">
+			<div class="space-y-10">
+				{sections.map((s) => (
+					<div>
+						<h2 class="font-display text-2xl font-semibold text-ink">{s.heading}</h2>
+						<p class="mt-4 text-base leading-relaxed text-ink">{s.body}</p>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+</Layout>

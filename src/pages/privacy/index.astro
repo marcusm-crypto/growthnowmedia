@@ -1,0 +1,86 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// TODO: replace all placeholder paragraphs with reviewed legal copy from counsel before launch.
+// This page is scaffolded structure only — body paragraphs are NOT real legal terms.
+
+const sections = [
+	{
+		heading: 'Introduction',
+		body: 'Placeholder: introductory paragraph identifying Growth Now Media, LLC as the entity operating this site, the scope of this policy (this website and the services offered through it), and a one-sentence summary of how the policy works. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Information We Collect',
+		body: 'Placeholder: this section will describe the categories of information collected (contact details submitted via forms, calendar bookings, usage data via analytics, IP addresses, device information) and the source of each. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'How We Use Your Information',
+		body: 'Placeholder: this section will describe the purposes for which collected information is used (responding to inquiries, scheduling demos, providing services, marketing communications, security, legal compliance). Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'How We Share Your Information',
+		body: 'Placeholder: this section will describe categories of recipients (service providers, analytics vendors, legal authorities under applicable law), and explicitly state that we do not sell personal information. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Cookies and Tracking Technologies',
+		body: 'Placeholder: this section will summarize the cookies and similar technologies in use and link to the Cookies page for detail. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Your Rights and Choices',
+		body: 'Placeholder: this section will describe rights available under applicable law (including CCPA/CPRA for California residents and GDPR for EEA/UK residents where applicable) — access, deletion, correction, opt-out — and how to exercise them. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Data Security',
+		body: 'Placeholder: this section will describe the administrative, technical, and physical safeguards used to protect personal information, with the standard caveat that no system is perfectly secure. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Children’s Privacy',
+		body: 'Placeholder: standard statement that the site is not directed to children under 13 (or the applicable age in your jurisdiction) and that we do not knowingly collect their data. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'International Users',
+		body: 'Placeholder: notice for users outside the United States about cross-border data transfers and the legal basis for processing. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Changes to This Policy',
+		body: 'Placeholder: standard reservation of the right to update this policy, with notice of how material changes will be communicated (updated date at the top of this page; email if applicable). Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Contact Us',
+		body: 'Placeholder: questions about this policy or your data should be sent to info@growthnowmedia.com. Replace with reviewed legal copy and any required mailing address.',
+	},
+];
+---
+
+<Layout>
+
+	{/* HERO */}
+	<section class="bg-surface py-16 md:py-20">
+		<div class="mx-auto max-w-3xl px-6">
+			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+				Legal
+			</p>
+			<h1 class="mt-6 font-display text-4xl font-semibold leading-tight tracking-tight text-ink md:text-5xl">
+				Privacy Policy
+			</h1>
+			<p class="mt-4 text-sm text-ink-muted">
+				Last updated: April 29, 2026
+			</p>
+		</div>
+	</section>
+
+	{/* BODY */}
+	<section class="bg-surface pb-20 md:pb-28">
+		<div class="mx-auto max-w-3xl px-6">
+			<div class="space-y-10">
+				{sections.map((s) => (
+					<div>
+						<h2 class="font-display text-2xl font-semibold text-ink">{s.heading}</h2>
+						<p class="mt-4 text-base leading-relaxed text-ink">{s.body}</p>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+</Layout>

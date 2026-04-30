@@ -1,0 +1,94 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// TODO: replace all placeholder paragraphs with reviewed legal copy from counsel before launch.
+// This page is scaffolded structure only — body paragraphs are NOT real legal terms.
+
+const sections = [
+	{
+		heading: 'Acceptance of Terms',
+		body: 'Placeholder: by accessing or using the site or services, the visitor agrees to these terms and to the Privacy Policy. If they do not agree, they should not use the site. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Description of Services',
+		body: 'Placeholder: brief description of what Growth Now Media, LLC provides — consulting, advisory, and managed marketing services for aesthetic and wellness businesses — and clarification that specific deliverables are governed by separate engagement agreements. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Eligibility',
+		body: 'Placeholder: users must be at least 18 years old and legally able to enter into binding agreements in their jurisdiction. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Acceptable Use',
+		body: 'Placeholder: prohibited uses (illegal activity, scraping, reverse engineering, interfering with operation, infringing rights), with the right to suspend or terminate access for violations. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Intellectual Property',
+		body: 'Placeholder: ownership of all content, trademarks, and the Growth Now System™ remains with Growth Now Media, LLC; visitors receive a limited, revocable, non-transferable license to access the site for personal, non-commercial purposes. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Bookings and Demos',
+		body: 'Placeholder: scheduling a demo through the site does not create an engagement; engagements are formed only by a separately executed agreement. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Disclaimers',
+		body: 'Placeholder: standard "as is" / "as available" disclaimer; results vary by client; no representation or warranty as to specific outcomes from any service. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Limitation of Liability',
+		body: 'Placeholder: limitation of liability for indirect, incidental, special, consequential, and punitive damages, with a cap on direct damages, subject to applicable law. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Indemnification',
+		body: 'Placeholder: standard user indemnification of Growth Now Media, LLC for claims arising from misuse of the site, violation of these terms, or infringement of third-party rights. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Termination',
+		body: 'Placeholder: right to suspend or terminate access at any time for any reason. Sections that should survive termination (IP, disclaimers, limitations of liability, indemnification, governing law) survive. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Governing Law and Disputes',
+		body: 'Placeholder: governing law (state to be confirmed), forum/venue, and any arbitration or class-action waiver provisions. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Changes to These Terms',
+		body: 'Placeholder: right to update these terms; continued use after notice constitutes acceptance. Replace with reviewed legal copy.',
+	},
+	{
+		heading: 'Contact Us',
+		body: 'Placeholder: questions about these terms should be sent to info@growthnowmedia.com. Replace with reviewed legal copy and any required mailing address.',
+	},
+];
+---
+
+<Layout>
+
+	{/* HERO */}
+	<section class="bg-surface py-16 md:py-20">
+		<div class="mx-auto max-w-3xl px-6">
+			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+				Legal
+			</p>
+			<h1 class="mt-6 font-display text-4xl font-semibold leading-tight tracking-tight text-ink md:text-5xl">
+				Terms of Service
+			</h1>
+			<p class="mt-4 text-sm text-ink-muted">
+				Last updated: April 29, 2026
+			</p>
+		</div>
+	</section>
+
+	{/* BODY */}
+	<section class="bg-surface pb-20 md:pb-28">
+		<div class="mx-auto max-w-3xl px-6">
+			<div class="space-y-10">
+				{sections.map((s) => (
+					<div>
+						<h2 class="font-display text-2xl font-semibold text-ink">{s.heading}</h2>
+						<p class="mt-4 text-base leading-relaxed text-ink">{s.body}</p>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+</Layout>

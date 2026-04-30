@@ -1,0 +1,275 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { operators } from '../../data/operators.js';
+
+// TODO: confirm exact numbers with Marcus
+const stats = [
+	{ value: '8-Figure', label: 'Combined Founder Exits' },
+	{ value: '500+', label: 'Locations Launched & Scaled' },
+	{ value: '$50M+', label: 'Ad Spend Managed' },
+	{ value: '40+ Years', label: 'Combined Operator Experience' },
+];
+
+const principles = [
+	{
+		title: 'Operators, not marketers',
+		body: "Every senior person on this team has owned, scaled, or exited an aesthetic or wellness business. We don't guess. We tell you what worked when the money was ours.",
+	},
+	{
+		title: 'Bookings, not leads',
+		body: "We don't report impressions, clicks, or 'qualified leads.' We report shown appointments, show-up rates, revenue, and CAC. The deliverable is paid customers.",
+	},
+	{
+		title: 'Real attribution. No vanity metrics.',
+		body: "You'll see exactly which dollar produced which booking. We connect ad spend to bookings to revenue end-to-end. If we can't track it, we don't take credit for it.",
+	},
+	{
+		title: 'Selective, not scalable',
+		body: "We accept a limited number of clients per quarter. Hands-on advisory doesn't scale infinitely — and it shouldn't. We win when our clients win. That requires real attention.",
+	},
+];
+
+// TODO: replace placeholder boxes with real client logos before launch
+const logoPlaceholders = Array.from({ length: 8 });
+---
+
+<Layout>
+
+	{/* 1. HERO */}
+	<section class="bg-surface py-24 md:py-32">
+		<div class="mx-auto max-w-3xl px-6">
+			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+				About Growth Now Media
+			</p>
+			<h1 class="mt-6 font-display text-4xl font-semibold leading-[1.05] tracking-tight md:text-6xl xl:text-7xl">
+				Built by operators. For operators.
+			</h1>
+			<p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
+				Growth Now Media is a growth system for aesthetic and wellness businesses — built by people who've actually owned, scaled, and exited them. Not agency theory. Not training videos. The actual operating system that's running across 500+ wellness locations across America.
+			</p>
+			<div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+				<a
+					href="/contact"
+					class="inline-flex items-center justify-center rounded-full bg-brand-primary px-8 py-4 font-medium text-white transition-colors hover:bg-brand-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2"
+				>
+					Book a Demo
+				</a>
+				<a
+					href="#operators"
+					class="inline-flex items-center justify-center rounded-full border border-ink/30 px-8 py-4 font-medium text-ink transition-colors hover:bg-ink/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2"
+				>
+					Meet the team ↓
+				</a>
+			</div>
+		</div>
+	</section>
+
+	{/* 2. MEET THE OPERATORS */}
+	{/* TODO: replace with real founder bios + headshots before launch */}
+	<section id="operators" class="bg-surface-alt py-20 md:py-28">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="reveal max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					Meet the Operators
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					The team that's been in your shoes.
+				</h2>
+				<p class="mt-4 text-lg text-ink-muted">
+					Founders, operators, and specialists who've personally built, scaled, and exited aesthetic and wellness businesses. Not account managers. Not junior strategists.
+				</p>
+			</div>
+
+			<div class="reveal-stagger mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
+				{operators.map((op) => {
+					const detailHref = op.isFounder && op.photo && op.fullBio ? `/about/${op.slug}` : null;
+					return (
+						<article class="card flex h-full flex-col break-inside-avoid overflow-hidden rounded-2xl">
+							<div class="aspect-square">
+								{op.photo ? (
+									detailHref ? (
+										<a href={detailHref} class="block h-full w-full overflow-hidden" aria-label={`Read more about ${op.name}`}>
+											<img
+												src={op.photo}
+												alt={`${op.name}, ${op.role}`}
+												loading="lazy"
+												class="h-full w-full object-cover object-top transition-transform duration-300 hover:scale-105"
+											/>
+										</a>
+									) : (
+										<img
+											src={op.photo}
+											alt={`${op.name}, ${op.role}`}
+											loading="lazy"
+											class="h-full w-full object-cover object-top"
+										/>
+									)
+								) : (
+									<div class="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-brand-primary/10 via-brand-accent/5 to-surface-alt">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-12 w-12 text-brand-primary/40" aria-hidden="true">
+											<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+											<circle cx="12" cy="7" r="4" />
+										</svg>
+										<p class="text-xs uppercase tracking-wider text-ink-muted/60">Photo coming soon</p>
+									</div>
+								)}
+							</div>
+							<div class="flex flex-1 flex-col p-6">
+								<h3 class="font-display text-lg font-semibold text-ink">
+									{detailHref ? (
+										<a href={detailHref} class="transition-colors hover:text-brand-primary">{op.name}</a>
+									) : (
+										op.name
+									)}
+								</h3>
+								<p class="mt-1 text-sm font-medium text-brand-primary">{op.role}</p>
+								<ul class="mt-4 space-y-2 text-sm text-ink-muted">
+									{op.bullets.map((b) => (
+										<li class="flex items-start gap-2">
+											<span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-brand-primary" aria-hidden="true"></span>
+											<span class="leading-snug">{b}</span>
+										</li>
+									))}
+								</ul>
+							</div>
+						</article>
+					);
+				})}
+			</div>
+		</div>
+	</section>
+
+	{/* 3. STATS BAR */}
+	<section class="bg-[#16122d] py-16 md:py-20">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="reveal max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-white/60">
+					By the numbers
+				</p>
+				<h3 class="mt-4 font-display text-2xl font-semibold leading-tight text-white md:text-3xl">
+					What we've built. What we've scaled. What we've sold.
+				</h3>
+			</div>
+
+			<div class="reveal-stagger mt-12 grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
+				{stats.map((stat) => (
+					<div>
+						<div class="whitespace-nowrap font-display text-4xl font-bold text-brand-primary md:text-5xl lg:text-6xl">
+							{stat.value}
+						</div>
+						<div class="mt-2 text-sm font-medium leading-snug text-white/80 md:text-base">
+							{stat.label}
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* 4. THE STORY */}
+	{/* TODO: replace placeholder narrative with real origin story from Marcus */}
+	<section class="bg-surface py-20 md:py-28">
+		<div class="mx-auto max-w-3xl px-6">
+			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+				Our Story
+			</p>
+			<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+				Why Growth Now Media exists.
+			</h2>
+
+			<div class="mt-10 space-y-6 text-lg leading-relaxed text-ink">
+				<p>
+					Growth Now Media didn't start as an agency. It started as the operating system the founders built inside their own aesthetic and wellness businesses — the system they wished existed when they were trying to scale their first clinic past $80K a month.
+				</p>
+				<p>
+					After exiting their own businesses, they kept getting the same call: <em>How did you do it? Can you help me do it?</em> The answer wasn't a playbook or a course. It was the full operating layer — paid acquisition, lead conversion, retention, reactivation, reporting — installed and run by people who'd actually built it.
+				</p>
+				<p>
+					Today that system runs across 500+ aesthetic and wellness locations. Some are launching from scratch through the Growth Now Advisor Program™. Others are existing operators scaling from $80K/month to $250K+/month with the full Growth Now System™ installed and managed for them. Either way, the people running it are the same people who built it.
+				</p>
+				<p class="font-display text-xl font-semibold text-ink">
+					Operators teaching operators. The way it should be.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	{/* 5. HOW WE WORK */}
+	<section class="bg-surface-alt py-20 md:py-28">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="reveal max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					How We Work
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					Four principles that govern every engagement.
+				</h2>
+			</div>
+
+			<div class="reveal-stagger mt-16 grid grid-cols-1 gap-6 md:grid-cols-2">
+				{principles.map((p, i) => (
+					<article class="card flex h-full flex-col break-inside-avoid rounded-2xl p-8">
+						<p class="font-display text-5xl font-bold text-brand-primary/40">
+							{String(i + 1).padStart(2, '0')}
+						</p>
+						<div class="mt-4 h-px w-12 bg-ink/10"></div>
+						<h3 class="mt-4 font-display text-xl font-semibold leading-snug text-ink">
+							{p.title}
+						</h3>
+						<p class="mt-3 text-base leading-relaxed text-ink-muted">{p.body}</p>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* 6. LOGO WALL */}
+	{/* TODO: replace placeholder boxes with real client logos before launch */}
+	<section class="bg-surface py-20 md:py-28">
+		<div class="mx-auto max-w-6xl px-6">
+			<div class="reveal max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+					Brands We've Built or Scaled
+				</p>
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+					A small sample of the 500+ aesthetic and wellness locations running our system.
+				</h2>
+			</div>
+
+			<div class="reveal-stagger mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
+				{logoPlaceholders.map(() => (
+					<div class="flex aspect-[3/2] items-center justify-center rounded-xl border border-ink/10 bg-surface-alt">
+						<span class="text-xs uppercase tracking-wider text-ink-muted/60">Logo</span>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* 7. FINAL CTA */}
+	<section class="bg-[#16122d] py-24 md:py-32">
+		<div class="mx-auto max-w-4xl px-6 text-center">
+			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
+				Ready to Talk?
+			</p>
+			<h2 class="mt-6 font-display text-4xl font-bold leading-tight text-white md:text-6xl">
+				Operators talk to operators.
+			</h2>
+			<p class="mx-auto mt-6 max-w-2xl text-lg text-white/70 md:text-xl">
+				Book a 30-minute demo. We'll map your current setup, tell you what we'd install, and answer anything you want about how we built what we built. No pitch — just a working session.
+			</p>
+			<div class="mt-10 flex justify-center">
+				<a
+					href="/contact"
+					class="inline-flex items-center justify-center rounded-full bg-brand-primary px-8 py-4 font-medium text-white transition-colors hover:bg-brand-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+				>
+					Book a Demo
+				</a>
+			</div>
+			<p class="mt-6 text-sm text-white/60">
+				Limited seats per quarter. Reviewed within 48 hours.
+			</p>
+		</div>
+	</section>
+
+</Layout>
