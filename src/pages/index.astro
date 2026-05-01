@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import LogoWall from '../components/LogoWall.astro';
 import TwoPaths from '../components/TwoPaths.astro';
 import Testimonials from '../components/Testimonials.astro';
 import HowWeWork from '../components/HowWeWork.astro';
@@ -12,9 +13,6 @@ const stats = [
 	{ target: 90, prefix: '', superscript: 'd', label: 'To see real results' },
 	{ target: 1, prefix: '#', superscript: '', label: 'Growth system for aesthetic & wellness' },
 ];
-
-// TODO: replace placeholder client names with real client logos
-const logos = ['MedSpa Pro', 'Glow Aesthetics', 'Pure Wellness', 'Lumina Clinic', 'SkinFirst'];
 
 const services = [
 	{
@@ -30,13 +28,13 @@ const services = [
 	{
 		icon: '⚡',
 		title: 'Done-For-You System',
-		body: 'We build and run the Growth Now System™ for you. You focus on clients. We handle the growth.',
+		body: 'We build and run the Growth Now Method™ for you. You focus on clients. We handle the growth.',
 	},
 ];
 ---
 
 <Layout>
-	<div class="bg-[#0a0812]">
+	<div class="bg-[#010130]">
 
 		<Hero />
 
@@ -47,29 +45,17 @@ const services = [
 		>
 			{stats.map((s, i) => (
 				<div class={`relative flex-1 max-w-[220px] px-4 text-center md:px-10 ${i < stats.length - 1 ? 'after:absolute after:right-0 after:top-1/2 after:h-10 after:w-px after:-translate-y-1/2 after:bg-brand-primary/20' : ''}`}>
-					<div class="font-display text-[40px] font-extrabold leading-none tracking-[-1px] text-white">
-						<span data-count-target={s.target} data-count-prefix={s.prefix}>{s.prefix}0</span><span class="text-brand-accent">{s.superscript}</span>
+					<div class="bg-gradient-to-r from-brand-magenta to-brand-pink bg-clip-text font-display text-[40px] font-extrabold leading-none tracking-[-1px] text-transparent">
+						<span data-count-target={s.target} data-count-prefix={s.prefix}>{s.prefix}0</span><span>{s.superscript}</span>
 					</div>
 					<div class="mt-1.5 text-[13px] font-normal text-white/60">{s.label}</div>
 				</div>
 			))}
 		</section>
 
-		<TwoPaths />
+		<LogoWall />
 
-		{/* LOGOS */}
-		<section class="reveal px-6 py-16 text-center md:px-12">
-			<p class="mb-8 text-xs font-medium uppercase tracking-[2px] text-white/60">
-				Trusted by businesses across the US
-			</p>
-			<div class="flex flex-wrap items-center justify-center gap-12">
-				{logos.map((name) => (
-					<div class="rounded-full border border-white/[0.08] bg-white/[0.04] px-6 py-2.5 font-display text-sm font-semibold tracking-[0.5px] text-white/30 transition-all hover:border-brand-primary/30 hover:text-white/60">
-						{name}
-					</div>
-				))}
-			</div>
-		</section>
+		<TwoPaths />
 
 		{/* SERVICES */}
 		<section id="services" class="px-6 py-24 md:px-12">
@@ -82,7 +68,7 @@ const services = [
 			<div class="grid grid-cols-1 gap-6 md:grid-cols-3">
 				{services.map((svc) => (
 					<article class="reveal group relative overflow-hidden rounded-[20px] border border-brand-primary/[0.12] bg-white/[0.03] p-9 transition-all duration-300 hover:-translate-y-1 hover:border-brand-primary/35 hover:bg-brand-primary/[0.06]">
-						<div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(110,69,233,0.08)_0%,transparent_60%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></div>
+						<div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(138, 26, 255,0.08)_0%,transparent_60%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></div>
 						<div class="relative">
 							<div class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-brand-primary/25 bg-brand-primary/15 text-[22px]" aria-hidden="true">
 								{svc.icon}
@@ -95,7 +81,17 @@ const services = [
 			</div>
 		</section>
 
-		<Testimonials />
+		<Testimonials page="homepage" />
+
+		<div class="reveal flex justify-center px-6 pb-12 md:px-12">
+			<a
+				href="/case-studies"
+				class="group inline-flex items-center gap-2 font-display text-sm font-semibold text-brand-accent transition-colors hover:text-white"
+			>
+				See full case studies
+				<span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+			</a>
+		</div>
 
 		<HowWeWork />
 

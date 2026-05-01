@@ -9,22 +9,40 @@
 		Trusted by 500+ aesthetic &amp; wellness locations
 	</div>
 
-	<h1 class="reveal relative z-10 mt-8 font-display font-extrabold leading-[1.05] tracking-[-0.04em] text-[clamp(48px,7vw,88px)] [transition-delay:100ms]">
-		<span class="block text-white">More Bookings.</span>
-		<span class="block text-white">More Revenue.</span>
-		<span class="block bg-gradient-to-br from-brand-accent via-brand-primary to-fuchsia-400 bg-clip-text text-transparent">
-			Real Results.
+	<h1 class="reveal relative z-10 mt-8 whitespace-nowrap font-display font-extrabold leading-[1.05] tracking-[-0.04em] text-[clamp(35px,7.7vw,97px)] text-white [transition-delay:100ms]">
+		Get More
+		{/*
+		  Outer wrapper: inline-block with NO overflow:hidden so its baseline matches
+		  surrounding text (taken from the invisible "Bookings" sizer's text baseline).
+		  Inner mask: absolute over the wrapper, overflow:hidden, holds the scrolling
+		  word list. This split keeps the surrounding "Get More" baseline locked while
+		  still clipping the off-screen words.
+		*/}
+		<span class="relative inline-block align-baseline leading-none">
+			<span class="invisible" aria-hidden="true">Bookings</span>
+			<span class="absolute inset-0 overflow-hidden leading-none">
+				<span
+					data-rotating-words
+					class="absolute left-0 top-0 leading-none will-change-transform transition-transform duration-500 ease-out motion-reduce:transition-none"
+				>
+					<span class="block bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">Bookings</span>
+					<span class="block bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">Revenue</span>
+					<span class="block bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">Results</span>
+					<span class="block bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">Bookings</span>
+				</span>
+			</span>
+			<span class="sr-only" aria-live="polite" data-rotating-announce>Bookings</span>
 		</span>
 	</h1>
 
 	<p class="reveal relative z-10 mt-7 max-w-xl text-lg font-normal leading-relaxed text-white/60 [transition-delay:200ms]">
-		The Growth Now System™ helps aesthetic and wellness businesses fill their calendars, grow their revenue, and remove the guesswork — without the hype.
+		The Growth Now Method™ helps aesthetic and wellness businesses fill their calendars, grow their revenue, and remove the guesswork — without the hype.
 	</p>
 
 	<div class="reveal relative z-10 mt-12 flex items-center gap-4 [transition-delay:300ms]">
 		<a
 			href="/contact"
-			class="rounded-full bg-brand-primary px-8 py-3.5 font-display text-[15px] font-semibold text-white shadow-[0_0_32px_rgba(110,69,233,0.35)] transition-all hover:-translate-y-0.5 hover:bg-brand-secondary hover:shadow-[0_8px_40px_rgba(110,69,233,0.5)]"
+			class="rounded-full bg-brand-primary px-8 py-3.5 font-display text-[15px] font-semibold text-white shadow-[0_0_32px_rgba(138, 26, 255,0.35)] transition-all hover:-translate-y-0.5 hover:bg-brand-secondary hover:shadow-[0_8px_40px_rgba(138, 26, 255,0.5)]"
 		>
 			Book a Demo
 		</a>
@@ -37,3 +55,36 @@
 		</a>
 	</div>
 </section>
+
+<script>
+	const list = document.querySelector<HTMLElement>('[data-rotating-words]');
+	const announcer = document.querySelector<HTMLElement>('[data-rotating-announce]');
+
+	if (list) {
+		const words = ['Bookings', 'Revenue', 'Results'];
+		const TOTAL = words.length;
+		let index = 0;
+
+		setInterval(() => {
+			index += 1;
+			list.style.transform = `translateY(-${index}em)`;
+			if (announcer) {
+				announcer.textContent = words[index % TOTAL];
+			}
+
+			// Seamless loop: after the duplicate "Bookings" (position 3) finishes
+			// sliding into view, snap back to position 0 silently. Both positions
+			// show "Bookings" so the user sees no jump.
+			if (index === TOTAL) {
+				setTimeout(() => {
+					list.style.transition = 'none';
+					list.style.transform = 'translateY(0)';
+					// Force reflow so the transition: none takes effect before re-enabling.
+					void list.offsetHeight;
+					list.style.transition = '';
+					index = 0;
+				}, 500);
+			}
+		}, 2400);
+	}
+</script>

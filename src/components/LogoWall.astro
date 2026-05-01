@@ -1,0 +1,124 @@
+---
+import { logos } from '../data/logos';
+
+interface Props {
+	showTagline?: boolean;
+}
+const { showTagline = true } = Astro.props;
+
+// Each row contains the logo list TWICE so the loop tiles seamlessly.
+// translateX(-50%) at the end of the keyframe puts the second copy
+// at the position the first copy started, making the seam invisible.
+const tile = [...logos, ...logos];
+---
+
+<section
+	class="logo-wall reveal py-12 md:py-16"
+	aria-label="Trusted by 500+ aesthetic and wellness businesses"
+>
+	{showTagline && (
+		<p class="mb-8 text-center text-xs font-medium uppercase tracking-[3px] text-brand-primary/80">
+			Trusted by 500+ aesthetic &amp; wellness businesses
+		</p>
+	)}
+
+	<div class="marquee-mask space-y-6">
+		<div class="marquee-track marquee-left">
+			{tile.map((file) => (
+				<span class="marquee-item">
+					<img
+						src={`/logos/${file}`}
+						alt=""
+						loading="lazy"
+						decoding="async"
+						height="60"
+						class={file.endsWith('.svg') ? 'logo-svg' : 'logo-png'}
+					/>
+				</span>
+			))}
+		</div>
+
+		<div class="marquee-track marquee-right">
+			{tile.map((file) => (
+				<span class="marquee-item">
+					<img
+						src={`/logos/${file}`}
+						alt=""
+						loading="lazy"
+						decoding="async"
+						height="60"
+						class={file.endsWith('.svg') ? 'logo-svg' : 'logo-png'}
+					/>
+				</span>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.marquee-mask {
+		overflow: hidden;
+		mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+		-webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+		pointer-events: none;
+	}
+
+	.marquee-track {
+		display: flex;
+		align-items: center;
+		gap: 64px;
+		width: max-content;
+		opacity: 0.7;
+	}
+
+	@media (max-width: 768px) {
+		.marquee-track { gap: 48px; }
+	}
+
+	.marquee-left {
+		animation: marquee-scroll-left 75s linear infinite;
+	}
+
+	.marquee-right {
+		animation: marquee-scroll-right 75s linear infinite;
+	}
+
+	.marquee-item {
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+	}
+
+	.marquee-item img {
+		display: block;
+		height: 60px;
+		width: auto;
+		min-width: 80px; /* fallback footprint for broken images during placeholder phase */
+	}
+
+	@media (max-width: 768px) {
+		.marquee-item img { height: 48px; }
+	}
+
+	/* SVGs forced to pure white silhouette. PNGs assumed pre-processed. */
+	.logo-svg {
+		filter: brightness(0) invert(1);
+	}
+
+	@keyframes marquee-scroll-left {
+		from { transform: translateX(0); }
+		to { transform: translateX(-50%); }
+	}
+
+	@keyframes marquee-scroll-right {
+		from { transform: translateX(-50%); }
+		to { transform: translateX(0); }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.marquee-left,
+		.marquee-right {
+			animation-play-state: paused;
+		}
+	}
+</style>

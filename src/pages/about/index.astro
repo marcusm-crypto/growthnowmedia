@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { operators } from '../../data/operators.js';
+import LogoWall from '../../components/LogoWall.astro';
 
 // TODO: confirm exact numbers with Marcus
 const stats = [
@@ -29,8 +30,6 @@ const principles = [
 	},
 ];
 
-// TODO: replace placeholder boxes with real client logos before launch
-const logoPlaceholders = Array.from({ length: 8 });
 ---
 
 <Layout>
@@ -64,6 +63,36 @@ const logoPlaceholders = Array.from({ length: 8 });
 		</div>
 	</section>
 
+	{/* 1b. MEET THE TEAM — group photo hero */}
+	<section class="bg-[#010130] px-4 py-20 md:px-6 lg:py-28">
+		<div class="mx-auto max-w-6xl text-center">
+			<p
+				class="reveal inline-block bg-[image:var(--gradient-secondary)] bg-clip-text text-xs font-semibold uppercase tracking-[3px] text-transparent"
+			>
+				Meet the Team
+			</p>
+			<h2
+				class="reveal mt-4 font-display text-3xl font-bold leading-[1.1] tracking-tight text-white [transition-delay:150ms] md:text-5xl lg:text-6xl"
+			>
+				The Operators Behind the Growth
+			</h2>
+			<p
+				class="reveal mx-auto mt-6 max-w-2xl text-base leading-[1.7] text-white/65 [transition-delay:300ms] md:text-lg"
+			>
+				We're a team of marketers, designers, and growth strategists obsessed with one thing — helping aesthetic and wellness businesses dominate their markets.
+			</p>
+
+			<div class="reveal-scale mt-12 [transition-delay:450ms]">
+				<img
+					src="/team/group-photo.jpg"
+					alt="The GrowthNow Media team"
+					class="h-auto w-full rounded-2xl border border-white/10 shadow-2xl shadow-cyan-500/10"
+					loading="eager"
+				/>
+			</div>
+		</div>
+	</section>
+
 	{/* 2. MEET THE OPERATORS */}
 	{/* TODO: replace with real founder bios + headshots before launch */}
 	<section id="operators" class="bg-surface-alt py-20 md:py-28">
@@ -80,7 +109,7 @@ const logoPlaceholders = Array.from({ length: 8 });
 				</p>
 			</div>
 
-			<div class="reveal-stagger mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
+			<div class="reveal-stagger mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
 				{operators.map((op) => {
 					const detailHref = op.isFounder && op.photo && op.fullBio ? `/about/${op.slug}` : null;
 					return (
@@ -140,7 +169,7 @@ const logoPlaceholders = Array.from({ length: 8 });
 	</section>
 
 	{/* 3. STATS BAR */}
-	<section class="bg-[#16122d] py-16 md:py-20">
+	<section class="bg-[#04046b] py-16 md:py-20">
 		<div class="mx-auto max-w-6xl px-6">
 			<div class="reveal max-w-3xl">
 				<p class="text-sm font-semibold uppercase tracking-wider text-white/60">
@@ -154,7 +183,7 @@ const logoPlaceholders = Array.from({ length: 8 });
 			<div class="reveal-stagger mt-12 grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
 				{stats.map((stat) => (
 					<div>
-						<div class="whitespace-nowrap font-display text-4xl font-bold text-brand-primary md:text-5xl lg:text-6xl">
+						<div class="whitespace-nowrap bg-gradient-to-r from-brand-magenta to-brand-pink bg-clip-text font-display text-4xl font-bold text-transparent md:text-5xl lg:text-6xl">
 							{stat.value}
 						</div>
 						<div class="mt-2 text-sm font-medium leading-snug text-white/80 md:text-base">
@@ -185,7 +214,7 @@ const logoPlaceholders = Array.from({ length: 8 });
 					After exiting their own businesses, they kept getting the same call: <em>How did you do it? Can you help me do it?</em> The answer wasn't a playbook or a course. It was the full operating layer — paid acquisition, lead conversion, retention, reactivation, reporting — installed and run by people who'd actually built it.
 				</p>
 				<p>
-					Today that system runs across 500+ aesthetic and wellness locations. Some are launching from scratch through the Growth Now Advisor Program™. Others are existing operators scaling from $80K/month to $250K+/month with the full Growth Now System™ installed and managed for them. Either way, the people running it are the same people who built it.
+					Today that system runs across 500+ aesthetic and wellness locations. Some are launching from scratch through the Growth Now Advisor Program™. Others are existing operators scaling from $80K/month to $250K+/month with the full Growth Now Method™ installed and managed for them. Either way, the people running it are the same people who built it.
 				</p>
 				<p class="font-display text-xl font-semibold text-ink">
 					Operators teaching operators. The way it should be.
@@ -224,30 +253,25 @@ const logoPlaceholders = Array.from({ length: 8 });
 	</section>
 
 	{/* 6. LOGO WALL */}
-	{/* TODO: replace placeholder boxes with real client logos before launch */}
-	<section class="bg-surface py-20 md:py-28">
+	<section class="bg-[#010130] py-20 md:py-28">
 		<div class="mx-auto max-w-6xl px-6">
 			<div class="reveal max-w-3xl">
 				<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
 					Brands We've Built or Scaled
 				</p>
-				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-5xl">
+				<h2 class="mt-4 font-display text-3xl font-semibold leading-tight text-white md:text-5xl">
 					A small sample of the 500+ aesthetic and wellness locations running our system.
 				</h2>
 			</div>
 
-			<div class="reveal-stagger mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
-				{logoPlaceholders.map(() => (
-					<div class="flex aspect-[3/2] items-center justify-center rounded-xl border border-ink/10 bg-surface-alt">
-						<span class="text-xs uppercase tracking-wider text-ink-muted/60">Logo</span>
-					</div>
-				))}
+			<div class="mt-12">
+				<LogoWall showTagline={false} />
 			</div>
 		</div>
 	</section>
 
 	{/* 7. FINAL CTA */}
-	<section class="bg-[#16122d] py-24 md:py-32">
+	<section class="bg-[#04046b] py-24 md:py-32">
 		<div class="mx-auto max-w-4xl px-6 text-center">
 			<p class="text-sm font-semibold uppercase tracking-wider text-brand-primary">
 				Ready to Talk?

@@ -1,8 +1,8 @@
 // Founders get full detail pages at /about/[slug] with gallery + testimonial video.
 // Non-founders (isFounder: false) only appear on the team grid; no detail page.
 //
-// TODO: replace remaining placeholder names, bios, and photos before launch
 // TODO: populate testimonials + testimonialVideo fields once founder media arrives
+// TODO: drop Ryan's headshot at /team/ryan-cardona.jpg
 
 export const operators = [
 	{
@@ -42,18 +42,19 @@ export const operators = [
 		videoTestimonials: [],
 	},
 	{
-		name: 'Anna Rosales',
+		name: 'Michelle Steenkamp',
 		slug: null,
-		role: 'Technical Specialist',
+		role: 'Account Manager & Team Lead',
 		isFounder: false,
-		photo: '/team/anna-rosales.jpg',
+		photo: '/team/michelle-steenkamp.jpg',
 		bullets: [
-			'Systems and automation specialist',
-			'Designs lead capture, follow-up, and booking conversion processes',
-			'Specialty: performance and conversion optimization',
+			'Account management and team leadership',
+			'Owns full client journey end-to-end',
+			'Specialty: client relationships and team development',
 		],
 		fullBio: [
-			'A systems and automation specialist focused on optimizing performance and conversion. With a strong emphasis on efficiency and innovation, they design and refine processes that ensure every lead is captured, properly followed up, and converted into booked appointments and measurable revenue.',
+			'Michelle Steenkamp is an Account Manager and Team Lead at Growth Now Media, known for building strong client relationships that drive real results. She manages the full client journey — from initial engagement to delivering measurable value and growth.',
+			'As a team leader, Michelle focuses on developing her team through clear communication, support, and consistency, helping them build confidence, sharpen their skills, and achieve lasting success.',
 		],
 		testimonials: [],
 		videoTestimonials: [],
@@ -77,19 +78,35 @@ export const operators = [
 		videoTestimonials: [],
 	},
 	{
-		name: 'Michelle Steenkamp',
+		name: 'Anna Rosales',
 		slug: null,
-		role: 'Account Manager & Team Lead',
+		role: 'Technical Specialist',
 		isFounder: false,
-		photo: '/team/michelle-steenkamp.jpg',
+		photo: '/team/anna-rosales.jpg',
 		bullets: [
-			'Account management and team leadership',
-			'Owns full client journey end-to-end',
-			'Specialty: client relationships and team development',
+			'Systems and automation specialist',
+			'Designs lead capture, follow-up, and booking conversion processes',
+			'Specialty: performance and conversion optimization',
 		],
 		fullBio: [
-			'Michelle Steenkamp is an Account Manager and Team Lead at Growth Now Media, known for building strong client relationships that drive real results. She manages the full client journey — from initial engagement to delivering measurable value and growth.',
-			'As a team leader, Michelle focuses on developing her team through clear communication, support, and consistency, helping them build confidence, sharpen their skills, and achieve lasting success.',
+			'A systems and automation specialist focused on optimizing performance and conversion. With a strong emphasis on efficiency and innovation, they design and refine processes that ensure every lead is captured, properly followed up, and converted into booked appointments and measurable revenue.',
+		],
+		testimonials: [],
+		videoTestimonials: [],
+	},
+	{
+		name: 'Ryan Cardona',
+		slug: null,
+		role: 'Account Manager',
+		isFounder: false,
+		photo: '/team/ryan-cardona.jpg',
+		bullets: [
+			'Account Manager specializing in appointment setting',
+			'Drives qualified bookings with strong ROI',
+			'Leads and develops the setter team',
+		],
+		fullBio: [
+			'Ryan Cardona is an Account Manager specializing in appointment setting, consistently generating qualified bookings that drive strong ROI. He also leads and develops a team of setters, helping improve performance and consistency across the board.',
 		],
 		testimonials: [],
 		videoTestimonials: [],

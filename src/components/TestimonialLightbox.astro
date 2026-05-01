@@ -1,0 +1,377 @@
+---
+// Site-wide video lightbox for testimonial cards.
+//
+// Wiring contract:
+//   - Drop a single <TestimonialLightbox testimonials={items} /> on any page
+//     that has testimonial cards.
+//   - Mark each card with data-testimonial-trigger and data-testimonial-index="<i>".
+//   - The lightbox listens for clicks on those triggers (event-delegated on
+//     document) and dispatches a `testimonial:open` custom event with the
+//     index. The lightbox then opens at that video and supports keyboard +
+//     arrow navigation, scoped to the array passed on this page.
+//
+// Each page's lightbox is independent, so navigation cycles only through the
+// array given to it (e.g. Nate's page cycles only Nate's clients).
+
+interface TestimonialItem {
+	videoUrl: string;
+	thumbnailUrl?: string;
+}
+
+interface Props {
+	testimonials: TestimonialItem[];
+}
+
+const { testimonials } = Astro.props;
+const payload = testimonials.map((t) => ({
+	videoUrl: t.videoUrl,
+	thumbnailUrl: t.thumbnailUrl ?? '',
+}));
+---
+
+<div
+	id="testimonial-lightbox"
+	class="lightbox"
+	role="dialog"
+	aria-modal="true"
+	aria-hidden="true"
+	aria-label="Video testimonial"
+	data-testimonials={JSON.stringify(payload)}
+>
+	<button
+		type="button"
+		class="lightbox-btn lightbox-close"
+		aria-label="Close video"
+	>
+		<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+			<line x1="6" y1="6" x2="18" y2="18" />
+			<line x1="18" y1="6" x2="6" y2="18" />
+		</svg>
+	</button>
+
+	<button
+		type="button"
+		class="lightbox-btn lightbox-nav lightbox-prev"
+		aria-label="Previous video"
+	>
+		<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+			<polyline points="15 18 9 12 15 6" />
+		</svg>
+	</button>
+
+	<button
+		type="button"
+		class="lightbox-btn lightbox-nav lightbox-next"
+		aria-label="Next video"
+	>
+		<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+			<polyline points="9 18 15 12 9 6" />
+		</svg>
+	</button>
+
+	<video
+		class="lightbox-video"
+		controls
+		playsinline
+		preload="metadata"
+	></video>
+
+	<p class="lightbox-counter">
+		<span class="lightbox-counter-current">1</span> / <span class="lightbox-counter-total">0</span>
+	</p>
+</div>
+
+<style>
+	.lightbox {
+		position: fixed;
+		inset: 0;
+		z-index: 50;
+		display: none;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+		background-color: rgba(0, 0, 0, 0.95);
+		-webkit-backdrop-filter: blur(4px);
+		backdrop-filter: blur(4px);
+		opacity: 0;
+		transition: opacity 200ms ease-out;
+	}
+	.lightbox.is-open {
+		opacity: 1;
+	}
+
+	.lightbox-video {
+		display: block;
+		max-height: min(90vh, 90dvh);
+		max-width: min(64rem, 100%);
+		width: auto;
+		height: auto;
+		border-radius: 0.75rem;
+		background: #000;
+		box-shadow: 0 0 60px rgba(15, 255, 255, 0.18);
+		transform: scale(0.95);
+		transition: opacity 150ms ease-out, transform 200ms ease-out;
+	}
+	.lightbox.is-open .lightbox-video {
+		transform: scale(1);
+	}
+	.lightbox.is-fading .lightbox-video {
+		opacity: 0;
+	}
+
+	.lightbox-btn {
+		position: absolute;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		min-width: 44px;
+		min-height: 44px;
+		border-radius: 9999px;
+		background-color: rgba(255, 255, 255, 0.10);
+		color: #fff;
+		transition: background-color 200ms ease-out, transform 200ms ease-out;
+		cursor: pointer;
+		border: 0;
+		padding: 0;
+	}
+	.lightbox-btn:hover {
+		background-color: rgba(255, 255, 255, 0.20);
+	}
+	.lightbox-btn:focus-visible {
+		outline: 2px solid #0fffff;
+		outline-offset: 2px;
+	}
+
+	.lightbox-close {
+		top: max(1rem, env(safe-area-inset-top));
+		right: max(1rem, env(safe-area-inset-right));
+	}
+
+	.lightbox-nav {
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	.lightbox-prev {
+		left: max(0.5rem, env(safe-area-inset-left));
+	}
+	.lightbox-next {
+		right: max(0.5rem, env(safe-area-inset-right));
+	}
+
+	@media (min-width: 640px) {
+		.lightbox-close {
+			top: max(1.5rem, env(safe-area-inset-top));
+			right: max(1.5rem, env(safe-area-inset-right));
+			width: 48px;
+			height: 48px;
+		}
+		.lightbox-nav {
+			width: 56px;
+			height: 56px;
+		}
+		.lightbox-prev { left: max(1.5rem, env(safe-area-inset-left)); }
+		.lightbox-next { right: max(1.5rem, env(safe-area-inset-right)); }
+	}
+
+	.lightbox-counter {
+		position: absolute;
+		bottom: max(1.25rem, env(safe-area-inset-bottom));
+		left: 50%;
+		transform: translateX(-50%);
+		font-family: 'Questrial', system-ui, sans-serif;
+		font-size: 0.875rem;
+		color: rgba(255, 255, 255, 0.6);
+		letter-spacing: 0.05em;
+		pointer-events: none;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.lightbox,
+		.lightbox-video,
+		.lightbox-btn {
+			transition: none;
+		}
+		.lightbox-video {
+			transform: none !important;
+		}
+	}
+</style>
+
+<script>
+	const lightbox = document.getElementById('testimonial-lightbox') as HTMLElement | null;
+	if (lightbox) {
+		const video = lightbox.querySelector('video.lightbox-video') as HTMLVideoElement | null;
+		const closeBtn = lightbox.querySelector('.lightbox-close') as HTMLButtonElement | null;
+		const prevBtn = lightbox.querySelector('.lightbox-prev') as HTMLButtonElement | null;
+		const nextBtn = lightbox.querySelector('.lightbox-next') as HTMLButtonElement | null;
+		const counterCurrent = lightbox.querySelector('.lightbox-counter-current') as HTMLElement | null;
+		const counterTotal = lightbox.querySelector('.lightbox-counter-total') as HTMLElement | null;
+
+		type Item = { videoUrl: string; thumbnailUrl?: string };
+		let items: Item[] = [];
+		try {
+			items = JSON.parse(lightbox.dataset.testimonials || '[]');
+		} catch {
+			items = [];
+		}
+
+		if (counterTotal) counterTotal.textContent = String(items.length);
+
+		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		let currentIndex = 0;
+		let lastTrigger: HTMLElement | null = null;
+		let previousBodyOverflow = '';
+
+		const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+
+		function loadVideo(index: number) {
+			if (!video) return;
+			const item = items[index];
+			if (!item) return;
+			currentIndex = index;
+			video.pause();
+			video.src = item.videoUrl;
+			if (item.thumbnailUrl) {
+				video.poster = item.thumbnailUrl;
+			} else {
+				video.removeAttribute('poster');
+			}
+			video.load();
+			if (counterCurrent) counterCurrent.textContent = String(index + 1);
+			const playPromise = video.play();
+			if (playPromise && typeof playPromise.catch === 'function') {
+				playPromise.catch(() => {
+					/* autoplay may be blocked — controls let the user start it manually */
+				});
+			}
+		}
+
+		async function navigate(direction: 1 | -1) {
+			if (!items.length) return;
+			const next = (currentIndex + direction + items.length) % items.length;
+			if (reduceMotion) {
+				loadVideo(next);
+				return;
+			}
+			lightbox!.classList.add('is-fading');
+			await wait(150);
+			loadVideo(next);
+			// Wait a frame to ensure the new src has paint started before fading back.
+			requestAnimationFrame(() => {
+				lightbox!.classList.remove('is-fading');
+			});
+		}
+
+		function open(index: number, trigger?: HTMLElement | null) {
+			if (!items.length) return;
+			if (index < 0 || index >= items.length) index = 0;
+			lastTrigger = trigger ?? null;
+			previousBodyOverflow = document.body.style.overflow;
+			document.body.style.overflow = 'hidden';
+			lightbox!.style.display = 'flex';
+			lightbox!.setAttribute('aria-hidden', 'false');
+			// Force reflow so the opacity transition fires when is-open is added.
+			void lightbox!.offsetHeight;
+			lightbox!.classList.add('is-open');
+			loadVideo(index);
+			document.addEventListener('keydown', onKey);
+			closeBtn?.focus({ preventScroll: true });
+		}
+
+		function close() {
+			if (!lightbox!.classList.contains('is-open')) return;
+			lightbox!.classList.remove('is-open', 'is-fading');
+			lightbox!.setAttribute('aria-hidden', 'true');
+			if (video) {
+				video.pause();
+				video.removeAttribute('src');
+				video.load();
+			}
+			document.removeEventListener('keydown', onKey);
+			document.body.style.overflow = previousBodyOverflow;
+
+			const finalize = () => {
+				lightbox!.style.display = 'none';
+			};
+			if (reduceMotion) {
+				finalize();
+			} else {
+				const onEnd = (e: TransitionEvent) => {
+					if (e.propertyName !== 'opacity' || e.target !== lightbox) return;
+					lightbox!.removeEventListener('transitionend', onEnd);
+					finalize();
+				};
+				lightbox!.addEventListener('transitionend', onEnd);
+				// Safety net in case transitionend doesn't fire.
+				window.setTimeout(finalize, 350);
+			}
+
+			if (lastTrigger) {
+				try { lastTrigger.focus({ preventScroll: true }); } catch { /* ignore */ }
+				lastTrigger = null;
+			}
+		}
+
+		function onKey(e: KeyboardEvent) {
+			switch (e.key) {
+				case 'Escape':
+					e.preventDefault();
+					close();
+					break;
+				case 'ArrowLeft':
+					e.preventDefault();
+					navigate(-1);
+					break;
+				case 'ArrowRight':
+					e.preventDefault();
+					navigate(1);
+					break;
+				case ' ':
+				case 'Spacebar':
+					e.preventDefault();
+					if (!video) break;
+					if (video.paused) {
+						const p = video.play();
+						if (p && typeof p.catch === 'function') p.catch(() => { /* ignore */ });
+					} else {
+						video.pause();
+					}
+					break;
+			}
+		}
+
+		closeBtn?.addEventListener('click', close);
+		prevBtn?.addEventListener('click', () => navigate(-1));
+		nextBtn?.addEventListener('click', () => navigate(1));
+
+		// Click on the backdrop (but not inside the video or buttons) closes.
+		lightbox.addEventListener('click', (e) => {
+			if (e.target === lightbox) close();
+		});
+
+		// Trigger delegation: any element with [data-testimonial-trigger] dispatches the event.
+		document.addEventListener('click', (e) => {
+			const target = e.target as Element | null;
+			if (!target) return;
+			const trigger = target.closest('[data-testimonial-trigger]') as HTMLElement | null;
+			if (!trigger) return;
+			const idxStr = trigger.dataset.testimonialIndex;
+			if (idxStr == null) return;
+			const idx = Number(idxStr);
+			if (Number.isNaN(idx)) return;
+			e.preventDefault();
+			document.dispatchEvent(
+				new CustomEvent('testimonial:open', {
+					detail: { index: idx, trigger },
+				}),
+			);
+		});
+
+		document.addEventListener('testimonial:open', ((e: Event) => {
+			const ce = e as CustomEvent<{ index: number; trigger?: HTMLElement }>;
+			open(ce.detail.index, ce.detail.trigger ?? null);
+		}) as EventListener);
+	}
+</script>

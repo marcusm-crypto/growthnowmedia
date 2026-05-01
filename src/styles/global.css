@@ -1,15 +1,38 @@
 @import "tailwindcss";
 
+:root {
+	/* Primary brand colors — purple-to-cyan gradient pair */
+	--brand-purple: #8a1aff;
+	--brand-cyan: #0fffff;
+
+	/* Secondary brand colors — magenta-to-pink gradient pair */
+	--brand-magenta: #ff1aff;
+	--brand-pink: #ff86ff;
+
+	/* Brand neutrals */
+	--brand-navy: #010130;
+	--brand-white: #ffffff;
+
+	/* Reusable gradients */
+	--gradient-primary: linear-gradient(90deg, #8a1aff 0%, #0fffff 100%);
+	--gradient-secondary: linear-gradient(90deg, #ff1aff 0%, #ff86ff 100%);
+	--gradient-primary-diagonal: linear-gradient(135deg, #8a1aff 0%, #0fffff 100%);
+	--gradient-secondary-diagonal: linear-gradient(135deg, #ff1aff 0%, #ff86ff 100%);
+}
+
 @theme {
-	--color-brand-primary: #6e45e9;
-	--color-brand-secondary: #4524aa;
-	--color-brand-accent: #a78bfa;
+	--color-brand-primary: #8a1aff;
+	--color-brand-secondary: #6900cc;
+	--color-brand-accent: #0fffff;
+	--color-brand-magenta: #ff1aff;
+	--color-brand-pink: #ff86ff;
 	--color-ink: #ffffff;
 	--color-ink-muted: #9b98aa;
-	--color-surface: #0a0812;
-	--color-surface-alt: #100d1f;
-	--font-display: "Poppins", system-ui, sans-serif;
-	--font-body: "Inter", system-ui, sans-serif;
+	--color-surface: #010130;
+	--color-surface-alt: #02024d;
+	--font-display: "Manrope", system-ui, -apple-system, sans-serif;
+	--font-heading: "Manrope", system-ui, -apple-system, sans-serif;
+	--font-body: "Questrial", system-ui, -apple-system, sans-serif;
 }
 
 .orb {
@@ -23,7 +46,7 @@
 .orb-1 {
 	width: 600px;
 	height: 600px;
-	background: radial-gradient(circle, rgba(110, 69, 233, 0.25) 0%, transparent 70%);
+	background: radial-gradient(circle, rgba(138, 26, 255, 0.25) 0%, transparent 70%);
 	top: -100px;
 	left: 50%;
 	margin-left: -300px;
@@ -32,7 +55,7 @@
 .orb-2 {
 	width: 400px;
 	height: 400px;
-	background: radial-gradient(circle, rgba(167, 139, 250, 0.12) 0%, transparent 70%);
+	background: radial-gradient(circle, rgba(15, 255, 255, 0.12) 0%, transparent 70%);
 	bottom: 100px;
 	right: -100px;
 	animation-duration: 10s;
@@ -42,7 +65,7 @@
 .orb-3 {
 	width: 300px;
 	height: 300px;
-	background: radial-gradient(circle, rgba(69, 36, 170, 0.2) 0%, transparent 70%);
+	background: radial-gradient(circle, rgba(255, 26, 255, 0.18) 0%, transparent 70%);
 	bottom: 50px;
 	left: -80px;
 	animation-duration: 12s;
@@ -52,8 +75,8 @@
 	position: absolute;
 	inset: 0;
 	background-image:
-		linear-gradient(rgba(110, 69, 233, 0.05) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(110, 69, 233, 0.05) 1px, transparent 1px);
+		linear-gradient(rgba(138, 26, 255, 0.05) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(138, 26, 255, 0.05) 1px, transparent 1px);
 	background-size: 60px 60px;
 	-webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
 	mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
@@ -85,16 +108,16 @@
 .animate-pulse-dot { animation: pulseDot 2s infinite; }
 
 .card {
-	border: 1px solid rgba(110, 69, 233, 0.12);
+	border: 1px solid rgba(138, 26, 255, 0.12);
 	background: rgba(255, 255, 255, 0.03);
 	transition: all 0.3s;
 }
 
 .card:hover {
-	border-color: rgba(110, 69, 233, 0.4);
+	border-color: rgba(138, 26, 255, 0.4);
 	transform: translateY(-4px);
-	background: rgba(110, 69, 233, 0.06);
-	box-shadow: 0 8px 40px rgba(110, 69, 233, 0.2);
+	background: rgba(138, 26, 255, 0.06);
+	box-shadow: 0 8px 40px rgba(138, 26, 255, 0.25);
 }
 
 .reveal {
@@ -159,9 +182,9 @@
 .reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.5s; }
 .reveal-stagger.visible > *:nth-child(n+7) { transition-delay: 0.6s; }
 
-/* Gradient text */
+/* Gradient text — uses brand primary gradient (purple → cyan) */
 .gradient-text {
-	background: linear-gradient(135deg, #a78bfa 0%, #6e45e9 50%, #c084fc 100%);
+	background: var(--gradient-primary-diagonal);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
@@ -172,18 +195,18 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
-	background: rgba(110, 69, 233, 0.12);
-	border: 1px solid rgba(110, 69, 233, 0.3);
+	background: rgba(138, 26, 255, 0.12);
+	border: 1px solid rgba(138, 26, 255, 0.3);
 	border-radius: 100px;
 	padding: 6px 16px 6px 10px;
 	font-size: 13px;
 	font-weight: 500;
-	color: #a78bfa;
+	color: #0fffff;
 }
 
 /* Button glow */
 .btn-glow {
-	background: #6e45e9;
+	background: #8a1aff;
 	color: #fff;
 	border: none;
 	border-radius: 100px;
@@ -192,20 +215,20 @@
 	font-size: 15px;
 	cursor: pointer;
 	transition: all 0.25s ease;
-	box-shadow: 0 0 28px rgba(110, 69, 233, 0.35);
+	box-shadow: 0 0 28px rgba(138, 26, 255, 0.35);
 	text-decoration: none;
 	display: inline-block;
 }
 .btn-glow:hover {
-	background: #4524aa;
+	background: #6900cc;
 	transform: translateY(-2px);
-	box-shadow: 0 8px 48px rgba(110, 69, 233, 0.55);
+	box-shadow: 0 8px 48px rgba(138, 26, 255, 0.55);
 }
 
 /* Glowing divider */
 .divider-glow {
 	height: 1px;
-	background: linear-gradient(90deg, transparent, rgba(110, 69, 233, 0.5), transparent);
+	background: linear-gradient(90deg, transparent, rgba(138, 26, 255, 0.5), transparent);
 	border: none;
 }
 
@@ -266,7 +289,7 @@
 		-webkit-print-color-adjust: exact;
 	}
 	h1, h2, h3, h4, h5, h6 {
-		font-family: var(--font-display);
+		font-family: var(--font-heading);
 		color: var(--color-ink);
 	}
 }
