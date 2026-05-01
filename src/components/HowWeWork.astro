@@ -1,0 +1,62 @@
+---
+const steps = [
+	{
+		number: '01',
+		heading: 'Discovery Call',
+		description:
+			"A 30-minute call to understand your offer, your market, and where leads are leaking. We tell you straight whether we're a fit.",
+	},
+	{
+		number: '02',
+		heading: 'Custom Growth Plan',
+		description:
+			'We map your funnel, identify the highest-leverage moves, and build a 90-day plan tailored to your business — not a generic template.',
+	},
+	{
+		number: '03',
+		heading: 'System Activation',
+		description:
+			'We launch ads, install follow-up automations, and integrate with your booking flow. You start seeing appointments inside 2–4 weeks.',
+	},
+	{
+		number: '04',
+		heading: 'Scale & Optimize',
+		description:
+			"Weekly performance reviews, creative refreshes, and continuous optimization. We don't set and forget — we operate alongside you.",
+	},
+];
+---
+
+<section class="mx-auto max-w-6xl px-6 py-24 md:px-12">
+	<p class="reveal mb-4 text-xs font-semibold uppercase tracking-[3px] text-brand-accent">
+		How we work
+	</p>
+	<h2 class="reveal mb-4 max-w-2xl font-display text-[clamp(32px,4vw,52px)] font-extrabold leading-[1.1] tracking-[-1.5px] text-white">
+		From first call to booked appointments — in 4 steps.
+	</h2>
+	<p class="reveal mb-14 max-w-2xl text-base leading-[1.6] text-white/60">
+		No long onboarding, no theory, no fluff. Just the system that's worked across 500+ locations.
+	</p>
+
+	<ol class="reveal-stagger relative grid grid-cols-1 gap-12 md:grid-cols-4 md:gap-8">
+		{/* Connecting line — desktop only, sits between numbers and headings */}
+		<div
+			class="pointer-events-none absolute left-0 right-0 top-[72px] hidden h-px bg-gradient-to-r from-transparent via-brand-primary/30 to-transparent md:block"
+			aria-hidden="true"
+		></div>
+
+		{steps.map((step) => (
+			<li class="relative">
+				<div class="font-display text-6xl font-light leading-none text-brand-accent">
+					{step.number}
+				</div>
+				<h3 class="mt-10 font-display text-xl font-bold tracking-[-0.3px] text-white">
+					{step.heading}
+				</h3>
+				<p class="mt-3 text-sm leading-[1.7] text-white/60">
+					{step.description}
+				</p>
+			</li>
+		))}
+	</ol>
+</section>

@@ -4,12 +4,12 @@
 	<div class="orb orb-3" aria-hidden="true"></div>
 	<div class="grid-overlay" aria-hidden="true"></div>
 
-	<div class="animate-fade-up relative z-10 inline-flex items-center gap-2 rounded-full border border-brand-primary/30 bg-brand-primary/[0.12] py-1.5 pl-2.5 pr-4 text-[13px] font-medium text-brand-accent" style="animation-delay: 0.2s;">
+	<div class="reveal relative z-10 inline-flex items-center gap-2 rounded-full border border-brand-primary/30 bg-brand-primary/[0.12] py-1.5 pl-2.5 pr-4 text-[13px] font-medium text-brand-accent">
 		<span class="animate-pulse-dot h-1.5 w-1.5 rounded-full bg-brand-accent"></span>
 		Trusted by 500+ aesthetic &amp; wellness locations
 	</div>
 
-	<h1 class="hero-title relative z-10 mt-8 font-display font-extrabold leading-[1.05] tracking-[-0.04em] text-[clamp(48px,7vw,88px)]">
+	<h1 class="reveal relative z-10 mt-8 font-display font-extrabold leading-[1.05] tracking-[-0.04em] text-[clamp(48px,7vw,88px)] [transition-delay:100ms]">
 		<span class="block text-white">More Bookings.</span>
 		<span class="block text-white">More Revenue.</span>
 		<span class="block bg-gradient-to-br from-brand-accent via-brand-primary to-fuchsia-400 bg-clip-text text-transparent">
@@ -17,11 +17,11 @@
 		</span>
 	</h1>
 
-	<p class="animate-fade-up relative z-10 mt-7 max-w-xl text-lg font-normal leading-relaxed text-white/60" style="animation-delay: 0.4s;">
+	<p class="reveal relative z-10 mt-7 max-w-xl text-lg font-normal leading-relaxed text-white/60 [transition-delay:200ms]">
 		The Growth Now System™ helps aesthetic and wellness businesses fill their calendars, grow their revenue, and remove the guesswork — without the hype.
 	</p>
 
-	<div class="animate-fade-up relative z-10 mt-12 flex items-center gap-4" style="animation-delay: 0.5s;">
+	<div class="reveal relative z-10 mt-12 flex items-center gap-4 [transition-delay:300ms]">
 		<a
 			href="/contact"
 			class="rounded-full bg-brand-primary px-8 py-3.5 font-display text-[15px] font-semibold text-white shadow-[0_0_32px_rgba(110,69,233,0.35)] transition-all hover:-translate-y-0.5 hover:bg-brand-secondary hover:shadow-[0_8px_40px_rgba(110,69,233,0.5)]"
@@ -37,16 +37,3 @@
 		</a>
 	</div>
 </section>
-
-<script is:inline>
-	window.addEventListener('DOMContentLoaded', () => {
-		if (!window.gsap) return;
-		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-		gsap.from('.hero-title', {
-			y: 60,
-			opacity: 0,
-			duration: 1,
-			ease: 'power3.out',
-		});
-	});
-</script>

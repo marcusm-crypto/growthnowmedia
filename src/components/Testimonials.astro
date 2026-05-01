@@ -1,0 +1,110 @@
+---
+// TODO: replace with real client testimonials. Add videoUrl + thumbnailUrl to upgrade
+//   any card from text fallback to video. Drop portrait 9:16 MP4s into
+//   /public/testimonials/ and posters into /public/testimonials/ as well, then reference:
+//     videoUrl: '/testimonials/sarah-chen.mp4',
+//     thumbnailUrl: '/testimonials/sarah-chen.jpg',
+const testimonials = [
+	{
+		name: 'Dr. Sarah Chen',
+		title: 'Founder, Aesthetic Wellness Co.',
+		quote:
+			"We went from 40 booked appointments a month to over 220 in our first quarter. Their system isn't theory — it actually moves the needle.",
+		rating: 5,
+		videoUrl: null,
+		thumbnailUrl: null,
+	},
+	{
+		name: 'Mark Reynolds',
+		title: 'Owner, Pinnacle Med Spa Group',
+		quote:
+			"I've worked with three agencies. Growth Now is the only one that understood our business before they touched our ads. Bookings doubled in 60 days.",
+		rating: 5,
+		videoUrl: null,
+		thumbnailUrl: null,
+	},
+	{
+		name: 'Lisa Tanaka',
+		title: 'CEO, Radiance Wellness Centers',
+		quote:
+			'The deposits-with-bookings system alone changed our business. Show-up rates went from 60% to 89% in the first month.',
+		rating: 5,
+		videoUrl: null,
+		thumbnailUrl: null,
+	},
+];
+---
+
+<section class="mx-auto max-w-5xl px-6 py-24 md:px-12">
+	<p class="reveal mb-4 text-xs font-semibold uppercase tracking-[3px] text-brand-accent">
+		What clients say
+	</p>
+	<h2 class="reveal mb-4 max-w-2xl font-display text-[clamp(32px,4vw,52px)] font-extrabold leading-[1.1] tracking-[-1.5px] text-white">
+		Operators who've actually scaled.
+	</h2>
+	<p class="reveal mb-14 max-w-2xl text-base leading-[1.6] text-white/60">
+		Wellness owners using the Growth Now System™ to build, scale, and dominate their markets.
+	</p>
+
+	<div class="reveal-stagger grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+		{testimonials.map((t) => (
+			<article class="group mx-auto flex w-full max-w-xs flex-col overflow-hidden rounded-2xl border border-brand-primary/[0.12] bg-white/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-brand-primary/35 hover:bg-brand-primary/[0.06] hover:shadow-[0_8px_40px_rgba(110,69,233,0.2)]">
+				<div class="relative aspect-[9/16] overflow-hidden">
+					{t.videoUrl ? (
+						<>
+							<video
+								src={t.videoUrl}
+								poster={t.thumbnailUrl ?? undefined}
+								preload="metadata"
+								playsinline
+								class="testimonial-video h-full w-full object-cover"
+							></video>
+							<button
+								type="button"
+								aria-label={`Play video testimonial from ${t.name}`}
+								class="play-overlay absolute inset-0 flex cursor-pointer items-center justify-center bg-black/20 transition-colors hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0812]"
+							>
+								<span class="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform duration-300 group-hover:scale-110">
+									<svg viewBox="0 0 24 24" fill="currentColor" class="ml-1 h-7 w-7 text-brand-secondary" aria-hidden="true">
+										<polygon points="6 4 20 12 6 20 6 4" />
+									</svg>
+								</span>
+							</button>
+						</>
+					) : (
+						<div class="flex h-full w-full flex-col justify-center bg-gradient-to-br from-brand-primary/20 via-brand-secondary/15 to-transparent p-7">
+							<div class="flex gap-1 text-brand-primary">
+								{Array.from({ length: t.rating }).map(() => (
+									<svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+										<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+									</svg>
+								))}
+							</div>
+							<blockquote class="mt-6 text-base leading-[1.55] text-white/85">
+								"{t.quote}"
+							</blockquote>
+						</div>
+					)}
+				</div>
+
+				<div class="border-t border-white/10 p-5">
+					<p class="font-display font-semibold text-white">{t.name}</p>
+					<p class="mt-1 text-sm text-white/60">{t.title}</p>
+				</div>
+			</article>
+		))}
+	</div>
+</section>
+
+<script>
+	document.querySelectorAll('.play-overlay').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			const wrapper = btn.parentElement;
+			const video = wrapper?.querySelector('video');
+			if (!video) return;
+			video.controls = true;
+			btn.classList.add('hidden');
+			video.play();
+		});
+	});
+</script>

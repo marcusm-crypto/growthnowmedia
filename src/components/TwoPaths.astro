@@ -1,0 +1,74 @@
+---
+const paths = [
+	{
+		label: 'Need leads now',
+		heading: 'I need more leads — now.',
+		description:
+			"You're under capacity. We install the Growth Now System™ and fill your calendar within weeks.",
+		bullets: [
+			'Appointment-ready leads in 2–4 weeks',
+			'Done-for-you ad management & follow-up',
+			'Weekly performance reviews',
+		],
+		ctaLabel: 'Book a Demo',
+		ctaHref: '/contact',
+	},
+	{
+		label: 'Ready to scale',
+		heading: "I want to scale what's already working.",
+		description:
+			'Already getting leads? The Growth Now Advisor Program™ gives you the operator-led playbook from 500+ locations.',
+		bullets: [
+			'Strategic advisor access',
+			'Custom growth roadmap',
+			'Proven scale-up playbooks',
+		],
+		ctaLabel: 'Apply for Advisor Program',
+		ctaHref: '/growth-advisory',
+	},
+];
+---
+
+<section class="mx-auto max-w-5xl px-6 py-24 md:px-12">
+	<p class="reveal mb-4 text-xs font-semibold uppercase tracking-[3px] text-brand-accent">
+		Where are you right now?
+	</p>
+	<h2 class="reveal mb-14 max-w-3xl font-display text-[clamp(40px,5.5vw,72px)] font-extrabold leading-[1.0] tracking-[-2px] text-white">
+		Two paths. Same outcome: more booked appointments.
+	</h2>
+
+	<div class="reveal-stagger grid grid-cols-1 gap-6 md:grid-cols-2">
+		{paths.map((p) => (
+			<article class="group relative overflow-hidden rounded-2xl border border-brand-primary/[0.12] bg-white/[0.03] p-9 transition-all duration-300 hover:-translate-y-1 hover:border-brand-primary/35 hover:bg-brand-primary/[0.06] hover:shadow-[0_8px_40px_rgba(110,69,233,0.2)]">
+				<div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(110,69,233,0.08)_0%,transparent_60%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></div>
+				<div class="relative flex h-full flex-col">
+					<p class="text-xs font-semibold uppercase tracking-[3px] text-brand-accent">
+						{p.label}
+					</p>
+					<h3 class="mt-4 font-display text-2xl font-bold leading-tight tracking-[-0.5px] text-white md:text-3xl">
+						{p.heading}
+					</h3>
+					<p class="mt-4 text-base leading-[1.6] text-white/60">
+						{p.description}
+					</p>
+					<ul class="mt-6 space-y-3">
+						{p.bullets.map((b) => (
+							<li class="flex items-start gap-3">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 h-5 w-5 shrink-0 text-brand-primary" aria-hidden="true">
+									<polyline points="20 6 9 17 4 12" />
+								</svg>
+								<span class="text-sm leading-relaxed text-white/80">{b}</span>
+							</li>
+						))}
+					</ul>
+					<a
+						href={p.ctaHref}
+						class="mt-8 inline-flex w-fit items-center justify-center rounded-full bg-brand-primary px-6 py-3 font-display text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-secondary hover:shadow-[0_8px_32px_rgba(110,69,233,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0812]"
+					>
+						{p.ctaLabel}
+					</a>
+				</div>
+			</article>
+		))}
+	</div>
+</section>

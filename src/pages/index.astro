@@ -1,13 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import TwoPaths from '../components/TwoPaths.astro';
+import Testimonials from '../components/Testimonials.astro';
+import HowWeWork from '../components/HowWeWork.astro';
 
 // TODO: confirm exact stat values with Marcus
 const stats = [
-	{ value: '500', superscript: '+', label: 'Locations growing' },
-	{ value: '3', superscript: 'x', label: 'Average revenue lift' },
-	{ value: '90', superscript: 'd', label: 'To see real results' },
-	{ value: '#1', superscript: '', label: 'Growth system for aesthetic & wellness' },
+	{ target: 500, prefix: '', superscript: '+', label: 'Locations growing' },
+	{ target: 3, prefix: '', superscript: 'x', label: 'Average revenue lift' },
+	{ target: 90, prefix: '', superscript: 'd', label: 'To see real results' },
+	{ target: 1, prefix: '#', superscript: '', label: 'Growth system for aesthetic & wellness' },
 ];
 
 // TODO: replace placeholder client names with real client logos
@@ -38,16 +41,21 @@ const services = [
 		<Hero />
 
 		{/* STATS STRIP */}
-		<section class="reveal flex justify-center gap-0 border-y border-brand-primary/15 px-6 py-10 md:px-12">
+		<section
+			data-stats-row
+			class="reveal flex justify-center gap-0 border-y border-brand-primary/15 px-6 py-10 md:px-12"
+		>
 			{stats.map((s, i) => (
 				<div class={`relative flex-1 max-w-[220px] px-4 text-center md:px-10 ${i < stats.length - 1 ? 'after:absolute after:right-0 after:top-1/2 after:h-10 after:w-px after:-translate-y-1/2 after:bg-brand-primary/20' : ''}`}>
 					<div class="font-display text-[40px] font-extrabold leading-none tracking-[-1px] text-white">
-						{s.value}<span class="text-brand-accent">{s.superscript}</span>
+						<span data-count-target={s.target} data-count-prefix={s.prefix}>{s.prefix}0</span><span class="text-brand-accent">{s.superscript}</span>
 					</div>
 					<div class="mt-1.5 text-[13px] font-normal text-white/60">{s.label}</div>
 				</div>
 			))}
 		</section>
+
+		<TwoPaths />
 
 		{/* LOGOS */}
 		<section class="reveal px-6 py-16 text-center md:px-12">
@@ -87,19 +95,23 @@ const services = [
 			</div>
 		</section>
 
+		<Testimonials />
+
+		<HowWeWork />
+
 		{/* CTA CARD */}
 		<section class="reveal mx-6 mb-24 overflow-hidden rounded-[28px] bg-gradient-to-br from-brand-secondary to-brand-primary p-20 text-center md:mx-12">
 			<div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px]" aria-hidden="true"></div>
 			<div class="relative">
-				<h2 class="mb-4 font-display text-[clamp(32px,4vw,52px)] font-extrabold leading-tight tracking-[-1.5px] text-white">
+				<h2 class="reveal mb-4 font-display text-[clamp(32px,4vw,52px)] font-extrabold leading-tight tracking-[-1.5px] text-white">
 					Ready to grow your business?
 				</h2>
-				<p class="mb-10 text-base text-white/70">
+				<p class="reveal mb-10 text-base text-white/70 [transition-delay:100ms]">
 					Book a free demo and we'll show you exactly how it works for your business.
 				</p>
 				<a
 					href="/contact"
-					class="inline-block rounded-full bg-white px-9 py-3.5 font-display text-[15px] font-bold text-brand-secondary transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+					class="reveal inline-block rounded-full bg-white px-9 py-3.5 font-display text-[15px] font-bold text-brand-secondary transition-all [transition-delay:200ms] hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
 				>
 					Book a Demo →
 				</a>
@@ -107,4 +119,50 @@ const services = [
 		</section>
 
 	</div>
+
+	<script>
+		// Count-up animation for the Stats strip — fires once when the row enters view.
+		// Skips animation entirely for users with prefers-reduced-motion: reduce.
+		const statsRow = document.querySelector('[data-stats-row]');
+		if (statsRow) {
+			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			const counters = statsRow.querySelectorAll('[data-count-target]');
+			const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+			const animate = (el, target, prefix) => {
+				if (reduceMotion) {
+					el.textContent = `${prefix}${target}`;
+					return;
+				}
+				const duration = 1800;
+				const start = performance.now();
+				const tick = (now) => {
+					const elapsed = now - start;
+					const progress = Math.min(elapsed / duration, 1);
+					const value = Math.floor(easeOutCubic(progress) * target);
+					el.textContent = `${prefix}${value}`;
+					if (progress < 1) requestAnimationFrame(tick);
+					else el.textContent = `${prefix}${target}`;
+				};
+				requestAnimationFrame(tick);
+			};
+
+			const observer = new IntersectionObserver(
+				(entries) => {
+					for (const entry of entries) {
+						if (entry.isIntersecting) {
+							counters.forEach((el) => {
+								const target = parseInt(el.getAttribute('data-count-target') || '0', 10);
+								const prefix = el.getAttribute('data-count-prefix') || '';
+								animate(el, target, prefix);
+							});
+							observer.unobserve(statsRow);
+						}
+					}
+				},
+				{ threshold: 0.3 }
+			);
+			observer.observe(statsRow);
+		}
+	</script>
 </Layout>
