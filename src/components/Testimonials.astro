@@ -3,6 +3,9 @@ import { testimonials } from '../data/testimonials';
 import TestimonialLightbox from './TestimonialLightbox.astro';
 
 const items = testimonials;
+const VISIBLE_COUNT = 9;
+const hiddenCount = Math.max(0, items.length - VISIBLE_COUNT);
+const hasMore = hiddenCount > 0;
 ---
 
 <section class="mx-auto max-w-6xl px-6 py-24 md:px-12">
@@ -20,9 +23,13 @@ const items = testimonials;
 		{items.map((t, i) => (
 			<button
 				type="button"
-				class="testimonial-card group w-full max-w-xs cursor-pointer text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-4 focus-visible:ring-offset-[#010130] rounded-2xl"
+				class:list={[
+					'testimonial-card group w-full max-w-xs cursor-pointer text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-4 focus-visible:ring-offset-[#010130] rounded-2xl',
+					i >= VISIBLE_COUNT && 'is-load-more-hidden',
+				]}
 				data-testimonial-trigger
 				data-testimonial-index={i}
+				data-load-more-card={i >= VISIBLE_COUNT ? '' : null}
 				aria-label={t.name ? `Play testimonial from ${t.name}` : `Play client testimonial ${i + 1}`}
 			>
 				<div class="relative aspect-[9/16] overflow-hidden rounded-2xl bg-gradient-to-br from-brand-primary/15 via-brand-secondary/10 to-transparent shadow-[0_4px_20px_rgba(0,0,0,0.25)] transition-all duration-300 motion-safe:group-hover:-translate-y-2 motion-safe:group-hover:scale-[1.05] group-hover:shadow-[0_20px_60px_rgba(138, 26, 255,0.4)]">
@@ -52,6 +59,87 @@ const items = testimonials;
 			</button>
 		))}
 	</div>
+
+	{hasMore && (
+		<div class="mt-12 flex justify-center md:mt-16">
+			<button
+				type="button"
+				data-load-more-button
+				class="rounded-full bg-brand-primary px-8 py-3 font-display text-[15px] font-semibold text-white transition-all duration-200 ease-out hover:scale-105 hover:shadow-[0_0_28px_rgba(15,255,255,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-4 focus-visible:ring-offset-[#010130]"
+			>
+				Load more testimonials (<span data-load-more-count>{hiddenCount}</span> more)
+			</button>
+		</div>
+	)}
 </section>
 
 <TestimonialLightbox testimonials={items} />
+
+<style>
+	.is-load-more-hidden {
+		display: none;
+	}
+</style>
+
+<script>
+	const button = document.querySelector<HTMLButtonElement>('[data-load-more-button]');
+	if (button) {
+		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		button.addEventListener(
+			'click',
+			() => {
+				const hidden = Array.from(
+					document.querySelectorAll<HTMLElement>('[data-load-more-card]'),
+				);
+
+				if (reduceMotion) {
+					hidden.forEach((el) => el.classList.remove('is-load-more-hidden'));
+					button.remove();
+					return;
+				}
+
+				// Prime each card at its starting state with no transition, so removing
+				// the hide class doesn't cause a flicker through the parent's
+				// .reveal-stagger visible state.
+				hidden.forEach((el) => {
+					el.style.transition = 'none';
+					el.style.opacity = '0';
+					el.style.transform = 'translateY(20px)';
+					el.classList.remove('is-load-more-hidden');
+				});
+
+				// Force layout so the priming styles take effect before we attach
+				// transitions and animate to the resting state.
+				if (hidden[0]) void hidden[0].offsetHeight;
+
+				requestAnimationFrame(() => {
+					hidden.forEach((el, i) => {
+						const delay = i * 100;
+						el.style.transition = `opacity 400ms ease-out ${delay}ms, transform 400ms ease-out ${delay}ms`;
+						el.style.opacity = '1';
+						el.style.transform = 'translateY(0)';
+					});
+				});
+
+				// Clear inline styles once the last card finishes so future hover/focus
+				// states use the stylesheet rules.
+				const totalMs = Math.max(0, (hidden.length - 1) * 100) + 400;
+				window.setTimeout(() => {
+					hidden.forEach((el) => {
+						el.style.transition = '';
+						el.style.opacity = '';
+						el.style.transform = '';
+					});
+				}, totalMs + 50);
+
+				// Fade the button out, then remove from the DOM.
+				button.style.transition = 'opacity 200ms ease-out';
+				button.style.opacity = '0';
+				button.style.pointerEvents = 'none';
+				window.setTimeout(() => button.remove(), 220);
+			},
+			{ once: true },
+		);
+	}
+</script>
