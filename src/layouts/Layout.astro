@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Analytics from '@vercel/analytics/astro';
@@ -21,10 +22,11 @@ import SpeedInsights from '@vercel/speed-insights/astro';
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Growth Now Media — Growth System for Aesthetic & Wellness Businesses</title>
+		<ClientRouter />
 		<script is:inline defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 		<script is:inline defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 		<script is:inline>
-			window.addEventListener('DOMContentLoaded', () => {
+			document.addEventListener('astro:page-load', () => {
 				if (window.gsap && window.ScrollTrigger) {
 					window.gsap.registerPlugin(window.ScrollTrigger);
 				}
@@ -40,8 +42,13 @@ import SpeedInsights from '@vercel/speed-insights/astro';
 		<Analytics />
 		<SpeedInsights />
 		<script>
-			const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-stagger');
-			if (els.length) {
+			// Re-runs on every page-load (initial + post-transition) so the new
+			// DOM's .reveal* elements get observed.
+			document.addEventListener('astro:page-load', () => {
+				const els = document.querySelectorAll(
+					'.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-stagger',
+				);
+				if (!els.length) return;
 				const observer = new IntersectionObserver(
 					(entries) => {
 						for (const entry of entries) {
@@ -51,13 +58,12 @@ import SpeedInsights from '@vercel/speed-insights/astro';
 							}
 						}
 					},
-					// threshold: 0 ensures the callback fires even when the target is taller
-					// than the viewport (e.g. the single-column testimonials grid on mobile,
-					// where max intersectionRatio = viewport_height / target_height < 0.15).
-					{ threshold: 0, rootMargin: '0px 0px -10% 0px' }
+					// threshold: 0 ensures the callback fires even when the target is
+					// taller than the viewport (e.g. mobile testimonials grid).
+					{ threshold: 0, rootMargin: '0px 0px -10% 0px' },
 				);
 				els.forEach((el) => observer.observe(el));
-			}
+			});
 		</script>
 	</body>
 </html>

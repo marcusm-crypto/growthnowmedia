@@ -118,21 +118,24 @@ const services = [
 
 	<script>
 		// Count-up animation for the Stats strip — fires once when the row enters view.
-		// Skips animation entirely for users with prefers-reduced-motion: reduce.
-		const statsRow = document.querySelector('[data-stats-row]');
-		if (statsRow) {
+		// Re-runs on every page-load (initial + post-transition) so a fresh observer
+		// is wired up to the current page's DOM.
+		document.addEventListener('astro:page-load', () => {
+			const statsRow = document.querySelector('[data-stats-row]');
+			if (!statsRow) return;
+
 			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 			const counters = statsRow.querySelectorAll('[data-count-target]');
-			const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+			const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
-			const animate = (el, target, prefix) => {
+			const animate = (el: Element, target: number, prefix: string) => {
 				if (reduceMotion) {
 					el.textContent = `${prefix}${target}`;
 					return;
 				}
 				const duration = 1800;
 				const start = performance.now();
-				const tick = (now) => {
+				const tick = (now: number) => {
 					const elapsed = now - start;
 					const progress = Math.min(elapsed / duration, 1);
 					const value = Math.floor(easeOutCubic(progress) * target);
@@ -159,6 +162,6 @@ const services = [
 				{ threshold: 0.3 }
 			);
 			observer.observe(statsRow);
-		}
+		});
 	</script>
 </Layout>

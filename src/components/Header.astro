@@ -107,29 +107,51 @@ const navLinks = [
 </div>
 
 <script>
-	const openBtn = document.getElementById('menu-open');
-	const closeBtn = document.getElementById('menu-close');
-	const menu = document.getElementById('mobile-menu');
+	let currentMenu: HTMLElement | null = null;
 
-	if (openBtn && closeBtn && menu) {
+	function onKeydown(e: KeyboardEvent) {
+		if (e.key !== 'Escape' || !currentMenu) return;
+		if (currentMenu.classList.contains('hidden')) return;
+		hideMenu();
+	}
+
+	function hideMenu() {
+		if (!currentMenu) return;
+		const openBtn = document.getElementById('menu-open');
+		currentMenu.classList.add('hidden');
+		currentMenu.classList.remove('flex');
+		openBtn?.setAttribute('aria-expanded', 'false');
+		document.body.style.overflow = '';
+	}
+
+	function setupMenu() {
+		const openBtn = document.getElementById('menu-open');
+		const closeBtn = document.getElementById('menu-close');
+		const menu = document.getElementById('mobile-menu');
+		currentMenu = menu;
+		if (!openBtn || !closeBtn || !menu) return;
+
 		const show = () => {
 			menu.classList.remove('hidden');
 			menu.classList.add('flex');
 			openBtn.setAttribute('aria-expanded', 'true');
 			document.body.style.overflow = 'hidden';
 		};
-		const hide = () => {
-			menu.classList.add('hidden');
-			menu.classList.remove('flex');
-			openBtn.setAttribute('aria-expanded', 'false');
-			document.body.style.overflow = '';
-		};
 
 		openBtn.addEventListener('click', show);
-		closeBtn.addEventListener('click', hide);
-		menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', hide));
-		document.addEventListener('keydown', (e) => {
-			if (e.key === 'Escape' && !menu.classList.contains('hidden')) hide();
-		});
+		closeBtn.addEventListener('click', hideMenu);
+		menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', hideMenu));
 	}
+
+	// Document-level keydown is registered once globally and reads the
+	// current menu reference (refreshed on every page-load).
+	document.addEventListener('keydown', onKeydown);
+	document.addEventListener('astro:page-load', setupMenu);
+
+	// If the user navigates while the mobile menu is open, the body's overflow
+	// would otherwise stay locked on the next page.
+	document.addEventListener('astro:before-swap', () => {
+		document.body.style.overflow = '';
+		currentMenu = null;
+	});
 </script>

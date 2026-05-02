@@ -57,15 +57,24 @@
 </section>
 
 <script>
-	const list = document.querySelector<HTMLElement>('[data-rotating-words]');
-	const announcer = document.querySelector<HTMLElement>('[data-rotating-announce]');
+	let intervalId: number | null = null;
 
-	if (list) {
+	function startRotator() {
+		const list = document.querySelector<HTMLElement>('[data-rotating-words]');
+		const announcer = document.querySelector<HTMLElement>('[data-rotating-announce]');
+		if (!list) return;
+
+		// Reset any leftover transform from a previous mount before starting.
+		list.style.transition = 'none';
+		list.style.transform = 'translateY(0)';
+		void list.offsetHeight;
+		list.style.transition = '';
+
 		const words = ['Bookings', 'Revenue', 'Results'];
 		const TOTAL = words.length;
 		let index = 0;
 
-		setInterval(() => {
+		intervalId = window.setInterval(() => {
 			index += 1;
 			list.style.transform = `translateY(-${index}em)`;
 			if (announcer) {
@@ -79,7 +88,6 @@
 				setTimeout(() => {
 					list.style.transition = 'none';
 					list.style.transform = 'translateY(0)';
-					// Force reflow so the transition: none takes effect before re-enabling.
 					void list.offsetHeight;
 					list.style.transition = '';
 					index = 0;
@@ -87,4 +95,14 @@
 			}
 		}, 2400);
 	}
+
+	function stopRotator() {
+		if (intervalId !== null) {
+			clearInterval(intervalId);
+			intervalId = null;
+		}
+	}
+
+	document.addEventListener('astro:page-load', startRotator);
+	document.addEventListener('astro:before-swap', stopRotator);
 </script>

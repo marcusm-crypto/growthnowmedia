@@ -293,51 +293,53 @@ const caseStudies = [
 
 	<script>
 		// Unified count-up observer for all [data-count-target] elements on the page.
-		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		const counters = document.querySelectorAll('[data-count-target]');
+		// Re-runs on every page-load so transitions wire a fresh observer to the new DOM.
+		document.addEventListener('astro:page-load', () => {
+			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			const counters = document.querySelectorAll('[data-count-target]');
+			if (!counters.length) return;
 
-		const formatNumber = (num, prefix, suffix, decimals) => {
-			let str;
-			if (decimals > 0) {
-				str = num.toFixed(decimals);
-			} else {
-				str = Math.floor(num).toString();
-			}
-			const parts = str.split('.');
-			parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-			str = parts.join('.');
-			return `${prefix}${str}${suffix}`;
-		};
-
-		const animateCounter = (el) => {
-			const target = parseFloat(el.getAttribute('data-count-target') || '0');
-			const prefix = el.getAttribute('data-count-prefix') || '';
-			const suffix = el.getAttribute('data-count-suffix') || '';
-			const decimals = parseInt(el.getAttribute('data-count-decimals') || '0', 10);
-
-			if (reduceMotion) {
-				el.textContent = formatNumber(target, prefix, suffix, decimals);
-				return;
-			}
-
-			const duration = 2000;
-			const start = performance.now();
-			const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
-
-			const tick = (now) => {
-				const progress = Math.min((now - start) / duration, 1);
-				const value = easeOutCubic(progress) * target;
-				el.textContent = formatNumber(value, prefix, suffix, decimals);
-				if (progress < 1) {
-					requestAnimationFrame(tick);
+			const formatNumber = (num: number, prefix: string, suffix: string, decimals: number) => {
+				let str: string;
+				if (decimals > 0) {
+					str = num.toFixed(decimals);
 				} else {
-					el.textContent = formatNumber(target, prefix, suffix, decimals);
+					str = Math.floor(num).toString();
 				}
+				const parts = str.split('.');
+				parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+				str = parts.join('.');
+				return `${prefix}${str}${suffix}`;
 			};
-			requestAnimationFrame(tick);
-		};
 
-		if (counters.length) {
+			const animateCounter = (el: Element) => {
+				const target = parseFloat(el.getAttribute('data-count-target') || '0');
+				const prefix = el.getAttribute('data-count-prefix') || '';
+				const suffix = el.getAttribute('data-count-suffix') || '';
+				const decimals = parseInt(el.getAttribute('data-count-decimals') || '0', 10);
+
+				if (reduceMotion) {
+					el.textContent = formatNumber(target, prefix, suffix, decimals);
+					return;
+				}
+
+				const duration = 2000;
+				const start = performance.now();
+				const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+				const tick = (now: number) => {
+					const progress = Math.min((now - start) / duration, 1);
+					const value = easeOutCubic(progress) * target;
+					el.textContent = formatNumber(value, prefix, suffix, decimals);
+					if (progress < 1) {
+						requestAnimationFrame(tick);
+					} else {
+						el.textContent = formatNumber(target, prefix, suffix, decimals);
+					}
+				};
+				requestAnimationFrame(tick);
+			};
+
 			const observer = new IntersectionObserver(
 				(entries) => {
 					for (const entry of entries) {
@@ -350,7 +352,7 @@ const caseStudies = [
 				{ threshold: 0.3 }
 			);
 			counters.forEach((el) => observer.observe(el));
-		}
+		});
 	</script>
 
 	<style>

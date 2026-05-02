@@ -82,8 +82,9 @@ const hasMore = hiddenCount > 0;
 </style>
 
 <script>
-	const button = document.querySelector<HTMLButtonElement>('[data-load-more-button]');
-	if (button) {
+	function setupLoadMore() {
+		const button = document.querySelector<HTMLButtonElement>('[data-load-more-button]');
+		if (!button) return;
 		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 		button.addEventListener(
@@ -142,4 +143,6 @@ const hasMore = hiddenCount > 0;
 			{ once: true },
 		);
 	}
+
+	document.addEventListener('astro:page-load', setupLoadMore);
 </script>
