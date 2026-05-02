@@ -51,7 +51,10 @@ import SpeedInsights from '@vercel/speed-insights/astro';
 							}
 						}
 					},
-					{ threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
+					// threshold: 0 ensures the callback fires even when the target is taller
+					// than the viewport (e.g. the single-column testimonials grid on mobile,
+					// where max intersectionRatio = viewport_height / target_height < 0.15).
+					{ threshold: 0, rootMargin: '0px 0px -10% 0px' }
 				);
 				els.forEach((el) => observer.observe(el));
 			}
