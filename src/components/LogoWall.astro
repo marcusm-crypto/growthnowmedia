@@ -5,6 +5,13 @@ interface Props {
 	showTagline?: boolean;
 }
 const { showTagline = true } = Astro.props;
+
+// Split into 3 roughly-equal rows. With 32 logos: 11 / 11 / 10.
+const rowSize = Math.ceil(logos.length / 3);
+const row1 = logos.slice(0, rowSize);
+const row2 = logos.slice(rowSize, rowSize * 2);
+const row3 = logos.slice(rowSize * 2);
+const rows = [row1, row2, row3];
 ---
 
 <section
@@ -17,102 +24,77 @@ const { showTagline = true } = Astro.props;
 		</p>
 	)}
 
-	<div class="marquee-mask space-y-6">
-		<div class="marquee-track marquee-left">
-			{logos.map((file) => (
-				<span class="marquee-item">
-					<img
-						src={`/logos/${file}`}
-						alt=""
-						loading="lazy"
-						decoding="async"
-						height="60"
-						class={file.endsWith('.svg') ? 'logo-svg' : 'logo-png'}
-					/>
-				</span>
-			))}
-			{logos.map((file) => (
-				<span class="marquee-item" aria-hidden="true">
-					<img
-						src={`/logos/${file}`}
-						alt=""
-						loading="lazy"
-						decoding="async"
-						height="60"
-						class={file.endsWith('.svg') ? 'logo-svg' : 'logo-png'}
-					/>
-				</span>
-			))}
-		</div>
-
-		<div class="marquee-track marquee-right">
-			{logos.map((file) => (
-				<span class="marquee-item">
-					<img
-						src={`/logos/${file}`}
-						alt=""
-						loading="lazy"
-						decoding="async"
-						height="60"
-						class={file.endsWith('.svg') ? 'logo-svg' : 'logo-png'}
-					/>
-				</span>
-			))}
-			{logos.map((file) => (
-				<span class="marquee-item" aria-hidden="true">
-					<img
-						src={`/logos/${file}`}
-						alt=""
-						loading="lazy"
-						decoding="async"
-						height="60"
-						class={file.endsWith('.svg') ? 'logo-svg' : 'logo-png'}
-					/>
-				</span>
-			))}
-		</div>
+	<div class="logo-wall-stack">
+		{rows.map((rowLogos, rowIdx) => (
+			<div class="logo-wall-container">
+				<div class={`logo-wall-track row-${rowIdx + 1}`}>
+					{rowLogos.map((file) => (
+						<span class="logo-item">
+							<img
+								src={`/logos/${file}`}
+								alt=""
+								loading="lazy"
+								decoding="async"
+								height="60"
+								class={file.endsWith('.svg') ? 'logo-svg' : 'logo-png'}
+							/>
+						</span>
+					))}
+					{rowLogos.map((file) => (
+						<span class="logo-item" aria-hidden="true">
+							<img
+								src={`/logos/${file}`}
+								alt=""
+								loading="lazy"
+								decoding="async"
+								height="60"
+								class={file.endsWith('.svg') ? 'logo-svg' : 'logo-png'}
+							/>
+						</span>
+					))}
+				</div>
+			</div>
+		))}
 	</div>
 </section>
 
 <style>
-	.marquee-mask {
+	.logo-wall-stack {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		width: 100%;
+	}
+
+	.logo-wall-container {
 		overflow: hidden;
+		width: 100%;
 		mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 		-webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 	}
 
-	.marquee-track {
+	.logo-wall-track {
 		display: flex;
 		align-items: center;
 		width: max-content;
 		opacity: 0.7;
+		will-change: transform;
 	}
 
-	.marquee-left {
-		animation: marquee-scroll-left 75s linear infinite;
-	}
-
-	.marquee-right {
-		animation: marquee-scroll-right 75s linear infinite;
-	}
-
-	.marquee-item {
+	/* Per-item trailing margin instead of parent flex `gap`. With `gap` the
+	   2× duplicated set has one fewer gap than slot, so translateX(-50%)
+	   lands half-a-gap short of the duplicate's first item and the snap-back
+	   produces a visible jump. With margin-right each slot is exactly
+	   item + 48px including the last one — so -50% lands precisely on the
+	   duplicate's first slot, making the loop seamless. */
+	.logo-item {
 		flex-shrink: 0;
 		display: flex;
 		align-items: center;
-		/* Trailing margin instead of flex `gap`: each item's slot is item+64px,
-		   so the track of 64 items has width 64·(W+64). translateX(-50%) lands
-		   exactly on item33's left edge, making the loop seamless. With `gap`
-		   the loop landed half-a-gap short and the snap-back showed a 32px
-		   shift. */
-		margin-right: 64px;
+		margin-right: 48px;
 	}
 
-	@media (max-width: 768px) {
-		.marquee-item { margin-right: 48px; }
-	}
-
-	.marquee-item img {
+	.logo-item img {
 		display: block;
 		height: 60px;
 		width: auto;
@@ -120,7 +102,7 @@ const { showTagline = true } = Astro.props;
 	}
 
 	@media (max-width: 768px) {
-		.marquee-item img { height: 48px; }
+		.logo-item img { height: 44px; }
 	}
 
 	/* SVGs forced to pure white silhouette. PNGs assumed pre-processed. */
@@ -128,25 +110,36 @@ const { showTagline = true } = Astro.props;
 		filter: brightness(0) invert(1);
 	}
 
-	@keyframes marquee-scroll-left {
+	/* Slowed by 15% from the previous 75s → 86.25s. */
+	.logo-wall-track.row-1 {
+		animation: scroll-logos-left 86.25s linear infinite;
+	}
+
+	.logo-wall-track.row-2 {
+		animation: scroll-logos-right 86.25s linear infinite;
+	}
+
+	.logo-wall-track.row-3 {
+		animation: scroll-logos-left 86.25s linear infinite;
+	}
+
+	@keyframes scroll-logos-left {
 		from { transform: translateX(0); }
 		to { transform: translateX(-50%); }
 	}
 
-	@keyframes marquee-scroll-right {
+	@keyframes scroll-logos-right {
 		from { transform: translateX(-50%); }
 		to { transform: translateX(0); }
 	}
 
-	.marquee-mask:hover .marquee-left,
-	.marquee-mask:hover .marquee-right {
+	.logo-wall-container:hover .logo-wall-track {
 		animation-play-state: paused;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.marquee-left,
-		.marquee-right {
-			animation-play-state: paused;
+		.logo-wall-track {
+			animation: none;
 		}
 	}
 </style>
