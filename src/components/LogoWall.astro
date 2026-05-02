@@ -5,11 +5,6 @@ interface Props {
 	showTagline?: boolean;
 }
 const { showTagline = true } = Astro.props;
-
-// Each row contains the logo list TWICE so the loop tiles seamlessly.
-// translateX(-50%) at the end of the keyframe puts the second copy
-// at the position the first copy started, making the seam invisible.
-const tile = [...logos, ...logos];
 ---
 
 <section
@@ -24,8 +19,20 @@ const tile = [...logos, ...logos];
 
 	<div class="marquee-mask space-y-6">
 		<div class="marquee-track marquee-left">
-			{tile.map((file) => (
+			{logos.map((file) => (
 				<span class="marquee-item">
+					<img
+						src={`/logos/${file}`}
+						alt=""
+						loading="lazy"
+						decoding="async"
+						height="60"
+						class={file.endsWith('.svg') ? 'logo-svg' : 'logo-png'}
+					/>
+				</span>
+			))}
+			{logos.map((file) => (
+				<span class="marquee-item" aria-hidden="true">
 					<img
 						src={`/logos/${file}`}
 						alt=""
@@ -39,8 +46,20 @@ const tile = [...logos, ...logos];
 		</div>
 
 		<div class="marquee-track marquee-right">
-			{tile.map((file) => (
+			{logos.map((file) => (
 				<span class="marquee-item">
+					<img
+						src={`/logos/${file}`}
+						alt=""
+						loading="lazy"
+						decoding="async"
+						height="60"
+						class={file.endsWith('.svg') ? 'logo-svg' : 'logo-png'}
+					/>
+				</span>
+			))}
+			{logos.map((file) => (
+				<span class="marquee-item" aria-hidden="true">
 					<img
 						src={`/logos/${file}`}
 						alt=""
@@ -60,19 +79,13 @@ const tile = [...logos, ...logos];
 		overflow: hidden;
 		mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 		-webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-		pointer-events: none;
 	}
 
 	.marquee-track {
 		display: flex;
 		align-items: center;
-		gap: 64px;
 		width: max-content;
 		opacity: 0.7;
-	}
-
-	@media (max-width: 768px) {
-		.marquee-track { gap: 48px; }
 	}
 
 	.marquee-left {
@@ -87,6 +100,16 @@ const tile = [...logos, ...logos];
 		flex-shrink: 0;
 		display: flex;
 		align-items: center;
+		/* Trailing margin instead of flex `gap`: each item's slot is item+64px,
+		   so the track of 64 items has width 64·(W+64). translateX(-50%) lands
+		   exactly on item33's left edge, making the loop seamless. With `gap`
+		   the loop landed half-a-gap short and the snap-back showed a 32px
+		   shift. */
+		margin-right: 64px;
+	}
+
+	@media (max-width: 768px) {
+		.marquee-item { margin-right: 48px; }
 	}
 
 	.marquee-item img {
@@ -113,6 +136,11 @@ const tile = [...logos, ...logos];
 	@keyframes marquee-scroll-right {
 		from { transform: translateX(-50%); }
 		to { transform: translateX(0); }
+	}
+
+	.marquee-mask:hover .marquee-left,
+	.marquee-mask:hover .marquee-right {
+		animation-play-state: paused;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
