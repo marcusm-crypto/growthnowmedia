@@ -47,7 +47,7 @@ const testimonials = fs.existsSync(advisorDir)
 				</h1>
 
 				<p class="reveal mx-auto mt-6 max-w-2xl text-base leading-[1.7] text-white/60 md:text-lg [transition-delay:300ms]">
-					[Advisor title and short bio — to be added]
+					{advisor.bullets.join(' · ')}
 				</p>
 
 				<div class="reveal mt-10 [transition-delay:450ms]">
@@ -119,9 +119,9 @@ const testimonials = fs.existsSync(advisorDir)
 					The full story.
 				</h2>
 				<div class="reveal mt-10 space-y-6 text-lg leading-[1.7] text-white/75 [transition-delay:200ms]">
-					<p>[Bio paragraph 1]</p>
-					<p>[Bio paragraph 2]</p>
-					<p>[Bio paragraph 3]</p>
+					{advisor.fullBio.map((para) => (
+						<p>{para}</p>
+					))}
 				</div>
 			</div>
 		</section>
@@ -132,9 +132,6 @@ const testimonials = fs.existsSync(advisorDir)
 				<h2 class="font-display text-[clamp(36px,5vw,64px)] font-bold leading-[1.1] tracking-tight text-white">
 					Want to work with {firstName}?
 				</h2>
-				<p class="mx-auto mt-6 max-w-xl text-base leading-[1.7] text-white/65 md:text-lg">
-					[Subheadline — short pitch on what working with {firstName} looks like.]
-				</p>
 				<div class="mt-10">
 					<a
 						href="/contact"
