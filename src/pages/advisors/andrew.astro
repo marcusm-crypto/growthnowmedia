@@ -38,6 +38,15 @@ const testimonials = fs.existsSync(advisorDir)
 			<div class="grid-overlay" aria-hidden="true"></div>
 
 			<div class="relative z-10 mx-auto max-w-4xl text-center">
+				<div class="reveal mx-auto mb-8 h-36 w-36 overflow-hidden rounded-full border-2 border-brand-primary/40 shadow-[0_0_40px_rgba(138,26,255,0.35)] md:h-44 md:w-44">
+					<img
+						src={advisor.photo}
+						alt={advisor.name}
+						loading="eager"
+						class="h-full w-full object-cover object-top"
+					/>
+				</div>
+
 				<p class="reveal mb-5 inline-block bg-gradient-to-r from-brand-magenta to-brand-pink bg-clip-text text-xs font-semibold uppercase tracking-[3px] text-transparent">
 					{advisor.role}
 				</p>

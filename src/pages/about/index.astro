@@ -14,7 +14,7 @@ const stats = [
 const principles = [
 	{
 		title: 'Operators, not marketers',
-		body: "Every senior person on this team has owned, scaled, or exited an aesthetic or wellness business. We don't guess. We tell you what worked when the money was ours.",
+		body: "Our Executive Leadership has owned, scaled, or exited an aesthetic or wellness business. We don't guess. We tell you what worked when the money was ours.",
 	},
 	{
 		title: 'Bookings, not leads',
@@ -66,29 +66,20 @@ const principles = [
 	{/* 1b. MEET THE TEAM — group photo hero */}
 	<section class="bg-[#010130] px-4 py-20 md:px-6 lg:py-28">
 		<div class="mx-auto max-w-6xl text-center">
-			<p
-				class="reveal inline-block bg-[image:var(--gradient-secondary)] bg-clip-text text-xs font-semibold uppercase tracking-[3px] text-transparent"
-			>
-				Meet the Team
-			</p>
-			<h2
-				class="reveal mt-4 font-display text-3xl font-bold leading-[1.1] tracking-tight text-white [transition-delay:150ms] md:text-5xl lg:text-6xl"
-			>
-				The Operators Behind the Growth
-			</h2>
-			<p
-				class="reveal mx-auto mt-6 max-w-2xl text-base leading-[1.7] text-white/65 [transition-delay:300ms] md:text-lg"
-			>
-				We're a team of marketers, designers, and growth strategists obsessed with one thing — helping aesthetic and wellness businesses dominate their markets.
-			</p>
-
-			<div class="reveal-scale mt-12 [transition-delay:450ms]">
-				<img
-					src="/team/group-photo.jpg"
-					alt="The GrowthNow Media team"
-					class="h-auto w-full rounded-2xl border border-white/10 shadow-2xl shadow-cyan-500/10"
-					loading="eager"
-				/>
+			<div class="reveal-scale [transition-delay:450ms]">
+				<div class="relative">
+					<img
+						src="/team/group-photo.jpg"
+						alt="The GrowthNow Media team"
+						class="h-auto w-full rounded-2xl border border-white/10 shadow-2xl shadow-cyan-500/10"
+						loading="eager"
+					/>
+					<div class="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-black/50 px-8 text-center">
+						<p class="mb-4 text-xs font-semibold uppercase tracking-[3px] text-brand-accent">Meet the Team</p>
+						<h2 class="font-display text-[clamp(28px,4vw,52px)] font-extrabold leading-[1.1] tracking-[-1.5px] text-white">The Operators Behind the Growth</h2>
+						<p class="mx-auto mt-4 max-w-2xl text-base leading-[1.7] text-white/80">We're a team of marketers, designers, and growth strategists obsessed with one thing — helping aesthetic and wellness businesses dominate their markets.</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
