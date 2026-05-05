@@ -35,7 +35,7 @@ export const operators = [
 			'Specialty: Google, Meta, and YouTube',
 		],
 		fullBio: [
-			"Entrepreneur, growth strategist, and operator who has helped scale over 500 wellness brands and franchises, generating $26M+ in client revenue and expanding concepts to 75+ locations nationwide. With a background that includes a successful agency exit, he's known for turning inconsistent pipelines into predictable, scalable growth systems.",
+			"Entrepreneur, growth strategist, and operator who has helped scale 75+ wellness brands and franchises, generating $26M+ in client revenue and expanding concepts to 75+ locations nationwide. With a background that includes a successful agency exit, he's known for turning inconsistent pipelines into predictable, scalable growth systems.",
 			'As the founder of Growth Now Media, Andrew leads a performance-driven team that integrates paid traffic, appointment setting, sales training, CRM automation, and operations into one unified system—helping multi-location businesses drive consistent bookings, higher conversions, and scalable revenue growth.',
 		],
 		testimonials: [],
