@@ -2,10 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 
 const aggregateStats = [
-	{ target: 674, prefix: '', suffix: '', decimals: 0, label: 'Total Bookings Generated' },
-	{ target: 319778, prefix: '$', suffix: '+', decimals: 0, label: 'Total Revenue Generated for Clients' },
-	{ target: 14.86, prefix: '$', suffix: '', decimals: 2, label: 'Average Cost Per Lead' },
-	{ target: 37278, prefix: '$', suffix: '', decimals: 0, label: 'Total Ad Spend' },
+	{ target: 500, prefix: '', suffix: '+', decimals: 0, label: 'Locations Supported' },
+	{ target: 255000, prefix: '', suffix: '+', decimals: 0, label: 'Bookings Generated' },
+	{ target: 52, prefix: '$', suffix: 'M+', decimals: 0, label: 'Revenue Generated for Clients' },
+	{ target: 8.5, prefix: '$', suffix: 'M+', decimals: 1, label: 'Total Ad Spend' },
+	{ target: 6.1, prefix: '', suffix: 'x', decimals: 1, label: 'LTV ROAS' },
 ];
 
 const caseStudies = [
@@ -58,7 +59,7 @@ const caseStudies = [
 
 		{/* AGGREGATE STATS BAR */}
 		<section class="border-y border-brand-primary/15 px-6 py-12 md:px-12 md:py-16">
-			<div class="mx-auto grid max-w-6xl grid-cols-1 gap-y-10 gap-x-8 sm:grid-cols-2 md:grid-cols-4">
+			<div class="mx-auto grid max-w-6xl grid-cols-2 gap-y-10 gap-x-8 md:grid-cols-3 lg:grid-cols-5">
 				{aggregateStats.map((stat) => (
 					<div class="text-center">
 						<p
