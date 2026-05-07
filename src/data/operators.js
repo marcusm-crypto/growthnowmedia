@@ -30,7 +30,7 @@ export const operators = [
 		isFounder: true,
 		photo: '/team/andrew-sousa.jpg',
 		bullets: [
-			'$50M+ in managed ad spend across wellness',
+			'$8.5M+ in managed ad spend across wellness',
 			'10+ years scaling paid acquisition',
 			'Specialty: Google, Meta, and YouTube',
 		],
