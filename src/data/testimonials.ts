@@ -29,6 +29,8 @@ export type Testimonial = {
 };
 
 export const testimonials: Testimonial[] = [
+	// Pinned to first slot — appears as the lead card on the homepage grid.
+	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/1-tracy/video.mp4',    thumbnailUrl: '/testimonials/homepage/1-tracy/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/elizabeth/video.mp4',  thumbnailUrl: '/testimonials/homepage/elizabeth/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/isabela-1/video.mp4',  thumbnailUrl: '/testimonials/homepage/isabela-1/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/jacob/video.mp4',      thumbnailUrl: '/testimonials/homepage/jacob/cover.png' },
@@ -43,6 +45,5 @@ export const testimonials: Testimonial[] = [
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/2-isabela/video.mp4',  thumbnailUrl: '/testimonials/homepage/2-isabela/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/2-jessica/video.mp4',  thumbnailUrl: '/testimonials/homepage/2-jessica/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/2-katrina/video.mp4',  thumbnailUrl: '/testimonials/homepage/2-katrina/cover.png' },
-	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/2-tracy/video.mp4',    thumbnailUrl: '/testimonials/homepage/2-tracy/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/2-wendy/video.mp4',    thumbnailUrl: '/testimonials/homepage/2-wendy/cover.png' },
 ];
