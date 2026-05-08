@@ -1,5 +1,28 @@
 ---
+import fs from 'node:fs';
+import path from 'node:path';
 import Layout from '../../layouts/Layout.astro';
+import TestimonialLightbox from '../../components/TestimonialLightbox.astro';
+
+// Auto-detect video testimonials from /public/testimonials/nate/<slug>/{video.mp4, cover.png}.
+// Same convention as /advisors/nate.astro — Nate is the lead advisor on this page.
+const videoTestimonialsDir = path.join(process.cwd(), 'public/testimonials/nate');
+const videoTestimonials = fs.existsSync(videoTestimonialsDir)
+        ? fs
+                .readdirSync(videoTestimonialsDir, { withFileTypes: true })
+                .filter((entry) => entry.isDirectory())
+                .map((entry) => entry.name)
+                .filter((slug) =>
+                        fs.existsSync(path.join(videoTestimonialsDir, slug, 'video.mp4')),
+                )
+                .map((slug) => ({
+                        slug,
+                        videoUrl: `/testimonials/nate/${slug}/video.mp4`,
+                        thumbnailUrl: fs.existsSync(path.join(videoTestimonialsDir, slug, 'cover.png'))
+                                ? `/testimonials/nate/${slug}/cover.png`
+                                : undefined,
+                }))
+        : [];
 
 const twoPathCards = [
         {
@@ -363,6 +386,61 @@ const faqItems = [
                                                 </article>
                                         ))}
                                 </div>
+
+                                {videoTestimonials.length > 0 && (
+                                        <>
+                                                <div class="reveal mt-12 flex justify-center">
+                                                        <button
+                                                                type="button"
+                                                                data-load-more-testimonials
+                                                                aria-expanded="false"
+                                                                aria-controls="video-testimonials-grid"
+                                                                class="inline-flex items-center justify-center gap-2 rounded-full border border-brand-primary/40 bg-white/[0.03] px-8 py-3 font-display text-sm font-semibold text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand-accent/60 hover:bg-brand-primary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#010130]"
+                                                        >
+                                                                <span data-load-more-label>Load More Testimonials</span>
+                                                                <span data-load-more-icon class="transition-transform duration-300" aria-hidden="true">↓</span>
+                                                        </button>
+                                                </div>
+
+                                                <div
+                                                        id="video-testimonials-grid"
+                                                        data-video-testimonials
+                                                        hidden
+                                                        class="reveal-stagger mt-12 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5"
+                                                >
+                                                        {videoTestimonials.map((t, i) => (
+                                                                <button
+                                                                        type="button"
+                                                                        class="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-3 text-left transition-all duration-300 ease-out hover:-translate-y-1 hover:border-brand-accent/40 hover:shadow-[0_8px_40px_rgba(15,255,255,0.18)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#010130]"
+                                                                        data-testimonial-trigger
+                                                                        data-testimonial-index={i}
+                                                                        aria-label={`Play client testimonial ${i + 1}`}
+                                                                >
+                                                                        <div class="relative aspect-[9/16] overflow-hidden rounded-xl bg-black">
+                                                                                {t.thumbnailUrl ? (
+                                                                                        <img
+                                                                                                src={t.thumbnailUrl}
+                                                                                                alt=""
+                                                                                                loading="lazy"
+                                                                                                class="h-full w-full object-cover"
+                                                                                        />
+                                                                                ) : (
+                                                                                        <div class="absolute inset-0 bg-gradient-to-br from-brand-primary/30 via-brand-secondary/20 to-brand-magenta/15" aria-hidden="true"></div>
+                                                                                )}
+                                                                                <span
+                                                                                        class="pointer-events-none absolute inset-0 m-auto flex h-12 w-12 items-center justify-center rounded-full bg-white/85 shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-300 group-hover:bg-white motion-safe:group-hover:scale-[1.15] sm:h-14 sm:w-14"
+                                                                                        aria-hidden="true"
+                                                                                >
+                                                                                        <svg viewBox="0 0 24 24" fill="currentColor" class="ml-0.5 h-5 w-5 text-brand-secondary sm:h-6 sm:w-6">
+                                                                                                <polygon points="6 4 20 12 6 20 6 4" />
+                                                                                        </svg>
+                                                                                </span>
+                                                                        </div>
+                                                                </button>
+                                                        ))}
+                                                </div>
+                                        </>
+                                )}
                         </div>
                 </section>
 
@@ -436,4 +514,34 @@ const faqItems = [
                 </section>
 
         </div>
+
+        <TestimonialLightbox testimonials={videoTestimonials} />
+
+        <script>
+                // Toggle the hidden video testimonial grid below the written quotes.
+                // Re-runs on each astro:page-load so a new button gets wired after view transitions.
+                document.addEventListener('astro:page-load', () => {
+                        const button = document.querySelector<HTMLButtonElement>('[data-load-more-testimonials]');
+                        const grid = document.querySelector<HTMLElement>('[data-video-testimonials]');
+                        if (!button || !grid) return;
+
+                        const label = button.querySelector<HTMLElement>('[data-load-more-label]');
+                        const icon = button.querySelector<HTMLElement>('[data-load-more-icon]');
+
+                        button.addEventListener('click', () => {
+                                const willOpen = grid.hasAttribute('hidden');
+                                if (willOpen) {
+                                        grid.removeAttribute('hidden');
+                                        button.setAttribute('aria-expanded', 'true');
+                                        if (label) label.textContent = 'Show Fewer Testimonials';
+                                        if (icon) icon.style.transform = 'rotate(180deg)';
+                                } else {
+                                        grid.setAttribute('hidden', '');
+                                        button.setAttribute('aria-expanded', 'false');
+                                        if (label) label.textContent = 'Load More Testimonials';
+                                        if (icon) icon.style.transform = '';
+                                }
+                        });
+                });
+        </script>
 </Layout>
