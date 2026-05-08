@@ -9,8 +9,8 @@ import HowWeWork from '../components/HowWeWork.astro';
 // TODO: confirm exact stat values with Marcus
 const stats = [
 	{ target: 500, prefix: '', superscript: '+', label: 'Locations growing' },
-	{ target: 3, prefix: '', superscript: 'x', label: 'Average revenue lift' },
-	{ target: 90, prefix: '', superscript: 'd', label: 'To see real results' },
+	{ target: 4.5, prefix: '', superscript: 'x', label: 'Average revenue lift' },
+	{ target: 48, prefix: '', superscript: 'hr', label: 'To start seeing results' },
 	{ target: 1, prefix: '#', superscript: '', label: 'Growth system for aesthetic & wellness' },
 ];
 
@@ -187,9 +187,10 @@ const services = [
 			const counters = statsRow.querySelectorAll('[data-count-target]');
 			const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
-			const animate = (el: Element, target: number, prefix: string) => {
+			const animate = (el: Element, target: number, prefix: string, decimals: number) => {
+				const format = (n: number) => decimals > 0 ? n.toFixed(decimals) : Math.floor(n).toString();
 				if (reduceMotion) {
-					el.textContent = `${prefix}${target}`;
+					el.textContent = `${prefix}${format(target)}`;
 					return;
 				}
 				const duration = 1800;
@@ -197,10 +198,10 @@ const services = [
 				const tick = (now: number) => {
 					const elapsed = now - start;
 					const progress = Math.min(elapsed / duration, 1);
-					const value = Math.floor(easeOutCubic(progress) * target);
-					el.textContent = `${prefix}${value}`;
+					const value = easeOutCubic(progress) * target;
+					el.textContent = `${prefix}${format(value)}`;
 					if (progress < 1) requestAnimationFrame(tick);
-					else el.textContent = `${prefix}${target}`;
+					else el.textContent = `${prefix}${format(target)}`;
 				};
 				requestAnimationFrame(tick);
 			};
@@ -210,9 +211,11 @@ const services = [
 					for (const entry of entries) {
 						if (entry.isIntersecting) {
 							counters.forEach((el) => {
-								const target = parseInt(el.getAttribute('data-count-target') || '0', 10);
+								const raw = el.getAttribute('data-count-target') || '0';
+								const target = parseFloat(raw);
+								const decimals = raw.includes('.') ? (raw.split('.')[1]?.length ?? 0) : 0;
 								const prefix = el.getAttribute('data-count-prefix') || '';
-								animate(el, target, prefix);
+								animate(el, target, prefix, decimals);
 							});
 							observer.unobserve(statsRow);
 						}
