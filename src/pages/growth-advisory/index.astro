@@ -13,6 +13,10 @@ function loadVideoTestimonials(advisor: string) {
                 .readdirSync(dir, { withFileTypes: true })
                 .filter((entry) => entry.isDirectory())
                 .map((entry) => entry.name)
+                // Lexicographic sort so numeric-prefixed folders (1-, 2-, 3-, 4-) pin to
+                // the front in the intended display order, and the unprefixed slugs follow
+                // alphabetically. readdirSync order is platform-dependent, so don't trust it.
+                .sort()
                 .filter((slug) => fs.existsSync(path.join(dir, slug, 'video.mp4')))
                 .map((slug) => ({
                         slug,
@@ -23,14 +27,13 @@ function loadVideoTestimonials(advisor: string) {
                 }));
 }
 
-const nateTestimonials = loadVideoTestimonials('nate');
-const andrewTestimonials = loadVideoTestimonials('andrew');
-
-// One combined payload so the lightbox can navigate across both advisors with
-// arrow keys. Each card's data-testimonial-index maps into this same array.
-const videoTestimonials = [...nateTestimonials, ...andrewTestimonials];
-const nateOffset = 0;
-const andrewOffset = nateTestimonials.length;
+// Nate's clients render first, Andrew's at the bottom of the same grid. One
+// combined payload feeds both the rendered cards and the lightbox, so arrow
+// keys flow from the last Nate video into the first Andrew video naturally.
+const videoTestimonials = [
+        ...loadVideoTestimonials('nate'),
+        ...loadVideoTestimonials('andrew'),
+];
 
 const twoPathCards = [
         {
@@ -396,107 +399,51 @@ const faqItems = [
                                 </div>
 
                                 {videoTestimonials.length > 0 && (
-                                        <>
-                                                <div class="reveal mt-12 flex justify-center">
-                                                        <button
-                                                                type="button"
-                                                                data-load-more-testimonials
-                                                                aria-expanded="false"
-                                                                aria-controls="video-testimonials-grid"
-                                                                class="inline-flex items-center justify-center gap-2 rounded-full border border-brand-primary/40 bg-white/[0.03] px-8 py-3 font-display text-sm font-semibold text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand-accent/60 hover:bg-brand-primary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#010130]"
+                                        <div class="mt-16">
+                                                <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+                                                        {videoTestimonials.map((t, i) => (
+                                                                <button
+                                                                        type="button"
+                                                                        class="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-3 text-left transition-all duration-300 ease-out hover:-translate-y-1 hover:border-brand-accent/40 hover:shadow-[0_8px_40px_rgba(15,255,255,0.18)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#010130]"
+                                                                        data-testimonial-trigger
+                                                                        data-testimonial-index={i}
+                                                                        aria-label={`Play client testimonial ${i + 1}`}
+                                                                >
+                                                                        <div class="relative aspect-[9/16] overflow-hidden rounded-xl bg-black">
+                                                                                {t.thumbnailUrl ? (
+                                                                                        <img
+                                                                                                src={t.thumbnailUrl}
+                                                                                                alt=""
+                                                                                                loading="lazy"
+                                                                                                class="h-full w-full object-cover"
+                                                                                        />
+                                                                                ) : (
+                                                                                        <div class="absolute inset-0 bg-gradient-to-br from-brand-primary/30 via-brand-secondary/20 to-brand-magenta/15" aria-hidden="true"></div>
+                                                                                )}
+                                                                                <span
+                                                                                        class="pointer-events-none absolute inset-0 m-auto flex h-12 w-12 items-center justify-center rounded-full bg-white/85 shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-300 group-hover:bg-white motion-safe:group-hover:scale-[1.15] sm:h-14 sm:w-14"
+                                                                                        aria-hidden="true"
+                                                                                >
+                                                                                        <svg viewBox="0 0 24 24" fill="currentColor" class="ml-0.5 h-5 w-5 text-brand-secondary sm:h-6 sm:w-6">
+                                                                                                <polygon points="6 4 20 12 6 20 6 4" />
+                                                                                        </svg>
+                                                                                </span>
+                                                                        </div>
+                                                                </button>
+                                                        ))}
+                                                </div>
+
+                                                <div class="mt-16 flex justify-center">
+                                                        <a
+                                                                href="https://www.growthnowmedia.com/contact"
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                class="inline-flex items-center justify-center rounded-full bg-brand-primary px-8 py-3.5 font-display text-[15px] font-semibold text-white shadow-[0_0_32px_rgba(138,26,255,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-secondary"
                                                         >
-                                                                <span data-load-more-label>Load More Testimonials</span>
-                                                                <span data-load-more-icon class="transition-transform duration-300" aria-hidden="true">↓</span>
-                                                        </button>
+                                                                Book an Advisor Intro Call
+                                                        </a>
                                                 </div>
-
-                                                <div
-                                                        id="video-testimonials-grid"
-                                                        data-video-testimonials
-                                                        hidden
-                                                        class="mt-12 space-y-12"
-                                                >
-                                                        {nateTestimonials.length > 0 && (
-                                                                <div>
-                                                                        <p class="mb-6 text-center text-xs font-semibold uppercase tracking-[3px] text-brand-accent">
-                                                                                Nate's Clients
-                                                                        </p>
-                                                                        <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-                                                                                {nateTestimonials.map((t, i) => (
-                                                                                        <button
-                                                                                                type="button"
-                                                                                                class="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-3 text-left transition-all duration-300 ease-out hover:-translate-y-1 hover:border-brand-accent/40 hover:shadow-[0_8px_40px_rgba(15,255,255,0.18)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#010130]"
-                                                                                                data-testimonial-trigger
-                                                                                                data-testimonial-index={nateOffset + i}
-                                                                                                aria-label={`Play Nate's client testimonial ${i + 1}`}
-                                                                                        >
-                                                                                                <div class="relative aspect-[9/16] overflow-hidden rounded-xl bg-black">
-                                                                                                        {t.thumbnailUrl ? (
-                                                                                                                <img
-                                                                                                                        src={t.thumbnailUrl}
-                                                                                                                        alt=""
-                                                                                                                        loading="lazy"
-                                                                                                                        class="h-full w-full object-cover"
-                                                                                                                />
-                                                                                                        ) : (
-                                                                                                                <div class="absolute inset-0 bg-gradient-to-br from-brand-primary/30 via-brand-secondary/20 to-brand-magenta/15" aria-hidden="true"></div>
-                                                                                                        )}
-                                                                                                        <span
-                                                                                                                class="pointer-events-none absolute inset-0 m-auto flex h-12 w-12 items-center justify-center rounded-full bg-white/85 shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-300 group-hover:bg-white motion-safe:group-hover:scale-[1.15] sm:h-14 sm:w-14"
-                                                                                                                aria-hidden="true"
-                                                                                                        >
-                                                                                                                <svg viewBox="0 0 24 24" fill="currentColor" class="ml-0.5 h-5 w-5 text-brand-secondary sm:h-6 sm:w-6">
-                                                                                                                        <polygon points="6 4 20 12 6 20 6 4" />
-                                                                                                                </svg>
-                                                                                                        </span>
-                                                                                                </div>
-                                                                                        </button>
-                                                                                ))}
-                                                                        </div>
-                                                                </div>
-                                                        )}
-
-                                                        {andrewTestimonials.length > 0 && (
-                                                                <div>
-                                                                        <p class="mb-6 text-center text-xs font-semibold uppercase tracking-[3px] text-brand-accent">
-                                                                                Andrew's Clients
-                                                                        </p>
-                                                                        <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-                                                                                {andrewTestimonials.map((t, i) => (
-                                                                                        <button
-                                                                                                type="button"
-                                                                                                class="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-3 text-left transition-all duration-300 ease-out hover:-translate-y-1 hover:border-brand-accent/40 hover:shadow-[0_8px_40px_rgba(15,255,255,0.18)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#010130]"
-                                                                                                data-testimonial-trigger
-                                                                                                data-testimonial-index={andrewOffset + i}
-                                                                                                aria-label={`Play Andrew's client testimonial ${i + 1}`}
-                                                                                        >
-                                                                                                <div class="relative aspect-[9/16] overflow-hidden rounded-xl bg-black">
-                                                                                                        {t.thumbnailUrl ? (
-                                                                                                                <img
-                                                                                                                        src={t.thumbnailUrl}
-                                                                                                                        alt=""
-                                                                                                                        loading="lazy"
-                                                                                                                        class="h-full w-full object-cover"
-                                                                                                                />
-                                                                                                        ) : (
-                                                                                                                <div class="absolute inset-0 bg-gradient-to-br from-brand-primary/30 via-brand-secondary/20 to-brand-magenta/15" aria-hidden="true"></div>
-                                                                                                        )}
-                                                                                                        <span
-                                                                                                                class="pointer-events-none absolute inset-0 m-auto flex h-12 w-12 items-center justify-center rounded-full bg-white/85 shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all duration-300 group-hover:bg-white motion-safe:group-hover:scale-[1.15] sm:h-14 sm:w-14"
-                                                                                                                aria-hidden="true"
-                                                                                                        >
-                                                                                                                <svg viewBox="0 0 24 24" fill="currentColor" class="ml-0.5 h-5 w-5 text-brand-secondary sm:h-6 sm:w-6">
-                                                                                                                        <polygon points="6 4 20 12 6 20 6 4" />
-                                                                                                                </svg>
-                                                                                                        </span>
-                                                                                                </div>
-                                                                                        </button>
-                                                                                ))}
-                                                                        </div>
-                                                                </div>
-                                                        )}
-                                                </div>
-                                        </>
+                                        </div>
                                 )}
                         </div>
                 </section>
@@ -573,32 +520,4 @@ const faqItems = [
         </div>
 
         <TestimonialLightbox testimonials={videoTestimonials} />
-
-        <script>
-                // Toggle the hidden video testimonial grid below the written quotes.
-                // Re-runs on each astro:page-load so a new button gets wired after view transitions.
-                document.addEventListener('astro:page-load', () => {
-                        const button = document.querySelector<HTMLButtonElement>('[data-load-more-testimonials]');
-                        const grid = document.querySelector<HTMLElement>('[data-video-testimonials]');
-                        if (!button || !grid) return;
-
-                        const label = button.querySelector<HTMLElement>('[data-load-more-label]');
-                        const icon = button.querySelector<HTMLElement>('[data-load-more-icon]');
-
-                        button.addEventListener('click', () => {
-                                const willOpen = grid.hasAttribute('hidden');
-                                if (willOpen) {
-                                        grid.removeAttribute('hidden');
-                                        button.setAttribute('aria-expanded', 'true');
-                                        if (label) label.textContent = 'Show Fewer Testimonials';
-                                        if (icon) icon.style.transform = 'rotate(180deg)';
-                                } else {
-                                        grid.setAttribute('hidden', '');
-                                        button.setAttribute('aria-expanded', 'false');
-                                        if (label) label.textContent = 'Load More Testimonials';
-                                        if (icon) icon.style.transform = '';
-                                }
-                        });
-                });
-        </script>
 </Layout>
