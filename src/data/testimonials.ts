@@ -37,6 +37,7 @@ export const testimonials: Testimonial[] = [
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/jacob/video.mp4',      thumbnailUrl: '/testimonials/homepage/jacob/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/jessica-1/video.mp4',  thumbnailUrl: '/testimonials/homepage/jessica-1/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/katrina/video.mp4',    thumbnailUrl: '/testimonials/homepage/katrina/cover.png' },
+	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/terra/video.mp4',      thumbnailUrl: '/testimonials/homepage/terra/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/tom-taylor/video.mp4', thumbnailUrl: '/testimonials/homepage/tom-taylor/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/tracy/video.mp4',      thumbnailUrl: '/testimonials/homepage/tracy/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/wendy-1/video.mp4',    thumbnailUrl: '/testimonials/homepage/wendy-1/cover.png' },
