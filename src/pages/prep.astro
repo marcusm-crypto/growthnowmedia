@@ -1,0 +1,1175 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = 'Prep for your call — Growth Now Media';
+const description = 'Quick prep for your strategy session. Three questions, sixty seconds.';
+
+const leaks = [
+	{
+		val: 'leads',
+		label: 'Not enough leads coming in',
+		friendly: 'Lead flow',
+		fix: 'Multi-channel lead engine built around your top services — most clinics double pipeline within 60 days.',
+	},
+	{
+		val: 'booking',
+		label: "Leads aren't booking consults",
+		friendly: 'Booking rate',
+		fix: 'Speed-to-lead under 5 minutes, 7-day follow-up cadence — we book leads your team already paid for.',
+	},
+	{
+		val: 'show',
+		label: "Bookings aren't showing up",
+		friendly: 'Show rate',
+		fix: 'Deposit at booking + 7-day-a-week confirmation sequence. This is what we do better than anyone — show rates jump 20+ points in 60 days.',
+	},
+	{
+		val: 'close',
+		label: "Consults aren't closing",
+		friendly: 'Close rate',
+		fix: 'Consult scripts and offer architecture built for aesthetic clinics — most operators close 10-20 points higher in 30 days.',
+	},
+	{
+		val: 'retention',
+		label: "Clients aren't coming back",
+		friendly: 'Retention',
+		fix: 'Membership architecture + automated nurture so first-time clients become recurring revenue.',
+	},
+];
+
+const revenueBands = [
+	{ val: 'under-25k', label: 'Under $25K' },
+	{ val: '25-50k', label: '$25K – $50K' },
+	{ val: '50-100k', label: '$50K – $100K' },
+	{ val: '100k-plus', label: '$100K+' },
+];
+---
+
+<Layout title={title} description={description}>
+	<meta slot="head" name="robots" content="noindex, nofollow" />
+
+	<section class="prep-section">
+		<div class="prep-container">
+			<header class="prep-header">
+				<img src="/main-logo.svg" alt="Growth Now Media" class="prep-logo" />
+				<h1 class="prep-headline">Let's make our call worth your time.</h1>
+				<p class="prep-subheadline">60 seconds. Andrew will have your answers in hand before we talk.</p>
+			</header>
+
+			<div id="error-bar" class="error-bar" role="alert" aria-live="polite"></div>
+
+			<form id="prep-form" class="prep-form" novalidate>
+				{/* Section 1 — Contact info */}
+				<div class="field-group">
+					<div class="field">
+						<label for="business_name" class="visually-hidden">Business name</label>
+						<input
+							type="text"
+							id="business_name"
+							name="business_name"
+							placeholder="Your clinic / business name"
+							autocomplete="organization"
+							required
+						/>
+					</div>
+
+					<div class="field">
+						<label for="city_state" class="visually-hidden">City, State</label>
+						<input
+							type="text"
+							id="city_state"
+							name="city_state"
+							placeholder="Your city and state"
+							autocomplete="address-level2"
+							required
+						/>
+					</div>
+
+					<div class="field">
+						<label for="email" class="visually-hidden">Email</label>
+						<input
+							type="email"
+							id="email"
+							name="email"
+							placeholder="you@yourbusiness.com"
+							autocomplete="email"
+							required
+						/>
+					</div>
+
+					<div class="field">
+						<label for="phone" class="visually-hidden">Mobile number</label>
+						<input
+							type="tel"
+							id="phone"
+							name="phone"
+							placeholder="(555) 123-4567"
+							autocomplete="tel"
+							required
+						/>
+					</div>
+				</div>
+
+				<div class="divider"></div>
+
+				{/* Section 2 — The leak question */}
+				<fieldset class="leak-fieldset">
+					<legend class="section-label">Where's the biggest leak in your business?</legend>
+					<p class="section-sublabel">Pick up to three.</p>
+
+					<div class="leak-list" role="group" aria-label="Biggest leaks">
+						{leaks.map((leak) => (
+							<div class="leak-row-wrapper">
+								<div
+									class="leak-row"
+									role="button"
+									tabindex="0"
+									data-leak={leak.val}
+									aria-pressed="false"
+								>
+									<span class="leak-label">{leak.label}</span>
+									<span class="leak-indicator" aria-hidden="true">
+										<svg viewBox="0 0 18 18" width="10" height="10" class="leak-check">
+											<polyline points="3,9 7,13 15,5" fill="none" stroke="#010130" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+										</svg>
+									</span>
+								</div>
+								<div class="leak-reveal" data-reveal-for={leak.val} hidden>
+									<div class="reveal-label">HOW GNM FIXES THIS</div>
+									<div class="reveal-text">{leak.fix}</div>
+								</div>
+							</div>
+						))}
+					</div>
+				</fieldset>
+
+				{/* Section 3 — Self-rating (revealed when at least one leak picked) */}
+				<div id="rating-block" class="rating-block" hidden>
+					<div class="rating-header">RATE YOURSELF</div>
+					<p class="rating-sublabel">1 = broken, 5 = dialed in</p>
+					<div id="rating-rows" class="rating-rows"></div>
+				</div>
+
+				{/* Section 4 — Revenue band */}
+				<div class="revenue-block">
+					<div class="section-label">Monthly revenue range</div>
+					<div class="revenue-grid" role="radiogroup" aria-label="Monthly revenue range">
+						{revenueBands.map((band) => (
+							<div
+								class="tile revenue-tile"
+								role="radio"
+								tabindex="0"
+								aria-checked="false"
+								data-revenue={band.val}
+							>
+								{band.label}
+							</div>
+						))}
+					</div>
+				</div>
+
+				<button type="submit" id="submit-btn" class="submit-btn">
+					Lock In My Call →
+				</button>
+				<p class="submit-microcopy">By submitting, you confirm your appointment with Growth Now Media.</p>
+			</form>
+
+			{/* Success view (hidden until submit) */}
+			<div id="success-view" class="success-view" hidden>
+				<div class="success-check">
+					<svg viewBox="0 0 56 56" width="28" height="28" aria-hidden="true">
+						<polyline points="14,29 24,39 42,19" fill="none" stroke="#010130" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</div>
+				<h2 class="success-headline">You're locked in.</h2>
+				<p class="success-subhead">Andrew has your answers. Here's a quick word from him before tomorrow.</p>
+
+				{/* TODO: Replace with actual prep video embed - see /public/videos/andrew-prep.mp4 once uploaded */}
+				<div class="prep-video-placeholder" role="button" tabindex="0" aria-label="Play Andrew's prep video">
+					<div class="prep-video-inner">
+						<div class="play-icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" width="28" height="28">
+								<polygon points="8,5 20,12 8,19" fill="#010130" />
+							</svg>
+						</div>
+						<div class="video-label">Andrew · Prep Video</div>
+						<div class="video-duration">0:45</div>
+					</div>
+				</div>
+
+				<div class="call-card">
+					<div class="call-label">YOUR CALL</div>
+					<div class="call-detail">Your appointment with Andrew Sousa</div>
+					{/* TODO: pull appointment date/time from URL params in a later iteration */}
+					<div class="call-time">Date &amp; time to be confirmed via your booking email.</div>
+				</div>
+
+				<p class="success-closing">Need to reschedule? Just reply to the text we sent you — we're on the other end.</p>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.prep-section {
+		background: #010130;
+		min-height: 100dvh;
+		padding: 48px 20px 80px;
+		color: #ffffff;
+		font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+	}
+
+	.prep-container {
+		max-width: 480px;
+		margin: 0 auto;
+	}
+
+	.prep-header {
+		text-align: center;
+		margin-bottom: 32px;
+	}
+
+	.prep-logo {
+		display: block;
+		margin: 0 auto 20px;
+		max-width: 140px;
+		width: 100%;
+		height: auto;
+	}
+
+	.prep-headline {
+		font-family: 'Questrial', system-ui, -apple-system, sans-serif;
+		font-size: 32px;
+		line-height: 1.15;
+		font-weight: 400;
+		color: #ffffff;
+		margin: 0 0 12px;
+		letter-spacing: -0.5px;
+	}
+
+	@media (min-width: 640px) {
+		.prep-headline {
+			font-size: 40px;
+		}
+	}
+
+	.prep-subheadline {
+		font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+		font-size: 14px;
+		line-height: 1.5;
+		color: #b4b8d4;
+		margin: 0;
+	}
+
+	@media (min-width: 640px) {
+		.prep-subheadline {
+			font-size: 16px;
+		}
+	}
+
+	.error-bar {
+		display: none;
+		background: rgba(255, 26, 255, 0.12);
+		border: 1px solid #ff1aff;
+		color: #ff86ff;
+		padding: 12px 14px;
+		border-radius: 10px;
+		font-size: 13px;
+		margin-bottom: 16px;
+		text-align: center;
+		transition: opacity 0.4s ease;
+	}
+
+	.error-bar.show {
+		display: block;
+	}
+
+	.error-bar.fading {
+		opacity: 0;
+	}
+
+	/* Form */
+	.prep-form {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.field-group {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.field input {
+		width: 100%;
+		background: rgba(255, 255, 255, 0.06);
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		color: #ffffff;
+		padding: 12px;
+		border-radius: 10px;
+		font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+		font-size: 15px;
+		line-height: 1.4;
+		transition: border-color 0.2s ease, background 0.2s ease;
+		-webkit-appearance: none;
+		appearance: none;
+	}
+
+	.field input::placeholder {
+		color: rgba(180, 184, 212, 0.55);
+	}
+
+	.field input:focus {
+		outline: none;
+		border-color: #0fffff;
+		background: rgba(15, 255, 255, 0.05);
+	}
+
+	.field input.error {
+		border-color: #ff1aff;
+	}
+
+	.divider {
+		height: 1px;
+		background: rgba(255, 255, 255, 0.08);
+		margin: 24px 0;
+		border: 0;
+	}
+
+	/* Sections */
+	.section-label {
+		display: block;
+		color: #ffffff;
+		font-size: 13px;
+		font-weight: 500;
+		margin: 0 0 4px;
+		padding: 0;
+	}
+
+	.section-sublabel {
+		color: #6b6f8a;
+		font-size: 12px;
+		margin: 0 0 14px;
+	}
+
+	.leak-fieldset {
+		border: 0;
+		padding: 0;
+		margin: 0;
+	}
+
+	.leak-list {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.leak-row-wrapper {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.leak-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		background: rgba(255, 255, 255, 0.06);
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		color: #ffffff;
+		padding: 14px 16px;
+		border-radius: 10px;
+		font-size: 14px;
+		line-height: 1.3;
+		cursor: pointer;
+		user-select: none;
+		transition: background 0.2s ease, border-color 0.2s ease;
+	}
+
+	.leak-row:focus-visible {
+		outline: 2px solid #0fffff;
+		outline-offset: 2px;
+	}
+
+	.leak-row.selected {
+		background: rgba(15, 255, 255, 0.1);
+		border-color: #0fffff;
+	}
+
+	.leak-label {
+		flex: 1;
+	}
+
+	.leak-indicator {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 18px;
+		height: 18px;
+		border-radius: 50%;
+		border: 1.5px solid rgba(255, 255, 255, 0.35);
+		background: transparent;
+		flex-shrink: 0;
+		transition: background 0.2s ease, border-color 0.2s ease;
+	}
+
+	.leak-check {
+		opacity: 0;
+		transition: opacity 0.15s ease;
+	}
+
+	.leak-row.selected .leak-indicator {
+		background: #0fffff;
+		border-color: #0fffff;
+	}
+
+	.leak-row.selected .leak-check {
+		opacity: 1;
+	}
+
+	.leak-reveal {
+		background: rgba(15, 255, 255, 0.06);
+		border-left: 2px solid #0fffff;
+		border-radius: 0 8px 8px 0;
+		padding: 12px 16px;
+		margin-top: 6px;
+		overflow: hidden;
+		max-height: 0;
+		opacity: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+		transition: max-height 0.35s ease, opacity 0.3s ease, padding 0.3s ease;
+	}
+
+	.leak-reveal[hidden] {
+		display: none;
+	}
+
+	.leak-reveal.open {
+		max-height: 200px;
+		opacity: 1;
+		padding-top: 12px;
+		padding-bottom: 12px;
+	}
+
+	.reveal-label {
+		color: #0fffff;
+		font-size: 11px;
+		letter-spacing: 1px;
+		font-weight: 600;
+		text-transform: uppercase;
+		margin-bottom: 4px;
+	}
+
+	.reveal-text {
+		color: #b4b8d4;
+		font-size: 12px;
+		line-height: 1.45;
+	}
+
+	/* Rating block */
+	.rating-block {
+		background: rgba(15, 255, 255, 0.04);
+		border: 1px solid rgba(15, 255, 255, 0.15);
+		border-radius: 12px;
+		padding: 18px;
+		margin-top: 24px;
+	}
+
+	.rating-block[hidden] {
+		display: none;
+	}
+
+	.rating-header {
+		color: #0fffff;
+		font-size: 11px;
+		letter-spacing: 1.5px;
+		font-weight: 600;
+		text-transform: uppercase;
+	}
+
+	.rating-sublabel {
+		color: #b4b8d4;
+		font-size: 12px;
+		margin: 4px 0 14px;
+	}
+
+	.rating-rows {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.rating-row {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.rating-row-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		margin-bottom: 10px;
+	}
+
+	.rating-friendly {
+		color: #ffffff;
+		font-size: 14px;
+		font-weight: 500;
+	}
+
+	.rating-readout {
+		color: #0fffff;
+		font-size: 14px;
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+
+	.rating-pill {
+		position: relative;
+		width: 100%;
+		height: 44px;
+		border-radius: 22px;
+		background: rgba(255, 255, 255, 0.06);
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		overflow: hidden;
+		cursor: pointer;
+	}
+
+	.rating-pill:focus-visible {
+		outline: 2px solid #0fffff;
+		outline-offset: 2px;
+	}
+
+	.rating-fill {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 60%;
+		background: linear-gradient(90deg, #8a1aff 0%, #0fffff 100%);
+		transition: width 0.2s ease-out;
+		pointer-events: none;
+	}
+
+	.rating-zones {
+		position: relative;
+		z-index: 2;
+		display: flex;
+		width: 100%;
+		height: 100%;
+	}
+
+	.rating-zone {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+	}
+
+	.rating-zone-label {
+		color: #ffffff;
+		font-size: 13px;
+		font-weight: 400;
+		opacity: 0.8;
+		font-variant-numeric: tabular-nums;
+		pointer-events: none;
+		transition: opacity 0.15s ease, font-weight 0.15s ease;
+	}
+
+	.rating-zone-label.active {
+		opacity: 1;
+		font-weight: 600;
+	}
+
+	/* Shared tile styling for rating + revenue */
+	.tile {
+		background: rgba(255, 255, 255, 0.06);
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		color: #ffffff;
+		padding: 12px 10px;
+		border-radius: 10px;
+		text-align: center;
+		font-size: 14px;
+		font-weight: 500;
+		cursor: pointer;
+		user-select: none;
+		transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+	}
+
+	.tile:focus-visible {
+		outline: 2px solid #0fffff;
+		outline-offset: 2px;
+	}
+
+	.tile.selected {
+		background: rgba(15, 255, 255, 0.15);
+		border-color: #0fffff;
+		color: #0fffff;
+	}
+
+	.tile.error {
+		border-color: #ff1aff;
+	}
+
+	.revenue-block {
+		margin-top: 24px;
+	}
+
+	.revenue-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 8px;
+		margin-top: 6px;
+	}
+
+	.revenue-grid.error .tile {
+		border-color: #ff1aff;
+	}
+
+	.leak-list.error .leak-row:not(.selected) {
+		border-color: #ff1aff;
+	}
+
+	/* Submit */
+	.submit-btn {
+		margin-top: 28px;
+		display: block;
+		width: 100%;
+		background: linear-gradient(90deg, #8a1aff 0%, #0fffff 100%);
+		color: #010130;
+		font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+		font-weight: 600;
+		font-size: 15px;
+		letter-spacing: 0.3px;
+		padding: 16px;
+		border-radius: 10px;
+		border: 0;
+		cursor: pointer;
+		transition: filter 0.2s ease, transform 0.1s ease;
+	}
+
+	.submit-btn:hover:not(:disabled) {
+		filter: brightness(1.08);
+	}
+
+	.submit-btn:active:not(:disabled) {
+		transform: scale(0.99);
+	}
+
+	.submit-btn:disabled {
+		opacity: 0.7;
+		cursor: progress;
+	}
+
+	.submit-microcopy {
+		color: #6b6f8a;
+		font-size: 11px;
+		text-align: center;
+		margin: 12px 0 0;
+	}
+
+	/* Visually hidden labels */
+	.visually-hidden {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	/* Success view */
+	.success-view {
+		text-align: center;
+		padding: 8px 0 24px;
+	}
+
+	.success-view[hidden] {
+		display: none;
+	}
+
+	.success-check {
+		width: 56px;
+		height: 56px;
+		border-radius: 50%;
+		background: linear-gradient(135deg, #8a1aff 0%, #0fffff 100%);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0 auto 18px;
+	}
+
+	.success-headline {
+		font-family: 'Questrial', system-ui, -apple-system, sans-serif;
+		font-size: 24px;
+		font-weight: 400;
+		color: #ffffff;
+		margin: 0 0 8px;
+	}
+
+	.success-subhead {
+		color: #b4b8d4;
+		font-size: 14px;
+		line-height: 1.5;
+		margin: 0 0 24px;
+	}
+
+	.prep-video-placeholder {
+		display: block;
+		max-width: 220px;
+		margin: 0 auto 24px;
+		aspect-ratio: 9 / 16;
+		border-radius: 14px;
+		background: linear-gradient(135deg, #8a1aff 0%, #0fffff 100%);
+		position: relative;
+		overflow: hidden;
+		cursor: pointer;
+	}
+
+	.prep-video-placeholder:focus-visible {
+		outline: 2px solid #0fffff;
+		outline-offset: 3px;
+	}
+
+	.prep-video-inner {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		color: #010130;
+		text-align: center;
+		padding: 0 12px;
+	}
+
+	.play-icon {
+		width: 56px;
+		height: 56px;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.92);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding-left: 4px;
+	}
+
+	.video-label {
+		font-size: 13px;
+		font-weight: 600;
+		letter-spacing: 0.3px;
+	}
+
+	.video-duration {
+		font-size: 11px;
+		opacity: 0.75;
+	}
+
+	.call-card {
+		background: rgba(255, 255, 255, 0.04);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		padding: 14px 16px;
+		border-radius: 10px;
+		text-align: left;
+		margin-bottom: 18px;
+	}
+
+	.call-label {
+		color: #0fffff;
+		font-size: 11px;
+		letter-spacing: 1px;
+		font-weight: 600;
+	}
+
+	.call-detail {
+		color: #ffffff;
+		font-size: 14px;
+		font-weight: 500;
+		margin-top: 6px;
+	}
+
+	.call-time {
+		color: #b4b8d4;
+		font-size: 12px;
+		margin-top: 4px;
+	}
+
+	.success-closing {
+		color: #6b6f8a;
+		font-size: 12px;
+		line-height: 1.5;
+		margin: 0;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.leak-row,
+		.leak-indicator,
+		.leak-check,
+		.leak-reveal,
+		.tile,
+		.field input,
+		.error-bar,
+		.submit-btn,
+		.rating-fill,
+		.rating-zone-label {
+			transition: none !important;
+		}
+
+		.leak-reveal.open {
+			max-height: none;
+		}
+	}
+</style>
+
+<script is:inline>
+	(function setupPrep() {
+		function init() {
+			const form = document.getElementById('prep-form');
+			if (!form || form.dataset.prepInit === '1') return;
+			form.dataset.prepInit = '1';
+
+			const WEBHOOK_URL =
+				'https://services.leadconnectorhq.com/hooks/0GfD23qRhCGEOpABX8Ia/webhook-trigger/bdb30131-5324-41c0-a298-422ccfb004f1';
+
+			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			const leakFriendly = {
+				leads: 'Lead flow',
+				booking: 'Booking rate',
+				show: 'Show rate',
+				close: 'Close rate',
+				retention: 'Retention',
+			};
+
+			// State
+			const selectedLeaks = []; // ordered, max 2
+			const ratings = {}; // { leakVal: 1..5 }
+			let selectedRevenue = null;
+
+			const leakRows = form.querySelectorAll('.leak-row');
+			const leakList = form.querySelector('.leak-list');
+			const revealNodes = form.querySelectorAll('.leak-reveal');
+			const ratingBlock = document.getElementById('rating-block');
+			const ratingRowsHost = document.getElementById('rating-rows');
+			const revenueGrid = form.querySelector('.revenue-grid');
+			const revenueTiles = form.querySelectorAll('.revenue-tile');
+			const submitBtn = document.getElementById('submit-btn');
+			const errorBar = document.getElementById('error-bar');
+			const successView = document.getElementById('success-view');
+
+			// Helpers
+			function findReveal(val) {
+				return form.querySelector('.leak-reveal[data-reveal-for="' + val + '"]');
+			}
+
+			function openReveal(node) {
+				if (!node) return;
+				node.hidden = false;
+				if (reduceMotion) {
+					node.classList.add('open');
+				} else {
+					// allow display change to flush before transitioning
+					requestAnimationFrame(() => node.classList.add('open'));
+				}
+			}
+
+			function closeReveal(node) {
+				if (!node) return;
+				node.classList.remove('open');
+				if (reduceMotion) {
+					node.hidden = true;
+				} else {
+					setTimeout(() => {
+						if (!node.classList.contains('open')) node.hidden = true;
+					}, 320);
+				}
+			}
+
+			function renderRatingRows() {
+				ratingRowsHost.innerHTML = '';
+				if (selectedLeaks.length === 0) {
+					ratingBlock.hidden = true;
+					return;
+				}
+				ratingBlock.hidden = false;
+
+				selectedLeaks.forEach((val) => {
+					if (!(val in ratings)) ratings[val] = 3;
+					const row = document.createElement('div');
+					row.className = 'rating-row';
+					row.dataset.ratingFor = val;
+
+					const head = document.createElement('div');
+					head.className = 'rating-row-head';
+
+					const name = document.createElement('span');
+					name.className = 'rating-friendly';
+					name.textContent = leakFriendly[val];
+
+					const readout = document.createElement('span');
+					readout.className = 'rating-readout';
+					readout.textContent = ratings[val] + ' / 5';
+					readout.setAttribute('aria-live', 'polite');
+
+					head.appendChild(name);
+					head.appendChild(readout);
+
+					// Pill control
+					const pill = document.createElement('div');
+					pill.className = 'rating-pill';
+					pill.setAttribute('role', 'slider');
+					pill.setAttribute('tabindex', '0');
+					pill.setAttribute('aria-label', leakFriendly[val] + ' rating');
+					pill.setAttribute('aria-valuemin', '1');
+					pill.setAttribute('aria-valuemax', '5');
+					pill.setAttribute('aria-valuenow', String(ratings[val]));
+
+					const fill = document.createElement('div');
+					fill.className = 'rating-fill';
+					fill.style.width = (ratings[val] / 5) * 100 + '%';
+					if (reduceMotion) fill.style.transition = 'none';
+
+					const zones = document.createElement('div');
+					zones.className = 'rating-zones';
+
+					const labelEls = [];
+
+					function setRating(n) {
+						ratings[val] = n;
+						fill.style.width = (n / 5) * 100 + '%';
+						readout.textContent = n + ' / 5';
+						pill.setAttribute('aria-valuenow', String(n));
+						labelEls.forEach((el, i) => {
+							if (i + 1 === n) el.classList.add('active');
+							else el.classList.remove('active');
+						});
+					}
+
+					for (let n = 1; n <= 5; n++) {
+						const zone = document.createElement('div');
+						zone.className = 'rating-zone';
+						zone.dataset.val = String(n);
+
+						const lbl = document.createElement('span');
+						lbl.className = 'rating-zone-label';
+						lbl.textContent = String(n);
+						if (ratings[val] === n) lbl.classList.add('active');
+						labelEls.push(lbl);
+						zone.appendChild(lbl);
+
+						zone.addEventListener('click', (e) => {
+							e.stopPropagation();
+							setRating(n);
+							pill.focus();
+						});
+
+						zones.appendChild(zone);
+					}
+
+					pill.addEventListener('keydown', (e) => {
+						const current = ratings[val] || 3;
+						if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+							e.preventDefault();
+							if (current < 5) setRating(current + 1);
+						} else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+							e.preventDefault();
+							if (current > 1) setRating(current - 1);
+						} else if (e.key === 'Home') {
+							e.preventDefault();
+							setRating(1);
+						} else if (e.key === 'End') {
+							e.preventDefault();
+							setRating(5);
+						}
+					});
+
+					pill.appendChild(fill);
+					pill.appendChild(zones);
+
+					row.appendChild(head);
+					row.appendChild(pill);
+					ratingRowsHost.appendChild(row);
+				});
+			}
+
+			function toggleLeak(val) {
+				const row = form.querySelector('.leak-row[data-leak="' + val + '"]');
+				const idx = selectedLeaks.indexOf(val);
+
+				if (idx >= 0) {
+					selectedLeaks.splice(idx, 1);
+					row.classList.remove('selected');
+					row.setAttribute('aria-pressed', 'false');
+					closeReveal(findReveal(val));
+					delete ratings[val];
+				} else {
+					if (selectedLeaks.length >= 3) {
+						return; // cap at 3, no error
+					}
+					selectedLeaks.push(val);
+					row.classList.add('selected');
+					row.setAttribute('aria-pressed', 'true');
+					openReveal(findReveal(val));
+				}
+
+				if (leakList) leakList.classList.remove('error');
+				renderRatingRows();
+			}
+
+			// Wire up leak rows
+			leakRows.forEach((row) => {
+				const val = row.dataset.leak;
+				const activate = () => toggleLeak(val);
+				row.addEventListener('click', activate);
+				row.addEventListener('keydown', (e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.preventDefault();
+						activate();
+					}
+				});
+			});
+
+			// Revenue tiles
+			revenueTiles.forEach((tile) => {
+				const val = tile.dataset.revenue;
+				const activate = () => {
+					selectedRevenue = val;
+					revenueTiles.forEach((t) => {
+						t.classList.remove('selected');
+						t.setAttribute('aria-checked', 'false');
+					});
+					tile.classList.add('selected');
+					tile.setAttribute('aria-checked', 'true');
+					if (revenueGrid) revenueGrid.classList.remove('error');
+				};
+				tile.addEventListener('click', activate);
+				tile.addEventListener('keydown', (e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.preventDefault();
+						activate();
+					}
+				});
+			});
+
+			function flashError(el) {
+				if (!el) return;
+				el.classList.add('error');
+				setTimeout(() => el.classList.remove('error'), 2000);
+			}
+
+			function showTopError(msg) {
+				if (!errorBar) return;
+				errorBar.textContent = msg;
+				errorBar.classList.remove('fading');
+				errorBar.classList.add('show');
+				setTimeout(() => {
+					errorBar.classList.add('fading');
+					setTimeout(() => {
+						errorBar.classList.remove('show', 'fading');
+						errorBar.textContent = '';
+					}, 450);
+				}, 4500);
+			}
+
+			form.addEventListener('submit', async (e) => {
+				e.preventDefault();
+				if (submitBtn.disabled) return;
+
+				const businessNameEl = document.getElementById('business_name');
+				const cityStateEl = document.getElementById('city_state');
+				const emailEl = document.getElementById('email');
+				const phoneEl = document.getElementById('phone');
+
+				let valid = true;
+
+				if (!businessNameEl.value.trim()) {
+					flashError(businessNameEl);
+					valid = false;
+				}
+				if (!cityStateEl.value.trim()) {
+					flashError(cityStateEl);
+					valid = false;
+				}
+				if (!emailEl.value.trim() || !/^\S+@\S+\.\S+$/.test(emailEl.value.trim())) {
+					flashError(emailEl);
+					valid = false;
+				}
+				if (!phoneEl.value.trim()) {
+					flashError(phoneEl);
+					valid = false;
+				}
+				if (selectedLeaks.length === 0) {
+					if (leakList) {
+						leakList.classList.add('error');
+						setTimeout(() => leakList.classList.remove('error'), 2000);
+					}
+					valid = false;
+				}
+				if (!selectedRevenue) {
+					if (revenueGrid) {
+						revenueGrid.classList.add('error');
+						setTimeout(() => revenueGrid.classList.remove('error'), 2000);
+					}
+					valid = false;
+				}
+
+				if (!valid) return;
+
+				const primary = selectedLeaks[0];
+				const secondary = selectedLeaks[1] || '';
+				const tertiary = selectedLeaks[2] || '';
+
+				const payload = {
+					business_name: businessNameEl.value.trim(),
+					city_state: cityStateEl.value.trim(),
+					email: emailEl.value.trim(),
+					phone: phoneEl.value.trim(),
+					leak_primary: primary,
+					leak_secondary: secondary,
+					leak_tertiary: tertiary,
+					rating_primary: ratings[primary] || 0,
+					rating_secondary: secondary ? ratings[secondary] || 0 : 0,
+					rating_tertiary: tertiary ? ratings[tertiary] || 0 : 0,
+					revenue_band: selectedRevenue,
+					prep_submitted_at: new Date().toISOString(),
+				};
+
+				submitBtn.disabled = true;
+				const originalLabel = submitBtn.textContent;
+				submitBtn.textContent = 'Submitting…';
+
+				try {
+					const res = await fetch(WEBHOOK_URL, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(payload),
+					});
+					if (!res.ok) throw new Error('Bad status ' + res.status);
+
+					form.hidden = true;
+					if (successView) {
+						successView.hidden = false;
+						successView.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+					}
+				} catch (err) {
+					submitBtn.disabled = false;
+					submitBtn.textContent = originalLabel;
+					showTopError("Something went wrong — please reply to our text and we'll sort it out.");
+				}
+			});
+		}
+
+		// Run on first load and on Astro view transitions
+		init();
+		document.addEventListener('astro:page-load', init);
+	})();
+</script>
