@@ -29,8 +29,9 @@ export type Testimonial = {
 };
 
 export const testimonials: Testimonial[] = [
-	// Pinned to first slot — appears as the lead card on the homepage grid.
+	// Pinned to top — appear as the lead cards on the homepage grid.
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/1-tracy/video.mp4',    thumbnailUrl: '/testimonials/homepage/1-tracy/cover.png' },
+	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/1-terra/video.mp4',    thumbnailUrl: '/testimonials/homepage/1-terra/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/elizabeth/video.mp4',  thumbnailUrl: '/testimonials/homepage/elizabeth/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/isabela-1/video.mp4',  thumbnailUrl: '/testimonials/homepage/isabela-1/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/jacob/video.mp4',      thumbnailUrl: '/testimonials/homepage/jacob/cover.png' },
