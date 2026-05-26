@@ -42,6 +42,18 @@ export const operators = [
 		videoTestimonials: [],
 	},
 	{
+		name: 'Marcus Mullins',
+		slug: null,
+		role: 'National VP of Strategic Partnerships',
+		isFounder: false,
+		// TODO: drop Marcus's headshot at /team/marcus-mullins.jpg
+		photo: null,
+		bullets: [],
+		fullBio: [],
+		testimonials: [],
+		videoTestimonials: [],
+	},
+	{
 		name: 'Michelle Steenkamp',
 		slug: null,
 		role: 'Account Manager & Team Lead',
