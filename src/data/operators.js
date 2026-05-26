@@ -24,9 +24,9 @@ export const operators = [
 		videoTestimonials: [],
 	},
 	{
-		name: 'Andrew Sousa',
+		name: 'Drew Sousa',
 		slug: 'andrew-sousa',
-		role: 'Co-founder & Head of Growth',
+		role: 'Co-founder and Chief Growth Strategist',
 		isFounder: true,
 		photo: '/team/andrew-sousa.jpg',
 		bullets: [
@@ -36,7 +36,7 @@ export const operators = [
 		],
 		fullBio: [
 			"Entrepreneur, growth strategist, and operator who has helped scale 500+ wellness brands and franchises, generating $26M+ in client revenue and expanding concepts to 500+ locations nationwide. With a background that includes a successful agency exit, he's known for turning inconsistent pipelines into predictable, scalable growth systems.",
-			'As the founder of Growth Now Media, Andrew leads a performance-driven team that integrates paid traffic, appointment setting, sales training, CRM automation, and operations into one unified system—helping multi-location businesses drive consistent bookings, higher conversions, and scalable revenue growth.',
+			'As the founder of Growth Now Media, Drew leads a performance-driven team that integrates paid traffic, appointment setting, sales training, CRM automation, and operations into one unified system—helping multi-location businesses drive consistent bookings, higher conversions, and scalable revenue growth.',
 		],
 		testimonials: [],
 		videoTestimonials: [],
