@@ -46,9 +46,12 @@ export const operators = [
 		slug: null,
 		role: 'VP of Strategic Partnerships',
 		isFounder: false,
-		// TODO: drop Marcus's headshot at /team/marcus-mullins.jpg
-		photo: null,
-		bullets: [],
+		photo: '/team/marcus-mullins.jpg',
+		bullets: [
+			'$25M+ in client revenue generated through sales and multi-channel marketing',
+			'Helps clinics scale past traditional growth ceilings',
+			'Specialty: B2B sales, cross-functional marketing, and enterprise alliances',
+		],
 		fullBio: [],
 		testimonials: [],
 		videoTestimonials: [],
