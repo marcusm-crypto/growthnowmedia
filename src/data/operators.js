@@ -112,7 +112,7 @@ export const operators = [
 	{
 		name: 'Ryan Cardona',
 		slug: null,
-		role: 'Account Manager',
+		role: 'Growth Account Manager',
 		isFounder: false,
 		photo: '/team/ryan-cardona.jpg',
 		bullets: [
