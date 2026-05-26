@@ -8,7 +8,7 @@ export const operators = [
 	{
 		name: 'Nate Fennell',
 		slug: 'nate-fennell',
-		role: 'Co-founder & Chief Operator',
+		role: 'Co-founder and Chief Growth Operator',
 		isFounder: true,
 		photo: '/team/nate-fennell.jpg',
 		bullets: [
