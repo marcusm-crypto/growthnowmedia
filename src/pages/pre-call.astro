@@ -1,0 +1,593 @@
+---
+// src/pages/pre-call.astro
+// Growth Now Media — Pre-Call Strategy Worksheet
+// Renders at /pre-call, wrapped in the site Layout (header + footer).
+//
+// WIRING TO GHL (do this with Anna):
+//   1. In GHL: Automation > Workflows > new workflow > trigger "Inbound Webhook".
+//   2. Copy the webhook URL GHL generates.
+//   3. Paste it into GHL_WEBHOOK_URL below.
+//   4. In the workflow, map the incoming JSON fields to contact custom fields,
+//      tag the contact "precall_complete", then fire the T-60 closer prep brief.
+// The form POSTs JSON, so every field (including the calculated rates and the
+// self-score / commitment score) lands in the contact record automatically.
+
+import Layout from '../layouts/Layout.astro';
+
+const GHL_WEBHOOK_URL = "PASTE_YOUR_GHL_INBOUND_WEBHOOK_URL_HERE";
+
+const title = 'Pre-Call Strategy Worksheet — Growth Now Media';
+const description = 'Complete before your strategy call. Honest answers = a more valuable conversation.';
+---
+
+<Layout title={title} description={description}>
+  <Fragment slot="head">
+    <meta name="robots" content="noindex, nofollow" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap"
+    />
+  </Fragment>
+
+  <div class="page-bg">
+    <div class="sheet" data-webhook={GHL_WEBHOOK_URL}>
+      {/* ===== MASTHEAD ===== */}
+      <header class="mast">
+        <div class="mast__brand">Growth Now Media</div>
+        <h1 class="mast__title">Pre-Call Strategy Worksheet</h1>
+        <p class="mast__sub">Complete before your strategy call. Honest answers = a more valuable conversation.</p>
+        <div class="grid grid--head">
+          <label class="field">
+            <span>Your Name</span>
+            <input type="text" name="your_name" autocomplete="name" required />
+          </label>
+          <label class="field">
+            <span>Business Name</span>
+            <input type="text" name="business_name" autocomplete="organization" required />
+          </label>
+          <label class="field">
+            <span>Call Date</span>
+            <input type="date" name="call_date" />
+          </label>
+          <label class="field">
+            <span>Call With</span>
+            <select name="call_with">
+              <option value="Drew" selected>Drew</option>
+              <option value="Nate">Nate</option>
+              <option value="Drew & Nate">Drew &amp; Nate</option>
+            </select>
+          </label>
+        </div>
+      </header>
+
+      {/* ===== SECTION 1 ===== */}
+      <section class="sec">
+        <div class="sec__head"><span class="sec__num">1</span>
+          <div><h2>Your Business Today</h2><p>Where are you starting from?</p></div>
+        </div>
+        <div class="grid grid--2">
+          <label class="field"><span>Business Type / Service</span><input type="text" name="biz_type" /></label>
+          <label class="field"><span>How Long in Business?</span><input type="text" name="biz_age" placeholder="e.g. 8 months, 3 years" /></label>
+          <label class="field"><span>Number of Locations</span><input type="number" min="0" name="locations" /></label>
+          <label class="field"><span>Current Team Size</span><input type="number" min="0" name="team_size" /></label>
+        </div>
+        <div class="grid grid--6">
+          <label class="field"><span>Monthly Revenue ($)</span><input type="number" min="0" name="monthly_revenue" /></label>
+          <label class="field"><span>New Clients / Mo</span><input type="number" min="0" name="new_clients" /></label>
+          <label class="field"><span>Active Memberships</span><input type="number" min="0" name="active_memberships" /></label>
+          <label class="field"><span>Avg Ticket ($)</span><input type="number" min="0" name="avg_ticket" /></label>
+          <label class="field"><span>Ad Spend / Mo ($)</span><input type="number" min="0" name="ad_spend" /></label>
+          <label class="field"><span>Leads / Mo</span><input type="number" min="0" name="leads_section1" /></label>
+        </div>
+        <label class="field"><span>What marketing are you currently running? (Meta, Google, referrals, organic, nothing yet)</span>
+          <textarea name="current_marketing" rows="2"></textarea></label>
+      </section>
+
+      {/* ===== SECTION 2 ===== */}
+      <section class="sec">
+        <div class="sec__head"><span class="sec__num">2</span>
+          <div><h2>Current Performance Snapshot</h2><p>Enter your numbers. Your rates calculate as you type.</p></div>
+        </div>
+
+        <div class="snap" id="snap">
+          <div class="snap__legend">
+            <span>Enter the raw count in each box. The rate and a benchmark check appear automatically. Then rate yourself 1&ndash;5 on the right.</span>
+          </div>
+
+          {/* Lead Flow */}
+          <div class="metric" data-key="leadflow" data-dir="up" data-good="300" data-ok="150">
+            <div class="metric__name">Lead Flow</div>
+            <label class="metric__in"><span>Leads / mo</span><input type="number" min="0" name="m_leads" data-role="num" /></label>
+            <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">leads/mo</span></div>
+            <div class="metric__bench">300+/mo = strong</div>
+            <div class="metric__rating" data-role="rating"></div>
+          </div>
+
+          {/* Booking Rate */}
+          <div class="metric" data-key="booking" data-dir="up" data-good="40" data-ok="25">
+            <div class="metric__name">Booking Rate</div>
+            <label class="metric__in"><span>Bookings / mo</span><input type="number" min="0" name="m_bookings" data-role="num" /></label>
+            <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">%</span></div>
+            <div class="metric__bench">&gt;40% = good</div>
+            <div class="metric__rating" data-role="rating"></div>
+          </div>
+
+          {/* Show Rate */}
+          <div class="metric" data-key="show" data-dir="up" data-good="65" data-ok="50">
+            <div class="metric__name">Show Rate</div>
+            <label class="metric__in"><span>Shows / mo</span><input type="number" min="0" name="m_shows" data-role="num" /></label>
+            <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">%</span></div>
+            <div class="metric__bench">&gt;65% = good</div>
+            <div class="metric__rating" data-role="rating"></div>
+          </div>
+
+          {/* Close Rate */}
+          <div class="metric" data-key="close" data-dir="up" data-good="30" data-ok="20">
+            <div class="metric__name">Close Rate</div>
+            <label class="metric__in"><span>Closes / mo</span><input type="number" min="0" name="m_closes" data-role="num" /></label>
+            <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">%</span></div>
+            <div class="metric__bench">&gt;30% = good</div>
+            <div class="metric__rating" data-role="rating"></div>
+          </div>
+
+          {/* Membership Rate */}
+          <div class="metric" data-key="membership" data-dir="up" data-good="20" data-ok="10">
+            <div class="metric__name">Membership Rate</div>
+            <label class="metric__in"><span>New memberships / mo</span><input type="number" min="0" name="m_memberships" data-role="num" /></label>
+            <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">%</span></div>
+            <div class="metric__bench">&gt;20% of leads</div>
+            <div class="metric__rating" data-role="rating"></div>
+          </div>
+          <div class="metric metric--sub">
+            <div class="metric__name">&#8627; Walk-in Credits</div>
+            <label class="metric__in"><span>Walk-ins / mo</span><input type="number" min="0" name="m_walkins" data-role="sub" /></label>
+            <div class="metric__rate metric__rate--none">&mdash;</div>
+            <div class="metric__bench"></div>
+            <div class="metric__rating"></div>
+          </div>
+
+          {/* Churn Rate */}
+          <div class="metric" data-key="churn" data-dir="down" data-good="5" data-ok="8">
+            <div class="metric__name">Churn Rate</div>
+            <label class="metric__in"><span>Members lost / mo</span><input type="number" min="0" name="m_churned" data-role="num" /></label>
+            <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">%/mo</span></div>
+            <div class="metric__bench">&lt;5%/mo = good</div>
+            <div class="metric__rating" data-role="rating"></div>
+          </div>
+          <div class="metric metric--sub">
+            <div class="metric__name">&#8627; Total Members</div>
+            <label class="metric__in"><span>Total members</span><input type="number" min="0" name="m_total_members" data-role="sub" /></label>
+            <div class="metric__rate metric__rate--none">&mdash;</div>
+            <div class="metric__bench"></div>
+            <div class="metric__rating"></div>
+          </div>
+
+          {/* CAC */}
+          <div class="metric" data-key="cac" data-dir="down" data-good="500" data-ok="800" data-money="1">
+            <div class="metric__name">CAC</div>
+            <label class="metric__in"><span>Ad spend / mo ($)</span><input type="number" min="0" name="m_cac_spend" data-role="num" /></label>
+            <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">$ / client</span></div>
+            <div class="metric__bench">&lt;$500 = strong</div>
+            <div class="metric__rating" data-role="rating"></div>
+          </div>
+
+          {/* LTV */}
+          <div class="metric" data-key="ltv" data-dir="up" data-good="2000" data-ok="1000" data-money="1">
+            <div class="metric__name">LTV</div>
+            <label class="metric__in"><span>Avg monthly value ($)</span><input type="number" min="0" name="m_ltv_monthly" data-role="num" /></label>
+            <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">$</span></div>
+            <div class="metric__bench">&gt;$2,000 = strong</div>
+            <div class="metric__rating" data-role="rating"></div>
+          </div>
+          <div class="metric metric--sub">
+            <div class="metric__name">&#8627; Avg Lifespan</div>
+            <label class="metric__in"><span>Months</span><input type="number" min="0" name="m_lifespan" data-role="sub" value="12" /></label>
+            <div class="metric__rate metric__rate--none">12+ mo = strong</div>
+            <div class="metric__bench"></div>
+            <div class="metric__rating"></div>
+          </div>
+
+          <div class="snap__avg">
+            <div>
+              <strong>Average Self-Score</strong>
+              <span>Anything you rate 1&ndash;2 is your highest-leverage opportunity.</span>
+            </div>
+            <div class="avg__num"><span id="avgScore">&mdash;</span> / 5</div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SECTION 3 ===== */}
+      <section class="sec">
+        <div class="sec__head"><span class="sec__num">3</span>
+          <div><h2>What&rsquo;s Not Working</h2><p>Be honest. This is where the value lives.</p></div>
+        </div>
+        <div class="grid grid--2">
+          <label class="field field--from"><span>&#128308;&nbsp; Running From &mdash; what are you trying to escape?</span><textarea name="running_from" rows="4"></textarea></label>
+          <label class="field field--to"><span>&#128994;&nbsp; Running To &mdash; what does winning look like?</span><textarea name="running_to" rows="4"></textarea></label>
+        </div>
+      </section>
+
+      {/* ===== SECTION 4 ===== */}
+      <section class="sec">
+        <div class="sec__head"><span class="sec__num">4</span>
+          <div><h2>Where You Want to Go</h2><p>Specific beats vague every time.</p></div>
+        </div>
+        <div class="grid grid--3">
+          <label class="field"><span>Revenue Goal / Mo ($)</span><input type="number" min="0" name="goal_revenue" /></label>
+          <label class="field"><span>New Clients / Mo Goal</span><input type="number" min="0" name="goal_clients" /></label>
+          <label class="field"><span>Membership Goal (#)</span><input type="number" min="0" name="goal_memberships" /></label>
+        </div>
+        <label class="field"><span>In one sentence &mdash; what does winning look like in 12 months?</span>
+          <input type="text" name="winning_sentence" placeholder="By June 2027, I will have..." /></label>
+        <div class="grid grid--2">
+          <label class="field"><span>Biggest obstacle to that goal</span><textarea name="biggest_obstacle" rows="3"></textarea></label>
+          <label class="field"><span>What have you tried that didn&rsquo;t work?</span><textarea name="tried_failed" rows="3"></textarea></label>
+        </div>
+      </section>
+
+      {/* ===== SECTION 5 ===== */}
+      <section class="sec">
+        <div class="sec__head"><span class="sec__num">5</span>
+          <div><h2>Investment &amp; Readiness</h2><p>So we don&rsquo;t waste each other&rsquo;s time.</p></div>
+        </div>
+        <div class="grid grid--2">
+          <label class="field"><span>Monthly Marketing Budget Available ($)</span><input type="number" min="0" name="budget" /></label>
+          <label class="field"><span>Timeline to Start</span>
+            <select name="timeline">
+              <option value="" selected disabled>Select one</option>
+              <option>ASAP / this month</option>
+              <option>1&ndash;2 months</option>
+              <option>3+ months</option>
+              <option>Just exploring for now</option>
+            </select>
+          </label>
+        </div>
+
+        <fieldset class="checks">
+          <legend>Who&rsquo;s on the call? Check all that apply.</legend>
+          <label class="check"><input type="checkbox" name="who" value="owner_decisionmaker" /><span>I&rsquo;m the owner / decision-maker &mdash; I can say yes on this call if it makes sense</span></label>
+          <label class="check"><input type="checkbox" name="who" value="needs_partner" /><span>I need to loop in a partner or spouse before deciding</span></label>
+          <label class="check"><input type="checkbox" name="who" value="evaluating_others" /><span>I&rsquo;m evaluating other options &mdash; this is one of a few calls this week</span></label>
+          <label class="check"><input type="checkbox" name="who" value="prior_bad_agency" /><span>I&rsquo;ve worked with a marketing agency before and had a bad experience</span></label>
+          <label class="check"><input type="checkbox" name="who" value="ready_to_move" /><span>I&rsquo;m ready to move &mdash; I just need to confirm this is the right fit</span></label>
+        </fieldset>
+
+        <label class="field"><span>Any other context Nate or Drew should know before the call?</span>
+          <textarea name="other_context" rows="3"></textarea></label>
+      </section>
+
+      {/* ===== COMMITMENT ===== */}
+      <section class="sec sec--commit">
+        <div class="sec__head"><span class="sec__num">&#10003;</span>
+          <div><h2>Before Your Call</h2><p>Confirm each to lock in your spot.</p></div>
+        </div>
+        <fieldset class="checks checks--commit" id="commit">
+          <label class="check check--big"><input type="checkbox" data-commit /><span>I&rsquo;ve completed this honestly &mdash; not how I wish things were, but how they actually are</span></label>
+          <label class="check check--big"><input type="checkbox" data-commit /><span>I&rsquo;ve reviewed the case studies and the &lsquo;what to expect&rsquo; video sent before this call</span></label>
+          <label class="check check--big"><input type="checkbox" data-commit /><span>I&rsquo;m showing up on time and ready for a real conversation &mdash; not just to browse and disappear</span></label>
+          <label class="check check--big"><input type="checkbox" data-commit /><span>I understand this call is to find fit &mdash; and I&rsquo;m okay hearing an honest answer either way</span></label>
+        </fieldset>
+        <div class="commit__score" id="commitScore">Commitment Score: 0 / 4 &mdash; please confirm all four to submit.</div>
+      </section>
+
+      {/* ===== SUBMIT ===== */}
+      <div class="submit">
+        <button type="button" id="submitBtn" disabled>Submit Worksheet</button>
+        <p class="submit__note" id="submitNote"></p>
+      </div>
+
+      <div class="foot">
+        Growth Now Media &nbsp;|&nbsp; &ldquo;We don&rsquo;t generate leads. We build revenue engines.&rdquo; &nbsp;|&nbsp; growthnowmedia.com
+      </div>
+
+      {/* success overlay */}
+      <div class="done" id="done" hidden>
+        <div class="done__card">
+          <div class="done__check">&#10003;</div>
+          <h3>You&rsquo;re all set.</h3>
+          <p>Your worksheet is in. Drew will walk in already knowing your numbers. See you on the call.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  /* Page background — wraps the worksheet card, sits inside the site Layout's <main>. */
+  .page-bg {
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(14,107,70,.07), transparent 60%),
+      #F4EFE6;
+  }
+
+  /* All worksheet variables/typography scoped to .sheet — no global leakage. */
+  .sheet {
+    --paper:#F4EFE6; --card:#FCFAF5; --ink:#15130E; --muted:#6E665A;
+    --line:#E2DACB; --line-2:#D2C8B5;
+    --accent:#8a1aff; --accent-deep:#6900cc; --accent-soft:#EDDCFF;
+    --red:#B23A2E; --amber:#B7821B; --green:#2E7D4F;
+    --shadow:0 1px 0 rgba(0,0,0,.02), 0 18px 40px -28px rgba(20,18,12,.45);
+    --radius:14px;
+
+    max-width:920px;
+    margin:0 auto;
+    padding:clamp(20px,4vw,56px) clamp(16px,4vw,40px) 80px;
+    color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+  .sheet *,
+  .sheet *::before,
+  .sheet *::after { box-sizing:border-box; }
+
+  /* masthead */
+  .mast{margin-bottom:34px;}
+  .mast__brand{font-family:"Bricolage Grotesque";font-weight:800;letter-spacing:.14em;
+    text-transform:uppercase;font-size:.72rem;color:var(--accent);}
+  .mast__title{font-family:"Bricolage Grotesque";font-weight:800;letter-spacing:-.02em;
+    font-size:clamp(2rem,5.5vw,3.1rem);line-height:1.02;margin:.35rem 0 .5rem;color:var(--ink);}
+  .mast__sub{color:var(--muted);max-width:46ch;margin:0 0 22px;}
+
+  /* fields */
+  .grid{display:grid;gap:14px;}
+  .grid--head{grid-template-columns:1fr 1fr 1fr 1fr;}
+  .grid--2{grid-template-columns:1fr 1fr;}
+  .grid--3{grid-template-columns:1fr 1fr 1fr;}
+  .grid--6{grid-template-columns:repeat(6,1fr);}
+  .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+  .field>span{font-size:.78rem;font-weight:600;color:var(--muted);letter-spacing:.01em;}
+  .sheet input,
+  .sheet select,
+  .sheet textarea{font:inherit;color:var(--ink);background:var(--card);
+    border:1px solid var(--line-2);border-radius:10px;padding:11px 12px;width:100%;
+    transition:border-color .15s, box-shadow .15s, background .15s;}
+  .sheet textarea{resize:vertical;}
+  .sheet input:focus,
+  .sheet select:focus,
+  .sheet textarea:focus{outline:none;border-color:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft);background:#fff;}
+  .sheet input[type=number]{-moz-appearance:textfield;}
+  .field--from>span{color:var(--red);}
+  .field--to>span{color:var(--green);}
+
+  /* sections */
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:clamp(18px,3vw,30px);margin-bottom:22px;}
+  .sec__head{display:flex;gap:14px;align-items:flex-start;margin-bottom:20px;}
+  .sec__num{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+    background:var(--accent);color:#fff;font-family:"Bricolage Grotesque";font-weight:800;
+    font-size:1rem;margin-top:2px;}
+  .sec__head h2{font-family:"Bricolage Grotesque";font-weight:700;letter-spacing:-.01em;
+    font-size:1.32rem;margin:0;color:var(--ink);}
+  .sec__head p{margin:2px 0 0;color:var(--muted);font-size:.9rem;}
+
+  /* snapshot table */
+  .snap__legend{font-size:.84rem;color:var(--muted);background:var(--accent-soft);
+    border-radius:10px;padding:10px 12px;margin-bottom:14px;}
+  .metric{display:grid;grid-template-columns:1.1fr 1.3fr .9fr 1fr 1.5fr;gap:12px;align-items:end;
+    padding:12px 0;border-bottom:1px solid var(--line);}
+  .metric--sub{padding:6px 0 12px;border-bottom:1px dashed var(--line);}
+  .metric--sub .metric__name{color:var(--muted);font-weight:500;}
+  .metric__name{font-weight:700;font-size:.95rem;align-self:center;color:var(--ink);}
+  .metric__in{display:flex;flex-direction:column;gap:5px;margin:0;}
+  .metric__in span{font-size:.7rem;font-weight:600;color:var(--muted);}
+  .metric__in input{padding:8px 10px;}
+  .metric__rate{display:flex;align-items:baseline;gap:5px;align-self:center;}
+  .rate{font-family:"Bricolage Grotesque";font-weight:800;font-size:1.3rem;color:var(--muted);
+    line-height:1;}
+  .rate.is-red{color:var(--red);} .rate.is-amber{color:var(--amber);} .rate.is-green{color:var(--green);}
+  .rate__unit{font-size:.68rem;color:var(--muted);}
+  .metric__rate--none{color:var(--muted);font-size:.8rem;align-self:center;}
+  .metric__bench{font-size:.74rem;color:var(--muted);align-self:center;}
+  .metric__rating{display:flex;gap:5px;align-self:center;flex-wrap:wrap;}
+  /* .pip buttons are created at runtime by the script — Astro's scoped CSS
+     wouldn't reach them, so opt these into :global. Still anchored under
+     `.sheet` so the rule stays contained to this page. */
+  .sheet :global(.pip){width:28px;height:30px;border:1px solid var(--line-2);background:#fff;border-radius:7px;
+    font-weight:700;font-size:.82rem;color:var(--muted);cursor:pointer;transition:.12s;
+    font-family:inherit;line-height:1;display:inline-flex;align-items:center;justify-content:center;}
+  .sheet :global(.pip:hover){border-color:var(--accent);}
+  .sheet :global(.pip.is-on){background:var(--accent);border-color:var(--accent);color:#fff;}
+
+  .snap__avg{display:flex;justify-content:space-between;align-items:center;gap:16px;
+    margin-top:18px;padding:16px 18px;background:var(--ink);color:#fff;border-radius:12px;}
+  .snap__avg strong{font-family:"Bricolage Grotesque";display:block;font-size:1.02rem;}
+  .snap__avg span{font-size:.8rem;color:#c9c3b6;}
+  .avg__num{font-family:"Bricolage Grotesque";font-weight:800;font-size:1.6rem;white-space:nowrap;}
+  #avgScore{color:#c9a8ff;}
+
+  /* checkboxes */
+  .checks{border:none;margin:6px 0 0;padding:0;}
+  .checks legend{font-size:.78rem;font-weight:600;color:var(--muted);padding:0 0 10px;}
+  .check{display:flex;gap:11px;align-items:flex-start;padding:9px 0;font-size:.92rem;color:var(--ink);}
+  .check input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--accent);}
+  .check--big{border-top:1px solid var(--line);padding:13px 0;}
+  .check--big:first-of-type{border-top:none;}
+  .sec--commit{border:1px solid var(--accent);background:linear-gradient(180deg,#fff,var(--accent-soft));}
+  .commit__score{margin-top:14px;font-weight:700;font-size:.95rem;color:var(--muted);}
+  .commit__score.is-ready{color:var(--accent-deep);}
+
+  /* submit */
+  .submit{text-align:center;margin:30px 0 10px;}
+  #submitBtn{font-family:"Bricolage Grotesque";font-weight:800;font-size:1.05rem;color:#fff;
+    background:var(--accent);border:none;border-radius:12px;padding:16px 40px;cursor:pointer;
+    letter-spacing:.01em;transition:.15s;box-shadow:0 12px 26px -12px rgba(14,107,70,.7);}
+  #submitBtn:hover:not(:disabled){background:var(--accent-deep);transform:translateY(-1px);}
+  #submitBtn:disabled{background:var(--line-2);color:#fff;cursor:not-allowed;box-shadow:none;}
+  .submit__note{font-size:.85rem;color:var(--muted);margin:12px 0 0;min-height:1em;}
+  .submit__note.is-err{color:var(--red);}
+
+  .foot{text-align:center;font-size:.78rem;color:var(--muted);margin-top:34px;
+    padding-top:20px;border-top:1px solid var(--line);}
+
+  /* success */
+  .done{position:fixed;inset:0;background:rgba(21,19,14,.55);backdrop-filter:blur(4px);
+    display:grid;place-items:center;padding:24px;z-index:50;}
+  .done__card{background:var(--card);border-radius:18px;padding:40px 36px;text-align:center;
+    max-width:420px;box-shadow:0 30px 80px -30px rgba(0,0,0,.6);}
+  .done__check{width:60px;height:60px;border-radius:50%;background:var(--accent);color:#fff;
+    font-size:1.8rem;display:grid;place-items:center;margin:0 auto 16px;}
+  .done__card h3{font-family:"Bricolage Grotesque";font-size:1.5rem;margin:0 0 8px;color:var(--ink);}
+  .done__card p{color:var(--muted);margin:0;}
+  /* `display:grid` above overrides the [hidden] UA rule — re-hide explicitly. */
+  .done[hidden]{display:none;}
+
+  /* responsive */
+  @media(max-width:760px){
+    .grid--head,.grid--3{grid-template-columns:1fr 1fr;}
+    .grid--6{grid-template-columns:1fr 1fr 1fr;}
+    .metric{grid-template-columns:1fr 1fr;gap:8px 12px;}
+    .metric__name{grid-column:1 / -1;}
+    .metric__bench{grid-column:1 / -1;}
+    .metric__rating{grid-column:1 / -1;}
+  }
+  @media(max-width:460px){
+    .grid--head,.grid--2,.grid--3,.grid--6{grid-template-columns:1fr;}
+    .metric{grid-template-columns:1fr 1fr;}
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    function setupPreCall() {
+      const root = document.querySelector(".sheet");
+      if (!root || root.dataset.preInit === '1') return;
+      root.dataset.preInit = '1';
+
+      const webhook = root.dataset.webhook;
+      const fmtMoney = n => "$" + Math.round(n).toLocaleString();
+      const ratings = {}; // key -> 1..5
+
+      // build 1..5 rating pips for each metric
+      root.querySelectorAll('.metric[data-key]').forEach(m => {
+        const key = m.dataset.key;
+        const holder = m.querySelector('[data-role="rating"]');
+        if (!holder) return;
+        ratings[key] = 3; // default, matches the spreadsheet
+        for (let i = 1; i <= 5; i++) {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'pip' + (i === 3 ? ' is-on' : '');
+          b.textContent = i;
+          b.addEventListener('click', () => {
+            ratings[key] = i;
+            holder.querySelectorAll('.pip').forEach((p, idx) => p.classList.toggle('is-on', idx + 1 === i));
+            recalc();
+          });
+          holder.appendChild(b);
+        }
+      });
+
+      const val = name => parseFloat(root.querySelector(`[name="${name}"]`)?.value) || 0;
+
+      function paintRate(metric, value, isPct) {
+        const span = metric.querySelector('[data-role="rate"]');
+        if (value === null) { span.textContent = "—"; span.className = "rate"; return; }
+        span.textContent = metric.dataset.money ? fmtMoney(value) : (isPct ? Math.round(value) + "" : Math.round(value) + "");
+        const good = +metric.dataset.good, ok = +metric.dataset.ok, up = metric.dataset.dir === "up";
+        let cls = "is-red";
+        if (up) { if (value >= good) cls = "is-green"; else if (value >= ok) cls = "is-amber"; }
+        else { if (value <= good) cls = "is-green"; else if (value <= ok) cls = "is-amber"; }
+        span.className = "rate " + cls;
+      }
+      const get = k => root.querySelector(`.metric[data-key="${k}"]`);
+
+      function recalc() {
+        const leads = val("m_leads"), bookings = val("m_bookings"), shows = val("m_shows"),
+              closes = val("m_closes"), memb = val("m_memberships"), walk = val("m_walkins"),
+              churned = val("m_churned"), totMem = val("m_total_members"),
+              spend = val("m_cac_spend"), ltvMo = val("m_ltv_monthly"), life = val("m_lifespan");
+
+        paintRate(get("leadflow"), leads > 0 ? leads : null, false);
+        paintRate(get("booking"), leads > 0 ? bookings / leads * 100 : null, true);
+        paintRate(get("show"), bookings > 0 ? shows / bookings * 100 : null, true);
+        paintRate(get("close"), shows > 0 ? closes / shows * 100 : null, true);
+        paintRate(get("membership"), (leads + walk) > 0 ? memb / (leads + walk) * 100 : null, true);
+        paintRate(get("churn"), totMem > 0 ? churned / totMem * 100 : null, true);
+        paintRate(get("cac"), closes > 0 ? spend / closes : null, false);
+        paintRate(get("ltv"), (ltvMo > 0 && life > 0) ? ltvMo * life : null, false);
+
+        const vals = Object.values(ratings);
+        const avg = vals.length ? (vals.reduce((a, b) => a + b, 0) / vals.length) : 0;
+        const avgEl = document.getElementById("avgScore");
+        if (avgEl) avgEl.textContent = avg ? avg.toFixed(1) : "—";
+      }
+      root.querySelectorAll('input[type=number]').forEach(i => i.addEventListener('input', recalc));
+
+      // commitment gate
+      const commitBoxes = [...root.querySelectorAll('[data-commit]')];
+      const scoreEl = document.getElementById("commitScore");
+      const btn = document.getElementById("submitBtn");
+      function updateCommit() {
+        const n = commitBoxes.filter(c => c.checked).length;
+        const ready = n === 4;
+        if (scoreEl) {
+          scoreEl.textContent = ready
+            ? "Commitment Score: 4 / 4 — all set. Submit when ready ✅"
+            : `Commitment Score: ${n} / 4 — please confirm all four to submit.`;
+          scoreEl.classList.toggle("is-ready", ready);
+        }
+        if (btn) btn.disabled = !ready;
+      }
+      commitBoxes.forEach(c => c.addEventListener('change', updateCommit));
+
+      // collect + submit
+      function collect() {
+        const data = {};
+        root.querySelectorAll('input,select,textarea').forEach(el => {
+          if (el.type === 'checkbox') {
+            if (el.name === 'who') { (data.who_on_call ??= []); if (el.checked) data.who_on_call.push(el.value); }
+            return;
+          }
+          if (el.name) data[el.name] = el.value;
+        });
+        const rateText = k => get(k)?.querySelector('[data-role="rate"]')?.textContent || "";
+        data.calc_rates = {
+          lead_flow: rateText("leadflow"), booking_rate: rateText("booking") + "%",
+          show_rate: rateText("show") + "%", close_rate: rateText("close") + "%",
+          membership_rate: rateText("membership") + "%", churn_rate: rateText("churn") + "%/mo",
+          cac: rateText("cac"), ltv: rateText("ltv")
+        };
+        data.self_ratings = ratings;
+        const avgEl = document.getElementById("avgScore");
+        data.avg_self_score = avgEl ? avgEl.textContent : "";
+        data.commitment_score = "4/4";
+        data.submitted_at = new Date().toISOString();
+        return data;
+      }
+
+      if (btn) {
+        btn.addEventListener('click', async () => {
+          const note = document.getElementById("submitNote");
+          if (note) { note.className = "submit__note"; note.textContent = "Sending…"; }
+          btn.disabled = true;
+          try {
+            if (!webhook || webhook.startsWith("PASTE_")) throw new Error("Webhook URL not set yet.");
+            const res = await fetch(webhook, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(collect())
+            });
+            if (!res.ok) throw new Error("Submit failed (" + res.status + ")");
+            const done = document.getElementById("done");
+            if (done) done.hidden = false;
+          } catch (err) {
+            if (note) {
+              note.className = "submit__note is-err";
+              note.textContent = err.message + " If this keeps happening, text us and we'll sort it.";
+            }
+            btn.disabled = false;
+          }
+        });
+      }
+
+      recalc();
+      updateCommit();
+    }
+
+    setupPreCall();
+    document.addEventListener('astro:page-load', setupPreCall);
+  })();
+</script>
