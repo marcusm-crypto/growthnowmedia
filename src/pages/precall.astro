@@ -1,6 +1,6 @@
 ---
 // src/pages/pre-call.astro
-// Growth Now Media — Pre-Call Strategy Worksheet
+// Growth Now Media — Pre-Call Assessment
 // Renders at /pre-call, wrapped in the site Layout (header + footer).
 //
 // WIRING TO GHL (do this with Anna):
@@ -16,7 +16,7 @@ import Layout from '../layouts/Layout.astro';
 
 const GHL_WEBHOOK_URL = "PASTE_YOUR_GHL_INBOUND_WEBHOOK_URL_HERE";
 
-const title = 'Pre-Call Strategy Worksheet — Growth Now Media';
+const title = 'Pre-Call Assessment — Growth Now Media';
 const description = 'Complete before your strategy call. Honest answers = a more valuable conversation.';
 ---
 
@@ -34,7 +34,7 @@ const description = 'Complete before your strategy call. Honest answers = a more
       {/* ===== MASTHEAD ===== */}
       <header class="mast">
         <div class="mast__brand">Growth Now Media</div>
-        <h1 class="mast__title">Pre-Call Strategy Worksheet</h1>
+        <h1 class="mast__title">Pre-Call Assessment</h1>
         <p class="mast__sub">Complete before your strategy call. Honest answers = a more valuable conversation.</p>
         <div class="grid grid--head">
           <label class="field">
@@ -49,14 +49,6 @@ const description = 'Complete before your strategy call. Honest answers = a more
             <span>Call Date</span>
             <input type="date" name="call_date" />
           </label>
-          <label class="field">
-            <span>Call With</span>
-            <select name="call_with">
-              <option value="Drew" selected>Drew</option>
-              <option value="Nate">Nate</option>
-              <option value="Drew & Nate">Drew &amp; Nate</option>
-            </select>
-          </label>
         </div>
       </header>
 
@@ -66,21 +58,21 @@ const description = 'Complete before your strategy call. Honest answers = a more
           <div><h2>Your Business Today</h2><p>Where are you starting from?</p></div>
         </div>
         <div class="grid grid--2">
-          <label class="field"><span>Business Type / Service</span><input type="text" name="biz_type" /></label>
+          <label class="field"><span>Business Type / Service</span><input type="text" name="biz_type" placeholder="e.g. med spa, IV therapy, weight loss" /></label>
           <label class="field"><span>How Long in Business?</span><input type="text" name="biz_age" placeholder="e.g. 8 months, 3 years" /></label>
-          <label class="field"><span>Number of Locations</span><input type="number" min="0" name="locations" /></label>
-          <label class="field"><span>Current Team Size</span><input type="number" min="0" name="team_size" /></label>
+          <label class="field"><span>Number of Locations</span><input type="number" min="0" placeholder="e.g. 3" name="locations" /></label>
+          <label class="field"><span>Current Team Size</span><input type="number" min="0" placeholder="e.g. 15" name="team_size" /></label>
         </div>
         <div class="grid grid--6">
-          <label class="field"><span>Monthly Revenue ($)</span><input type="number" min="0" name="monthly_revenue" /></label>
-          <label class="field"><span>New Clients / Mo</span><input type="number" min="0" name="new_clients" /></label>
-          <label class="field"><span>Active Memberships</span><input type="number" min="0" name="active_memberships" /></label>
-          <label class="field"><span>Avg Ticket ($)</span><input type="number" min="0" name="avg_ticket" /></label>
-          <label class="field"><span>Ad Spend / Mo ($)</span><input type="number" min="0" name="ad_spend" /></label>
-          <label class="field"><span>Leads / Mo</span><input type="number" min="0" name="leads_section1" /></label>
+          <label class="field"><span>Monthly Revenue ($)</span><input type="number" min="0" step="1000" placeholder="30,000" name="monthly_revenue" /></label>
+          <label class="field"><span>New Clients / Mo</span><input type="number" min="0" step="5" placeholder="50" name="new_clients" /></label>
+          <label class="field"><span>Active Memberships</span><input type="number" min="0" step="5" placeholder="30" name="active_memberships" /></label>
+          <label class="field"><span>Avg Ticket ($)</span><input type="number" min="0" step="100" placeholder="3,000" name="avg_ticket" /></label>
+          <label class="field"><span>Ad Spend / Mo ($)</span><input type="number" min="0" step="1000" placeholder="5,000" name="ad_spend" /></label>
+          <label class="field"><span>Leads / Mo</span><input type="number" min="0" step="5" placeholder="75" name="leads_section1" /></label>
         </div>
         <label class="field"><span>What marketing are you currently running? (Meta, Google, referrals, organic, nothing yet)</span>
-          <textarea name="current_marketing" rows="2"></textarea></label>
+          <textarea name="current_marketing" rows="2" placeholder="e.g. Meta ads, Google search, organic Instagram, referrals from existing clients"></textarea></label>
       </section>
 
       {/* ===== SECTION 2 ===== */}
@@ -97,7 +89,7 @@ const description = 'Complete before your strategy call. Honest answers = a more
           {/* Lead Flow */}
           <div class="metric" data-key="leadflow" data-dir="up" data-good="300" data-ok="150">
             <div class="metric__name">Lead Flow</div>
-            <label class="metric__in"><span>Leads / mo</span><input type="number" min="0" name="m_leads" data-role="num" /></label>
+            <label class="metric__in"><span>Leads / mo</span><input type="number" min="0" step="5" placeholder="e.g. 75" name="m_leads" data-role="num" /></label>
             <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">leads/mo</span></div>
             <div class="metric__bench">300+/mo = strong</div>
             <div class="metric__rating" data-role="rating"></div>
@@ -106,7 +98,7 @@ const description = 'Complete before your strategy call. Honest answers = a more
           {/* Booking Rate */}
           <div class="metric" data-key="booking" data-dir="up" data-good="40" data-ok="25">
             <div class="metric__name">Booking Rate</div>
-            <label class="metric__in"><span>Bookings / mo</span><input type="number" min="0" name="m_bookings" data-role="num" /></label>
+            <label class="metric__in"><span>Bookings / mo</span><input type="number" min="0" step="1" placeholder="e.g. 40" name="m_bookings" data-role="num" /></label>
             <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">%</span></div>
             <div class="metric__bench">&gt;40% = good</div>
             <div class="metric__rating" data-role="rating"></div>
@@ -115,7 +107,7 @@ const description = 'Complete before your strategy call. Honest answers = a more
           {/* Show Rate */}
           <div class="metric" data-key="show" data-dir="up" data-good="65" data-ok="50">
             <div class="metric__name">Show Rate</div>
-            <label class="metric__in"><span>Shows / mo</span><input type="number" min="0" name="m_shows" data-role="num" /></label>
+            <label class="metric__in"><span>Shows / mo</span><input type="number" min="0" step="1" placeholder="e.g. 30" name="m_shows" data-role="num" /></label>
             <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">%</span></div>
             <div class="metric__bench">&gt;65% = good</div>
             <div class="metric__rating" data-role="rating"></div>
@@ -124,7 +116,7 @@ const description = 'Complete before your strategy call. Honest answers = a more
           {/* Close Rate */}
           <div class="metric" data-key="close" data-dir="up" data-good="30" data-ok="20">
             <div class="metric__name">Close Rate</div>
-            <label class="metric__in"><span>Closes / mo</span><input type="number" min="0" name="m_closes" data-role="num" /></label>
+            <label class="metric__in"><span>Closes / mo</span><input type="number" min="0" step="1" placeholder="e.g. 12" name="m_closes" data-role="num" /></label>
             <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">%</span></div>
             <div class="metric__bench">&gt;30% = good</div>
             <div class="metric__rating" data-role="rating"></div>
@@ -133,14 +125,14 @@ const description = 'Complete before your strategy call. Honest answers = a more
           {/* Membership Rate */}
           <div class="metric" data-key="membership" data-dir="up" data-good="20" data-ok="10">
             <div class="metric__name">Membership Rate</div>
-            <label class="metric__in"><span>New memberships / mo</span><input type="number" min="0" name="m_memberships" data-role="num" /></label>
+            <label class="metric__in"><span>New memberships / mo</span><input type="number" min="0" step="1" placeholder="e.g. 8" name="m_memberships" data-role="num" /></label>
             <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">%</span></div>
             <div class="metric__bench">&gt;20% of leads</div>
             <div class="metric__rating" data-role="rating"></div>
           </div>
           <div class="metric metric--sub">
             <div class="metric__name">&#8627; Walk-in Credits</div>
-            <label class="metric__in"><span>Walk-ins / mo</span><input type="number" min="0" name="m_walkins" data-role="sub" /></label>
+            <label class="metric__in"><span>Walk-ins / mo</span><input type="number" min="0" placeholder="e.g. 5" name="m_walkins" data-role="sub" /></label>
             <div class="metric__rate metric__rate--none">&mdash;</div>
             <div class="metric__bench"></div>
             <div class="metric__rating"></div>
@@ -149,14 +141,14 @@ const description = 'Complete before your strategy call. Honest answers = a more
           {/* Churn Rate */}
           <div class="metric" data-key="churn" data-dir="down" data-good="5" data-ok="8">
             <div class="metric__name">Churn Rate</div>
-            <label class="metric__in"><span>Members lost / mo</span><input type="number" min="0" name="m_churned" data-role="num" /></label>
+            <label class="metric__in"><span>Members lost / mo</span><input type="number" min="0" placeholder="e.g. 3" name="m_churned" data-role="num" /></label>
             <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">%/mo</span></div>
             <div class="metric__bench">&lt;5%/mo = good</div>
             <div class="metric__rating" data-role="rating"></div>
           </div>
           <div class="metric metric--sub">
             <div class="metric__name">&#8627; Total Members</div>
-            <label class="metric__in"><span>Total members</span><input type="number" min="0" name="m_total_members" data-role="sub" /></label>
+            <label class="metric__in"><span>Total members</span><input type="number" min="0" placeholder="e.g. 60" name="m_total_members" data-role="sub" /></label>
             <div class="metric__rate metric__rate--none">&mdash;</div>
             <div class="metric__bench"></div>
             <div class="metric__rating"></div>
@@ -165,7 +157,7 @@ const description = 'Complete before your strategy call. Honest answers = a more
           {/* CAC */}
           <div class="metric" data-key="cac" data-dir="down" data-good="500" data-ok="800" data-money="1">
             <div class="metric__name">CAC</div>
-            <label class="metric__in"><span>Ad spend / mo ($)</span><input type="number" min="0" name="m_cac_spend" data-role="num" /></label>
+            <label class="metric__in"><span>Ad spend / mo ($)</span><input type="number" min="0" step="1" placeholder="5,000" name="m_cac_spend" data-role="num" /></label>
             <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">$ / client</span></div>
             <div class="metric__bench">&lt;$500 = strong</div>
             <div class="metric__rating" data-role="rating"></div>
@@ -174,7 +166,7 @@ const description = 'Complete before your strategy call. Honest answers = a more
           {/* LTV */}
           <div class="metric" data-key="ltv" data-dir="up" data-good="2000" data-ok="1000" data-money="1">
             <div class="metric__name">LTV</div>
-            <label class="metric__in"><span>Avg monthly value ($)</span><input type="number" min="0" name="m_ltv_monthly" data-role="num" /></label>
+            <label class="metric__in"><span>Avg monthly value ($)</span><input type="number" min="0" step="5" placeholder="300" name="m_ltv_monthly" data-role="num" /></label>
             <div class="metric__rate"><span class="rate" data-role="rate">&mdash;</span><span class="rate__unit">$</span></div>
             <div class="metric__bench">&gt;$2,000 = strong</div>
             <div class="metric__rating" data-role="rating"></div>
@@ -203,8 +195,8 @@ const description = 'Complete before your strategy call. Honest answers = a more
           <div><h2>What&rsquo;s Not Working</h2><p>Be honest. This is where the value lives.</p></div>
         </div>
         <div class="grid grid--2">
-          <label class="field field--from"><span>&#128308;&nbsp; Running From &mdash; what are you trying to escape?</span><textarea name="running_from" rows="4"></textarea></label>
-          <label class="field field--to"><span>&#128994;&nbsp; Running To &mdash; what does winning look like?</span><textarea name="running_to" rows="4"></textarea></label>
+          <label class="field field--from"><span>&#128308;&nbsp; Running From &mdash; what are you trying to escape?</span><textarea name="running_from" rows="4" placeholder="e.g. Pipeline is unpredictable — some months we're slammed, others we have empty days. Burnt out from chasing leads myself."></textarea></label>
+          <label class="field field--to"><span>&#128994;&nbsp; Running To &mdash; what does winning look like?</span><textarea name="running_to" rows="4" placeholder="e.g. Booked solid three weeks out, consistent $80K+ months, a team that can run the day-to-day without me."></textarea></label>
         </div>
       </section>
 
@@ -214,15 +206,15 @@ const description = 'Complete before your strategy call. Honest answers = a more
           <div><h2>Where You Want to Go</h2><p>Specific beats vague every time.</p></div>
         </div>
         <div class="grid grid--3">
-          <label class="field"><span>Revenue Goal / Mo ($)</span><input type="number" min="0" name="goal_revenue" /></label>
-          <label class="field"><span>New Clients / Mo Goal</span><input type="number" min="0" name="goal_clients" /></label>
-          <label class="field"><span>Membership Goal (#)</span><input type="number" min="0" name="goal_memberships" /></label>
+          <label class="field"><span>Revenue Goal / Mo ($)</span><input type="number" min="0" placeholder="100,000" name="goal_revenue" /></label>
+          <label class="field"><span>New Clients / Mo Goal</span><input type="number" min="0" placeholder="100" name="goal_clients" /></label>
+          <label class="field"><span>Membership Goal (#)</span><input type="number" min="0" placeholder="50" name="goal_memberships" /></label>
         </div>
         <label class="field"><span>In one sentence &mdash; what does winning look like in 12 months?</span>
           <input type="text" name="winning_sentence" placeholder="By June 2027, I will have..." /></label>
         <div class="grid grid--2">
-          <label class="field"><span>Biggest obstacle to that goal</span><textarea name="biggest_obstacle" rows="3"></textarea></label>
-          <label class="field"><span>What have you tried that didn&rsquo;t work?</span><textarea name="tried_failed" rows="3"></textarea></label>
+          <label class="field"><span>Biggest obstacle to that goal</span><textarea name="biggest_obstacle" rows="3" placeholder="e.g. We can't turn leads into booked consults — follow-up is too slow and inconsistent."></textarea></label>
+          <label class="field"><span>What have you tried that didn&rsquo;t work?</span><textarea name="tried_failed" rows="3" placeholder="e.g. Hired an agency that just ran ads with no follow-up. Burnt $20K and never got past 8 booked consults a month."></textarea></label>
         </div>
       </section>
 
@@ -232,7 +224,7 @@ const description = 'Complete before your strategy call. Honest answers = a more
           <div><h2>Investment &amp; Readiness</h2><p>So we don&rsquo;t waste each other&rsquo;s time.</p></div>
         </div>
         <div class="grid grid--2">
-          <label class="field"><span>Monthly Marketing Budget Available ($)</span><input type="number" min="0" name="budget" /></label>
+          <label class="field"><span>Monthly Marketing Budget Available ($)</span><input type="number" min="0" placeholder="5,000" name="budget" /></label>
           <label class="field"><span>Timeline to Start</span>
             <select name="timeline">
               <option value="" selected disabled>Select one</option>
@@ -254,7 +246,7 @@ const description = 'Complete before your strategy call. Honest answers = a more
         </fieldset>
 
         <label class="field"><span>Any other context Nate or Drew should know before the call?</span>
-          <textarea name="other_context" rows="3"></textarea></label>
+          <textarea name="other_context" rows="3" placeholder="e.g. We've been burned before by agency pitches — looking for honest, not hypey. Partner on the call too."></textarea></label>
       </section>
 
       {/* ===== COMMITMENT ===== */}
@@ -273,8 +265,10 @@ const description = 'Complete before your strategy call. Honest answers = a more
 
       {/* ===== SUBMIT ===== */}
       <div class="submit">
-        <button type="button" id="submitBtn" disabled>Submit Worksheet</button>
+        <button type="button" id="submitBtn" disabled>Submit Assessment</button>
         <p class="submit__note" id="submitNote"></p>
+        <button type="button" id="printBtn" class="print-btn">Print or Save as PDF</button>
+        <p class="print-hint">Print to keep a copy, or pick &ldquo;Save as PDF&rdquo; in the print dialog.</p>
       </div>
 
       <div class="foot">
@@ -286,7 +280,7 @@ const description = 'Complete before your strategy call. Honest answers = a more
         <div class="done__card">
           <div class="done__check">&#10003;</div>
           <h3>You&rsquo;re all set.</h3>
-          <p>Your worksheet is in. Drew will walk in already knowing your numbers. See you on the call.</p>
+          <p>Your assessment is in. Drew will walk in already knowing your numbers. See you on the call.</p>
         </div>
       </div>
     </div>
@@ -419,6 +413,14 @@ const description = 'Complete before your strategy call. Honest answers = a more
   .submit__note{font-size:.85rem;color:var(--muted);margin:12px 0 0;min-height:1em;}
   .submit__note.is-err{color:var(--red);}
 
+  /* secondary action — print / save as PDF */
+  .print-btn{font-family:"Hanken Grotesk",system-ui,sans-serif;font-weight:600;font-size:.92rem;
+    color:var(--accent);background:transparent;border:1px solid var(--accent);border-radius:10px;
+    padding:10px 22px;cursor:pointer;margin-top:18px;transition:.15s;}
+  .print-btn:hover{background:var(--accent-soft);}
+  .print-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .print-hint{font-size:.78rem;color:var(--muted);margin:8px 0 0;}
+
   .foot{text-align:center;font-size:.78rem;color:var(--muted);margin-top:34px;
     padding-top:20px;border-top:1px solid var(--line);}
 
@@ -433,6 +435,39 @@ const description = 'Complete before your strategy call. Honest answers = a more
   .done__card p{color:var(--muted);margin:0;}
   /* `display:grid` above overrides the [hidden] UA rule — re-hide explicitly. */
   .done[hidden]{display:none;}
+
+  /* print / save as PDF — strip site chrome, keep the assessment */
+  @media print {
+    /* hide the site nav + footer that the Layout renders around us */
+    :global(body > header),
+    :global(body > footer) { display: none !important; }
+
+    /* hide page actions that don't belong on paper */
+    .print-btn,
+    .print-hint,
+    #submitBtn,
+    .submit__note,
+    .done { display: none !important; }
+
+    /* plain background, edge-to-edge content */
+    .page-bg { background: #fff !important; }
+    .sheet { max-width: none !important; padding: 18px !important; box-shadow: none !important; }
+
+    /* keep sections from being split across pages where possible */
+    .sec { box-shadow: none !important; break-inside: avoid; page-break-inside: avoid; }
+
+    /* force brand colors to actually print (browsers strip backgrounds by default) */
+    .sheet, .sheet *,
+    :global(.sheet .pip) {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    /* inputs print with visible borders so the user's answers read clearly on paper */
+    .sheet input,
+    .sheet select,
+    .sheet textarea { border: 1px solid #999 !important; background: #fff !important; }
+  }
 
   /* responsive */
   @media(max-width:760px){
@@ -581,6 +616,12 @@ const description = 'Complete before your strategy call. Honest answers = a more
             btn.disabled = false;
           }
         });
+      }
+
+      // print / save-as-PDF button — opens the browser print dialog
+      const printBtn = document.getElementById('printBtn');
+      if (printBtn) {
+        printBtn.addEventListener('click', () => window.print());
       }
 
       recalc();
