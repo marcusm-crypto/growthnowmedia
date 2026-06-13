@@ -50,4 +50,5 @@ export const testimonials: Testimonial[] = [
 	// Sorted to the very end via the `z-` prefix.
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/z-terra/video.mp4',         thumbnailUrl: '/testimonials/homepage/z-terra/cover.png' },
 	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/teresa-graham/video.mp4',   thumbnailUrl: '/testimonials/homepage/teresa-graham/cover.png' },
+	{ name: '', title: '', location: '', videoUrl: '/testimonials/homepage/jess/video.mp4',            thumbnailUrl: '/testimonials/homepage/jess/cover.png' },
 ];
