@@ -1,0 +1,67 @@
+---
+// CSS/Tailwind port of the Aceternity "lamp" effect, used as the hero's
+// background layer. The original is a React + framer-motion component; here the
+// glow is pure CSS and the reveal is a keyframe animation (no framer-motion /
+// React dependency). Colors are adapted to the brand: cyan #0fffff beam over
+// the navy #010130 base so the masks blend into the hero background.
+//
+// Rendered at z-0 so it forms its own stacking context — the lamp's internal
+// z-20..z-50 layers stay contained beneath the hero content (z-10).
+---
+
+<div class="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+	<div class="relative flex h-full w-full scale-y-125 items-center justify-center isolate">
+		{/* Left conic beam */}
+		<div
+			class="lamp-grow-wide absolute inset-auto right-1/2 h-56 w-[30rem] overflow-visible"
+			style="background-image: conic-gradient(from 70deg at center top, #0fffff, transparent, transparent);"
+		>
+			<div class="absolute bottom-0 left-0 z-20 h-40 w-full bg-[#010130] [mask-image:linear-gradient(to_top,white,transparent)]"></div>
+			<div class="absolute bottom-0 left-0 z-20 h-full w-40 bg-[#010130] [mask-image:linear-gradient(to_right,white,transparent)]"></div>
+		</div>
+
+		{/* Right conic beam */}
+		<div
+			class="lamp-grow-wide absolute inset-auto left-1/2 h-56 w-[30rem]"
+			style="background-image: conic-gradient(from 290deg at center top, transparent, transparent, #0fffff);"
+		>
+			<div class="absolute bottom-0 right-0 z-20 h-full w-40 bg-[#010130] [mask-image:linear-gradient(to_left,white,transparent)]"></div>
+			<div class="absolute bottom-0 right-0 z-20 h-40 w-full bg-[#010130] [mask-image:linear-gradient(to_top,white,transparent)]"></div>
+		</div>
+
+		{/* Dark blur that hides the beam tails below the line */}
+		<div class="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-[#010130] blur-2xl"></div>
+		<div class="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
+
+		{/* Cyan glow pool */}
+		<div class="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-[#0fffff] opacity-50 blur-3xl"></div>
+		{/* Inner, brighter glow */}
+		<div class="lamp-grow-inner absolute inset-auto z-30 h-36 w-64 -translate-y-[6rem] rounded-full bg-[#0fffff] blur-2xl"></div>
+		{/* The bright lamp line */}
+		<div class="lamp-grow-wide absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] bg-[#0fffff]"></div>
+
+		{/* Top mask — clips everything above the line into the navy background */}
+		<div class="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-[#010130]"></div>
+	</div>
+</div>
+
+<style>
+	/* Entrance reveal — replaces framer-motion's whileInView width/opacity grow.
+	   Animating `width` (not `transform`) keeps each element's -translate-y intact. */
+	@keyframes lampWide {
+		from { opacity: 0.5; width: 15rem; }
+		to   { opacity: 1;   width: 30rem; }
+	}
+	@keyframes lampInner {
+		from { opacity: 0.5; width: 8rem; }
+		to   { opacity: 1;   width: 16rem; }
+	}
+
+	.lamp-grow-wide  { animation: lampWide  0.8s ease-in-out 0.3s both; }
+	.lamp-grow-inner { animation: lampInner 0.8s ease-in-out 0.3s both; }
+
+	@media (prefers-reduced-motion: reduce) {
+		.lamp-grow-wide,
+		.lamp-grow-inner { animation: none; }
+	}
+</style>
