@@ -1,10 +1,7 @@
----
-import Lamp from './Lamp.astro';
----
-
 <section class="relative flex min-h-[100vh] flex-col items-center justify-center overflow-hidden px-6 pb-20 pt-4 text-center md:px-12 md:pt-8 mx-auto w-full">
-	{/* Lamp glow — backmost layer of the hero */}
-	<Lamp />
+	<div class="orb orb-1" aria-hidden="true"></div>
+	<div class="orb orb-2" aria-hidden="true"></div>
+	<div class="orb orb-3" aria-hidden="true"></div>
 	<div class="grid-overlay" aria-hidden="true"></div>
 
 	<div class="reveal relative z-10 inline-flex items-center gap-2 rounded-full border border-brand-primary/30 bg-brand-primary/[0.12] py-1.5 pl-2.5 pr-4 text-[13px] font-medium text-brand-accent">
