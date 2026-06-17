@@ -36,10 +36,19 @@ const description = 'Complete before your strategy call. Honest answers = a more
         <div class="mast__brand">Growth Now Media</div>
         <h1 class="mast__title">Pre-Call Assessment</h1>
         <p class="mast__sub">Complete before your strategy call. Honest answers = a more valuable conversation.</p>
+        <p class="mast__required">Email and phone are required so we can match your answers to your call.</p>
         <div class="grid grid--head">
           <label class="field">
             <span>Your Name</span>
             <input type="text" name="your_name" autocomplete="name" required />
+          </label>
+          <label class="field">
+            <span>Email <em class="req">*</em></span>
+            <input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@business.com" required />
+          </label>
+          <label class="field">
+            <span>Phone <em class="req">*</em></span>
+            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(555) 555-5555" required />
           </label>
           <label class="field">
             <span>Business Name</span>
@@ -323,6 +332,8 @@ const description = 'Complete before your strategy call. Honest answers = a more
   .mast__title{font-family:"Bricolage Grotesque";font-weight:800;letter-spacing:-.02em;
     font-size:clamp(2rem,5.5vw,3.1rem);line-height:1.02;margin:.35rem 0 .5rem;color:var(--ink);}
   .mast__sub{color:var(--muted);max-width:46ch;margin:0 0 22px;}
+  .mast__required{font-size:.8rem;font-weight:600;color:var(--red);margin:0 0 14px;}
+  .field>span .req{color:var(--red);font-style:normal;font-weight:700;}
 
   /* fields */
   .grid{display:grid;gap:14px;}
@@ -596,6 +607,26 @@ const description = 'Complete before your strategy call. Honest answers = a more
       if (btn) {
         btn.addEventListener('click', async () => {
           const note = document.getElementById("submitNote");
+          // Require a valid email + phone — GHL needs at least one to match the
+          // submission to the contact record. We require both to be safe.
+          const emailEl = root.querySelector('[name="email"]');
+          const phoneEl = root.querySelector('[name="phone"]');
+          const emailVal = (emailEl?.value || "").trim();
+          const phoneVal = (phoneEl?.value || "").trim();
+          const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+          const phoneOk = phoneVal.replace(/\D/g, "").length >= 10;
+          if (!emailOk || !phoneOk) {
+            if (note) {
+              note.className = "submit__note is-err";
+              note.textContent = (!emailOk && !phoneOk)
+                ? "Please add your email and phone number so we can match you to your strategy call."
+                : !emailOk
+                  ? "Please enter a valid email address."
+                  : "Please enter a valid phone number (at least 10 digits).";
+            }
+            (!emailOk ? emailEl : phoneEl)?.focus();
+            return;
+          }
           if (note) { note.className = "submit__note"; note.textContent = "Sending…"; }
           btn.disabled = true;
           try {
