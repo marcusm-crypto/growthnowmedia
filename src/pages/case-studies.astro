@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import CaseStudyMechanism from '../components/CaseStudyMechanism.astro';
 import CaseStudyCTA from '../components/CaseStudyCTA.astro';
 
-const featured = (await getCollection('caseStudies', ({ data }) => data.published)).map(
+const featured = (await getCollection('caseStudies', ({ data }) => data.published && data.featured)).map(
 	(entry) => entry.data,
 );
 
@@ -17,18 +17,20 @@ const aggregateStats = [
 ];
 
 const caseStudies = [
-	{ name: 'Ageless Aesthetics',         location: '',                duration: '45 Days',  offers: ['T-Shape Toning', 'T-Shape Facial'], bookings: 41, revenueTarget: 12000, revenueSuffix: '+', cpl: '$13.95', adSpend: '$1,925', image: '/case-studies/ageless-asthetics.png' },
+	{ name: 'Ageless Aesthetics',         location: '',                duration: '45 Days',  offers: ['T-Shape Toning', 'T-Shape Facial'], bookings: 41, revenueTarget: 12000, revenueSuffix: '+', cpl: '$13.95', adSpend: '$1,925', image: '/case-studies/ageless-asthetics.png', slug: 'ageless-esthetics' },
 	{ name: 'The Covery Wellness Spa',    location: 'Huntsville, AL',  duration: '120 Days', offers: ['T-Shape Toning'],                  bookings: 54, revenueTarget: 32230, revenueSuffix: '+', cpl: '$11.69', adSpend: '$2,888', image: '/case-studies/covery-huntsville.png' },
 	{ name: 'The Covery Wellness Spa',    location: 'Fruitville, FL',  duration: '42 Days',  offers: ['T-Shape Toning'],                  bookings: 24, revenueTarget: 9000,  revenueSuffix: '+', cpl: '$11.69', adSpend: '$1,083', image: '/case-studies/covery-wellness-fruitville.png' },
 	{ name: 'Vital Hydration',            location: '',                duration: '39 Days',  offers: ['T-Shape Toning', 'T-Shape Facial'], bookings: 56, revenueTarget: 18550, revenueSuffix: '+', cpl: '$9.17',  adSpend: '$2,240', image: '/case-studies/vital-hydration.png' },
-	{ name: 'Body Essentials Hsv',        location: '',                duration: '30 Days',  offers: ['T-Shape Toning', 'T-Shape Facial'], bookings: 24, revenueTarget: 14515, revenueSuffix: '',  cpl: '$10.04', adSpend: '$1,045', image: '/case-studies/body-essentials-hsv.png' },
-	{ name: 'Elite Aesthetics & Medical', location: '',                duration: '14 Days',  offers: ['T-Shape Toning', 'T-Shape Facial'], bookings: 56, revenueTarget: 31415, revenueSuffix: '+', cpl: '$3.04',  adSpend: '$684',   image: '/case-studies/elite-aesthetics.png' },
+	{ name: 'Body Essentials Hsv',        location: '',                duration: '14 Days',  offers: ['T-Shape Toning', 'T-Shape Facial'], bookings: 16, revenueTarget: 13000, revenueSuffix: '+', cpl: '$13.03', adSpend: '$1,000', image: '/case-studies/body-essentials-hsv.png', slug: 'body-essentials' },
+	{ name: 'Elite Aesthetics & Medical', location: '',                duration: '14 Days',  offers: ['T-Shape Toning', 'T-Shape Facial'], bookings: 56, revenueTarget: 26450, revenueSuffix: '+', cpl: '$5.96',  adSpend: '$682',   image: '/case-studies/elite-aesthetics.png', slug: 'elite-aesthetics' },
 	{ name: 'Philly Wellness Center',     location: '',                duration: '14 Days',  offers: ['T-Shape Toning', 'T-Shape Facial'], bookings: 17, revenueTarget: 5200,  revenueSuffix: '+', cpl: '$13.06', adSpend: '$1,000', image: '/case-studies/philly-wellness-center.png' },
-	{ name: 'Reclaim Health',             location: 'NC',              duration: '14 Days',  offers: ['T-Shape Toning', 'T-Shape Facial'], bookings: 15, revenueTarget: 14000, revenueSuffix: '+', cpl: '$14.26', adSpend: '$1,000', image: '/case-studies/reclaim-health.png' },
+	{ name: 'Reclaim Health',             location: 'NC',              duration: '14 Days',  offers: ['T-Shape Toning', 'T-Shape Facial'], bookings: 14, revenueTarget: 11000, revenueSuffix: '+', cpl: '$17.59', adSpend: '$1,000', image: '/case-studies/reclaim-health.png', slug: 'reclaim-health' },
 	{ name: 'Blush Body Studio',          location: '',                duration: '34 Days',  offers: ['T-Shape Toning', 'T-Shape Facial', 'CryoSlimming Toning'], bookings: 37,  revenueTarget: 22000, revenueSuffix: '+', cpl: '$14.72', adSpend: '$2,989', image: '/case-studies/body-blush-studio.png' },
-	{ name: 'Argyle Cryo',                location: '',                duration: '31 Days',  offers: ['CryoSlimming Toning', 'CryoLift Facial'],                   bookings: 73,  revenueTarget: 56000, revenueSuffix: '+', cpl: '$19.98', adSpend: '$3,540', image: '/case-studies/argyle-cryo.png' },
+	{ name: 'Argyle Cryo',                location: '',                duration: '30 Days',  offers: ['CryoSlimming Toning', 'CryoLift Facial'],                   bookings: 51,  revenueTarget: 27000, revenueSuffix: '+', cpl: '$38',    adSpend: '$3,659', image: '/case-studies/argyle-cryo.png', slug: 'argyle-cryo' },
 	{ name: 'Texas Cryo Works',           location: '',                duration: '30 Days',  offers: ['CryoSlimming Toning', 'CryoLift Facial'],                   bookings: 41,  revenueTarget: 29743, revenueSuffix: '+', cpl: '$19.53', adSpend: '$3,340', image: '/case-studies/texas-cryoworks.png' },
-	{ name: 'Midwest Wellness Lounge',    location: '',                duration: '5 Months', offers: ['CryoSlimming Toning', 'CryoLift Facial', 'T-Shape Combo'],  bookings: 236, revenueTarget: 75125, revenueSuffix: '+', cpl: '$18.01', adSpend: '$15,543', image: '/case-studies/midwest-cryo-lounge.png' },
+	{ name: 'Midwest Wellness Lounge',    location: '',                duration: '30 Days',  offers: ['CryoSlimming Toning', 'CryoLift Facial'],                   bookings: 56,  revenueTarget: 21000, revenueSuffix: '+', cpl: '$58',    adSpend: '$3,268',  image: '/case-studies/midwest-cryo-lounge.png', slug: 'midwest-wellness-lounge' },
+	{ name: 'iCryo Baybrook',             location: '',                duration: '30 Days',  offers: ['T-Shape Toning'],                                          bookings: 34,  revenueTarget: 31000, revenueSuffix: '+', cpl: '$94',    adSpend: '$3,195',  image: '/case-studies/icryo-baybrook.png', slug: 'icryo-baybrook' },
+	{ name: 'KUL Contour',                location: '',                duration: '30 Days',  offers: ['Slimming + Toning'],                                       bookings: 32,  revenueTarget: 45472, revenueSuffix: '',  cpl: '$20.62', adSpend: '$3,052',  image: '/case-studies/kul-contour.png', slug: 'kul-contour' },
 ];
 ---
 
@@ -211,6 +213,15 @@ const caseStudies = [
 							<p class="mt-5 text-xs uppercase tracking-wider text-white/40">
 								{cs.duration} campaign
 							</p>
+
+							{cs.slug && (
+								<a
+									href={`/case-studies/${cs.slug}`}
+									class="mt-6 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-brand-accent transition-transform duration-300 hover:translate-x-1"
+								>
+									Read the full story →
+								</a>
+							)}
 						</article>
 					))}
 				</div>

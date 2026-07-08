@@ -19,6 +19,7 @@ stats:
     value: "$41,000"
     timeframe: "4 days"
 published: true
+featured: true
 ---
 
 ## The Challenge

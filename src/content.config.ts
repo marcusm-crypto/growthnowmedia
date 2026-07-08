@@ -18,6 +18,9 @@ const caseStudies = defineCollection({
 			}),
 		),
 		published: z.boolean(),
+		// Controls whether an entry appears in the curated "Featured Case Studies"
+		// grid on /case-studies. All published entries still get their own page.
+		featured: z.boolean().optional().default(false),
 		// Optional explicit path to the downloadable case study PDF. When omitted,
 		// the page auto-detects public/case-studies/pdfs/<slug>.pdf if that file exists.
 		pdf: z.string().optional(),

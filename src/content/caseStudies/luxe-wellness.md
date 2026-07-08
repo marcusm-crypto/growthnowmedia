@@ -19,6 +19,7 @@ stats:
     value: "100%"
     timeframe: "every appointment"
 published: true
+featured: true
 ---
 
 ## The Challenge

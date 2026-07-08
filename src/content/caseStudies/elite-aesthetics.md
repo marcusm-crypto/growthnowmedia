@@ -1,7 +1,7 @@
 ---
 clinicName: "Elite Aesthetics & Medical Care"
 slug: "elite-aesthetics"
-location: "[CONFIRM LOCATION: ad copy in source PDF references Chillicothe, verify city/state with Drew]"
+location: ""
 deviceType: "T-Shape"
 timeframe: "14 days"
 headlineStat: "$26,450 collected in 14 days from $682 in ad spend"
@@ -18,7 +18,8 @@ stats:
   - label: "Revenue collected"
     value: "$26,450"
     timeframe: "14 days"
-published: false
+published: true
+featured: false
 ---
 
 ## The Challenge
