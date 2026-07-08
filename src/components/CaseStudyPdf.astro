@@ -1,0 +1,74 @@
+---
+// Inline PDF viewer + download for a case study.
+// Uses the browser's native PDF renderer via <object>, so no dependency is
+// added. Desktop browsers render the PDF inline. Mobile browsers that cannot
+// render inline fall back to the buttons below, which always work.
+interface Props {
+	pdf: string; // public URL, e.g. /case-studies/pdfs/covery-lafayette.pdf
+	clinicName: string;
+}
+const { pdf, clinicName } = Astro.props;
+const downloadName = `${pdf.split('/').pop()}`;
+// Avoid a double article in "Download the <name> breakdown" when the clinic
+// name already starts with "The".
+const nameForHeading = clinicName.replace(/^The\s+/i, '');
+---
+
+<section class="px-6 py-20 md:px-12 md:py-24">
+	<div class="reveal mx-auto max-w-4xl">
+		<div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+			<div>
+				<p class="mb-2 inline-block bg-gradient-to-r from-brand-magenta to-brand-pink bg-clip-text text-xs font-semibold uppercase tracking-[2px] text-transparent">
+					Plug and play case study
+				</p>
+				<h2 class="font-display text-[clamp(24px,3vw,36px)] font-bold leading-[1.1] tracking-tight text-white">
+					Download the {nameForHeading} breakdown
+				</h2>
+			</div>
+
+			<div class="flex flex-shrink-0 gap-3">
+				<a
+					href={pdf}
+					download={downloadName}
+					class="inline-flex items-center justify-center gap-2 rounded-full bg-brand-primary px-6 py-3 font-display text-sm font-semibold text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-brand-secondary"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+						<polyline points="7 10 12 15 17 10" />
+						<line x1="12" y1="15" x2="12" y2="3" />
+					</svg>
+					Download PDF
+				</a>
+				<a
+					href={pdf}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-6 py-3 font-display text-sm font-semibold text-white transition-colors hover:bg-white/5"
+				>
+					Open in new tab
+				</a>
+			</div>
+		</div>
+
+		<div class="mt-8 overflow-hidden rounded-2xl border border-brand-primary/[0.12] bg-white/[0.03]">
+			<iframe
+				src={`${pdf}#view=FitH`}
+				title={`${clinicName} case study PDF`}
+				loading="lazy"
+				class="h-[70vh] max-h-[900px] min-h-[420px] w-full"
+			></iframe>
+		</div>
+
+		<p class="mt-4 text-center text-sm text-white/40">
+			Not seeing the preview?{' '}
+			<a
+				href={pdf}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="font-medium text-white/70 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
+			>
+				Open the PDF in a new tab
+			</a>
+		</p>
+	</div>
+</section>

@@ -23,3 +23,12 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 .vercel
+
+# local AI tooling (not part of the site)
+.claude/
+.agents/
+AGENTS.md
+skills-lock.json
+
+# case study source library (site serves from public/case-studies/pdfs/ instead)
+public/case-studies/playbooks /

@@ -1,0 +1,10 @@
+# Heavy testimonial videos (~1.1GB) — host externally; excluded so the site can deploy
+public/testimonials/
+
+# Never upload these (Vercel rebuilds/installs in the cloud)
+node_modules/
+dist/
+.astro/
+.vercel/
+.git/
+.DS_Store
