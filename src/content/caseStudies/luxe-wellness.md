@@ -1,19 +1,19 @@
 ---
 clinicName: "Luxe Wellness & Aesthetics"
 slug: "luxe-wellness"
-location: ""
+location: "Madison, MS"
 deviceType: "Body contouring"
 timeframe: "First 30 days (30 day trial)"
-headlineStat: "60+ deposit secured body contouring appointments in a 30 day trial"
+headlineStat: "59 deposit secured body contouring appointments in a 30 day trial"
 stats:
   - label: "Monthly bookings before"
-    value: "10 to 15"
+    value: "5 to 6"
     timeframe: "prior monthly average"
   - label: "Bookings"
-    value: "60+"
+    value: "59"
     timeframe: "first 30 days"
   - label: "Booking increase"
-    value: "4x"
+    value: "10x"
     timeframe: "vs prior average"
   - label: "Deposit secured"
     value: "100%"
@@ -23,7 +23,7 @@ published: true
 
 ## The Challenge
 
-Before partnering with Growth Now Media, Luxe Wellness & Aesthetics was averaging just 10 to 15 bookings a month. Owner Teresa Graham had the services and the space, but not a system that kept the calendar full or protected the schedule against no-shows.
+Teresa Graham was skeptical. Before partnering with Growth Now Media, Luxe Wellness & Aesthetics in Madison, MS rarely booked more than 5 to 6 appointments a month. She had the services and the space, but not a system that kept the calendar full or protected the schedule against no-shows.
 
 ## What We Did
 
@@ -31,4 +31,4 @@ We put Luxe on a 30 day trial and installed the Growth Now Method around body co
 
 ## The Results
 
-In the first 30 days, we booked over 60 body contouring appointments for Luxe Wellness & Aesthetics, every one secured with a deposit. That is roughly four times the 10 to 15 bookings a month they averaged before, produced inside a single 30 day trial.
+In the first 30 days, we booked 59 body contouring appointments for Luxe Wellness & Aesthetics, every one secured with a deposit. That is roughly ten times the 5 to 6 bookings a month they averaged before, produced inside a single 30 day trial.
