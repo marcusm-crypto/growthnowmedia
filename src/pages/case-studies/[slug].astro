@@ -63,6 +63,12 @@ const canonical = `https://growthnowmedia.com/case-studies/${cs.slug}`;
 					</span>
 				</div>
 
+				{cs.owner && (
+					<p class="reveal mt-6 text-sm font-medium text-white/70 [transition-delay:300ms]">
+						Owner: {cs.owner}
+					</p>
+				)}
+
 				<p class="reveal mx-auto mt-8 max-w-2xl bg-gradient-to-r from-brand-magenta to-brand-pink bg-clip-text font-display text-[clamp(22px,3vw,34px)] font-bold leading-[1.2] text-transparent [transition-delay:350ms]">
 					{cs.headlineStat}
 				</p>

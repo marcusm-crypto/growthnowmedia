@@ -18,6 +18,9 @@ const caseStudies = defineCollection({
 			}),
 		),
 		published: z.boolean(),
+		// Owner name, shown on the case study page. Also the link between a
+		// clinic case study and that owner's testimonial video.
+		owner: z.string().optional(),
 		// Controls whether an entry appears in the curated "Featured Case Studies"
 		// grid on /case-studies. All published entries still get their own page.
 		featured: z.boolean().optional().default(false),

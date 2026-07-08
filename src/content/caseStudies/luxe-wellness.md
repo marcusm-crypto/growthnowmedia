@@ -2,6 +2,7 @@
 clinicName: "Luxe Wellness & Aesthetics"
 slug: "luxe-wellness"
 location: "Madison, MS"
+owner: "Teresa Graham"
 deviceType: "Body contouring"
 timeframe: "First 30 days (30 day trial)"
 headlineStat: "59 deposit secured body contouring appointments in a 30 day trial"
