@@ -1,5 +1,7 @@
-# Heavy testimonial videos (~1.1GB) — host externally; excluded so the site can deploy
-public/testimonials/
+# Heavy testimonial VIDEOS (~1.1GB) are hosted externally; exclude only the
+# .mp4 files. Thumbnails (~45MB) still ship so the testimonials page shows
+# posters instead of broken images.
+public/testimonials/**/*.mp4
 
 # Never upload these (Vercel rebuilds/installs in the cloud)
 node_modules/
