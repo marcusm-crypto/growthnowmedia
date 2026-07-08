@@ -173,31 +173,35 @@ const pricingTiers = [
 const faqItems = [
 	{
 		q: 'How is this different from working with my current agency?',
-		a: "Most agencies treat your clinic like a generic local business and run cookie-cutter ad campaigns. We've operated aesthetic and wellness businesses ourselves — we know the difference between a $200 lead and a $200 booking, why deposits matter, and how to install a system that compounds. We don't run campaigns; we install operating systems.",
+		a: "Most agencies treat your clinic like a generic local business and run cookie-cutter ad campaigns. We've operated aesthetic and wellness businesses ourselves. We know the difference between a $200 lead and a $200 booking, why deposits matter, and how to install a system that compounds. We don't run campaigns; we install operating systems.",
+	},
+	{
+		q: 'How are you different from an SEO or social media agency?',
+		a: "We're not one. We don't sell rankings, content calendars, or followers. We do one thing: book body contouring consults that actually show up. We function as an extension of your sales team. Our team follows up with every lead seven days a week, collects a deposit at booking, and puts confirmed consults on your calendar. An SEO agency hands you traffic. We hand you deposited appointments.",
 	},
 	{
 		q: 'What if I already have an in-house marketing person?',
-		a: "Most of our clients have one. We don't replace them — we install the systems they don't have time to build, and they run the day-to-day inside it. Many in-house leads end up reporting into our weekly calls and using our playbooks.",
+		a: "Most of our clients have one. We don't replace them. We install the systems they don't have time to build, and they run the day-to-day inside it. Many in-house leads end up reporting into our weekly calls and using our playbooks.",
 	},
 	{
 		q: 'Do I need to switch CRMs or platforms?',
-		a: "Almost never. We work with whatever you're using — GoHighLevel, HubSpot, Mindbody, Boulevard, ClinicSense, Zenoti, etc. If we recommend a switch it's because there's a clear ROI, never because we want to install something we sell.",
+		a: "Almost never. We work with whatever you're using: GoHighLevel, HubSpot, Mindbody, Boulevard, ClinicSense, Zenoti, etc. If we recommend a switch it's because there's a clear ROI, never because we want to install something we sell.",
 	},
 	{
 		q: 'How long is the contract?',
-		a: '30-day rolling after the first 90 days. The first 90 days are required because the system takes that long to install and tune. After that, you can leave anytime — we earn your renewal every month.',
+		a: '30-day rolling after the first 90 days. The first 90 days are required because the system takes that long to install and tune. After that, you can leave anytime. We earn your renewal every month.',
 	},
 	{
 		q: 'How fast will I see results?',
-		a: 'Most clients see meaningful booking lift within 30 days of the install sprint completing. Full system compounding (acquisition + conversion + retention + reactivation working together) typically shows up in months 2–4.',
+		a: 'Most clients see meaningful booking lift within 30 days of the install sprint completing. Full system compounding (acquisition + conversion + retention + reactivation working together) typically shows up in months 2 to 4.',
 	},
 	{
 		q: 'Do you guarantee results?',
-		a: "We guarantee the install. We can't guarantee outcomes — anyone who does is lying. What we can show you is 500+ aesthetic and wellness locations where this system has produced consistent month-over-month growth.",
+		a: "Yes. We guarantee at least 12 bookings every month. If we ever miss that number, your next month is free. We can put that in writing because this system has produced it across 500+ aesthetic and wellness locations.",
 	},
 	{
 		q: "What happens if it's not working?",
-		a: "We'll tell you — and tell you why — before you have to ask. We have a quarterly review where if the system isn't producing, we restructure or refund the most recent month. We'd rather lose a client than keep one we're not delivering for.",
+		a: "We'll tell you, and tell you why, before you have to ask. If we miss the 12-booking guarantee, your next month is free. Beyond that, we run a quarterly review where if the system isn't producing, we restructure. We'd rather lose a client than keep one we're not delivering for.",
 	},
 ];
 ---
@@ -447,6 +451,28 @@ const faqItems = [
 					</article>
 				))}
 			</div>
+
+			{/* Pay Per Booking — performance option, no retainer */}
+			<article class="reveal mt-8 flex flex-col gap-6 rounded-2xl border-2 border-brand-primary bg-surface-alt p-8 md:flex-row md:items-center md:justify-between md:p-10">
+				<div class="max-w-2xl">
+					<span class="mb-4 inline-flex w-fit items-center rounded-full bg-brand-primary px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
+						Limited Spots
+					</span>
+					<h3 class="font-display text-2xl font-semibold text-ink">Pay Per Booking</h3>
+					<p class="mt-2 font-display text-2xl font-semibold text-brand-primary">
+						Starts at $265 per booking
+					</p>
+					<p class="mt-4 text-base leading-relaxed text-ink-muted">
+						For qualified locations, we offer a per-booking program starting as low as $265 per booking. No retainer. You pay for confirmed, deposited bookings on your calendar. Spots are limited and locations must apply to qualify.
+					</p>
+				</div>
+				<a
+					href="/contact"
+					class="inline-flex shrink-0 items-center justify-center rounded-full bg-brand-primary px-8 py-4 text-base font-medium text-white transition-colors hover:bg-brand-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+				>
+					Apply for Pay Per Booking
+				</a>
+			</article>
 
 			<p class="mx-auto mt-12 max-w-2xl text-center text-base leading-relaxed text-ink-muted">
 				Pricing is custom-quoted on the demo call after we understand your stack and goals. Every engagement is structured to pay for itself within 60–90 days.
