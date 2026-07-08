@@ -3,21 +3,21 @@ clinicName: "Argyle Cryo"
 slug: "argyle-cryo"
 location: ""
 deviceType: "CryoSlimming"
-timeframe: "30 days"
-headlineStat: "$27,000 collected in 30 days from a CryoSlimming campaign"
+timeframe: "30 day campaign, updated results"
+headlineStat: "73 bookings and $56,000 collected from a CryoSlimming campaign"
 stats:
-  - label: "Ad spend"
-    value: "$3,659"
-    timeframe: "30 day campaign"
   - label: "Bookings"
-    value: "51"
-    timeframe: "30 days"
-  - label: "Cost per booking"
-    value: "$38"
-    timeframe: "campaign average"
+    value: "73"
+    timeframe: "campaign to date"
   - label: "Revenue collected"
+    value: "$56,000"
+    timeframe: "campaign to date"
+  - label: "Bookings (first 30 days)"
+    value: "51"
+    timeframe: "first 30 days"
+  - label: "Revenue (first 30 days)"
     value: "$27,000"
-    timeframe: "30 days"
+    timeframe: "first 30 days"
 published: true
 featured: false
 ---
@@ -32,4 +32,4 @@ We ran the Growth Now Method: one offer built to convert (a CryoSlimming offer),
 
 ## The Results
 
-$3,659 in ad spend produced 51 bookings in 30 days, every one secured with a deposit, at a $38 average cost per booking, collecting $27,000 in revenue.
+The playbook below captures the first 30 days: $3,659 in ad spend produced 51 deposit backed bookings and $27,000 in collected revenue. The campaign has kept producing since, and now stands at 73 bookings and $56,000 collected.
