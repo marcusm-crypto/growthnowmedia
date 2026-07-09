@@ -26,6 +26,9 @@ export type Testimonial = {
 	location: string;
 	videoUrl: string;
 	thumbnailUrl: string;
+	// Optional hosted-video URL (YouTube/Vimeo). When set, it plays in the
+	// lightbox instead of the self-hosted videoUrl mp4.
+	youtube?: string;
 };
 
 export const testimonials: Testimonial[] = [

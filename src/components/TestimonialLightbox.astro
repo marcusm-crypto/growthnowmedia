@@ -10,12 +10,14 @@
 //     index. The lightbox then opens at that video and supports keyboard +
 //     arrow navigation, scoped to the array passed on this page.
 //
-// Each page's lightbox is independent, so navigation cycles only through the
-// array given to it (e.g. Nate's page cycles only Nate's clients).
+// Each item can point at either a hosted YouTube/Vimeo video (`youtube`) or a
+// self-hosted mp4 (`videoUrl`). When `youtube` is set it wins and renders in an
+// iframe; otherwise the mp4 plays in the native <video> element.
 
 interface TestimonialItem {
 	videoUrl: string;
 	thumbnailUrl?: string;
+	youtube?: string;
 }
 
 interface Props {
@@ -26,6 +28,7 @@ const { testimonials } = Astro.props;
 const payload = testimonials.map((t) => ({
 	videoUrl: t.videoUrl,
 	thumbnailUrl: t.thumbnailUrl ?? '',
+	youtube: t.youtube ?? '',
 }));
 ---
 
@@ -76,6 +79,14 @@ const payload = testimonials.map((t) => ({
 		preload="metadata"
 	></video>
 
+	<iframe
+		class="lightbox-frame"
+		title="Video testimonial"
+		allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+		allowfullscreen
+		style="display:none"
+	></iframe>
+
 	<p class="lightbox-counter">
 		<span class="lightbox-counter-current">1</span> / <span class="lightbox-counter-total">0</span>
 	</p>
@@ -116,6 +127,25 @@ const payload = testimonials.map((t) => ({
 		transform: scale(1);
 	}
 	.lightbox.is-fading .lightbox-video {
+		opacity: 0;
+	}
+
+	/* Portrait-friendly iframe for hosted (YouTube/Vimeo) testimonials. */
+	.lightbox-frame {
+		height: min(90vh, 90dvh);
+		aspect-ratio: 9 / 16;
+		max-width: 100%;
+		border: 0;
+		border-radius: 0.75rem;
+		background: #000;
+		box-shadow: 0 0 60px rgba(15, 255, 255, 0.18);
+		transform: scale(0.95);
+		transition: opacity 150ms ease-out, transform 200ms ease-out;
+	}
+	.lightbox.is-open .lightbox-frame {
+		transform: scale(1);
+	}
+	.lightbox.is-fading .lightbox-frame {
 		opacity: 0;
 	}
 
@@ -190,23 +220,26 @@ const payload = testimonials.map((t) => ({
 	@media (prefers-reduced-motion: reduce) {
 		.lightbox,
 		.lightbox-video,
+		.lightbox-frame,
 		.lightbox-btn {
 			transition: none;
 		}
-		.lightbox-video {
+		.lightbox-video,
+		.lightbox-frame {
 			transform: none !important;
 		}
 	}
 </style>
 
 <script>
-	type Item = { videoUrl: string; thumbnailUrl?: string };
+	type Item = { videoUrl: string; thumbnailUrl?: string; youtube?: string };
 
 	// Module-scope state — refreshed on every astro:page-load so the document-
 	// level listeners (registered once globally) operate on the current page's
 	// lightbox element + payload, not a stale reference from before a transition.
 	let lightbox: HTMLElement | null = null;
 	let video: HTMLVideoElement | null = null;
+	let frame: HTMLIFrameElement | null = null;
 	let closeBtn: HTMLButtonElement | null = null;
 	let prevBtn: HTMLButtonElement | null = null;
 	let nextBtn: HTMLButtonElement | null = null;
@@ -220,38 +253,77 @@ const payload = testimonials.map((t) => ({
 	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
-	function loadVideo(index: number) {
-		if (!video) return;
+	// Turn a YouTube/Vimeo URL (or bare YouTube id) into an autoplaying embed URL.
+	// Returns '' if the input is not a recognizable hosted-video reference.
+	function embedUrl(raw: string): string {
+		if (!raw) return '';
+		const s = raw.trim();
+		const yt = s.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/)([\w-]{11})/);
+		if (yt) return `https://www.youtube-nocookie.com/embed/${yt[1]}?autoplay=1&rel=0&playsinline=1`;
+		if (/^[\w-]{11}$/.test(s)) return `https://www.youtube-nocookie.com/embed/${s}?autoplay=1&rel=0&playsinline=1`;
+		const vm = s.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+		if (vm) return `https://player.vimeo.com/video/${vm[1]}?autoplay=1`;
+		if (/^https?:\/\//.test(s)) return s; // already an embeddable URL
+		return '';
+	}
+
+	function stopVideo() {
+		if (video) {
+			video.pause();
+			video.removeAttribute('src');
+			video.load();
+		}
+	}
+	function stopFrame() {
+		if (frame) frame.removeAttribute('src');
+	}
+
+	function loadMedia(index: number) {
 		const item = items[index];
 		if (!item) return;
 		currentIndex = index;
-		video.pause();
-		video.src = item.videoUrl;
-		if (item.thumbnailUrl) {
-			video.poster = item.thumbnailUrl;
+
+		const embed = embedUrl(item.youtube || '');
+		if (embed) {
+			// Hosted video path (YouTube/Vimeo).
+			stopVideo();
+			if (video) video.style.display = 'none';
+			if (frame) {
+				frame.style.display = 'block';
+				frame.src = embed;
+			}
 		} else {
-			video.removeAttribute('poster');
+			// Self-hosted mp4 path.
+			stopFrame();
+			if (frame) frame.style.display = 'none';
+			if (video) {
+				video.style.display = 'block';
+				video.pause();
+				video.src = item.videoUrl;
+				if (item.thumbnailUrl) video.poster = item.thumbnailUrl;
+				else video.removeAttribute('poster');
+				video.load();
+				const playPromise = video.play();
+				if (playPromise && typeof playPromise.catch === 'function') {
+					playPromise.catch(() => {
+						/* autoplay may be blocked — controls let the user start it manually */
+					});
+				}
+			}
 		}
-		video.load();
 		if (counterCurrent) counterCurrent.textContent = String(index + 1);
-		const playPromise = video.play();
-		if (playPromise && typeof playPromise.catch === 'function') {
-			playPromise.catch(() => {
-				/* autoplay may be blocked — controls let the user start it manually */
-			});
-		}
 	}
 
 	async function navigate(direction: 1 | -1) {
 		if (!items.length || !lightbox) return;
 		const next = (currentIndex + direction + items.length) % items.length;
 		if (reduceMotion) {
-			loadVideo(next);
+			loadMedia(next);
 			return;
 		}
 		lightbox.classList.add('is-fading');
 		await wait(150);
-		loadVideo(next);
+		loadMedia(next);
 		requestAnimationFrame(() => {
 			lightbox?.classList.remove('is-fading');
 		});
@@ -267,7 +339,7 @@ const payload = testimonials.map((t) => ({
 		lightbox.setAttribute('aria-hidden', 'false');
 		void lightbox.offsetHeight;
 		lightbox.classList.add('is-open');
-		loadVideo(index);
+		loadMedia(index);
 		document.addEventListener('keydown', onKey);
 		closeBtn?.focus({ preventScroll: true });
 	}
@@ -277,11 +349,8 @@ const payload = testimonials.map((t) => ({
 		const lb = lightbox;
 		lb.classList.remove('is-open', 'is-fading');
 		lb.setAttribute('aria-hidden', 'true');
-		if (video) {
-			video.pause();
-			video.removeAttribute('src');
-			video.load();
-		}
+		stopVideo();
+		stopFrame();
 		document.removeEventListener('keydown', onKey);
 		document.body.style.overflow = previousBodyOverflow;
 
@@ -322,8 +391,10 @@ const payload = testimonials.map((t) => ({
 				break;
 			case ' ':
 			case 'Spacebar':
+				// Space toggles the native <video> only; hosted iframes have their
+				// own controls.
+				if (!video || video.style.display === 'none') break;
 				e.preventDefault();
-				if (!video) break;
 				if (video.paused) {
 					const p = video.play();
 					if (p && typeof p.catch === 'function') p.catch(() => { /* ignore */ });
@@ -345,11 +416,13 @@ const payload = testimonials.map((t) => ({
 
 		lightbox = document.getElementById('testimonial-lightbox') as HTMLElement | null;
 		if (!lightbox) {
-			video = closeBtn = prevBtn = nextBtn = counterCurrent = counterTotal = null;
+			video = frame = null;
+			closeBtn = prevBtn = nextBtn = counterCurrent = counterTotal = null;
 			items = [];
 			return;
 		}
 		video = lightbox.querySelector('video.lightbox-video') as HTMLVideoElement | null;
+		frame = lightbox.querySelector('iframe.lightbox-frame') as HTMLIFrameElement | null;
 		closeBtn = lightbox.querySelector('.lightbox-close') as HTMLButtonElement | null;
 		prevBtn = lightbox.querySelector('.lightbox-prev') as HTMLButtonElement | null;
 		nextBtn = lightbox.querySelector('.lightbox-next') as HTMLButtonElement | null;
