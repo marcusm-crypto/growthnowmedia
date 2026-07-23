@@ -1,7 +1,7 @@
-# Heavy testimonial VIDEOS (~1.1GB) are hosted externally; exclude only the
-# .mp4 files. Thumbnails (~45MB) still ship so the testimonials page shows
-# posters instead of broken images.
-public/testimonials/**/*.mp4
+# Testimonial videos (~1.1GB) ship with the deploy so they play on the live
+# site. They are self-hosted from public/testimonials/. If deploy size or
+# bandwidth becomes a problem, move them to a CDN/Vimeo and point the
+# videoUrl fields in src/data/testimonials.ts at the external URLs instead.
 
 # Never upload these (Vercel rebuilds/installs in the cloud)
 node_modules/
